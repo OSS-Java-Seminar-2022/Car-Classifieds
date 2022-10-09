@@ -13,7 +13,7 @@ Java university project.
 ## General info
 <p>Car advertisment web app.</p>
 
-## General info
+## Features
 
  <b><h3>User management</h3></b>
  <ul><li>Administrator<ul>
