@@ -1,6 +1,6 @@
 # Car classifieds
-
-Java university project.
+## General info
+<p>Car advertisment web app.</p>
 
 ## Table of Contents
 
@@ -10,8 +10,6 @@ Java university project.
   - [Technologies & languages](#technologies--languages)
   - [Authors](#authors)
 
-## General info
-<p>Car advertisment web app.</p>
 
 ## Features
 
@@ -47,7 +45,7 @@ TBA
 * Java
 * Docker
 * Spring Boot
-* Tymeleaf
+* Thymeleaf
 * MySQL
 
 ## Authors
