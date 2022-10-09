@@ -44,7 +44,7 @@ Features
 ---
 TBA
 ## Tech stack
----
+
 
 * Java
 * Docker
