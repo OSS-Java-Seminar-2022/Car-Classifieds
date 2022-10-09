@@ -11,7 +11,7 @@ Java university project.
   - [Authors](#authors)
 
 ## General info
-<p>Car advertisment web app</p>
+<p>Car advertisment web app.</p>
 
 Features
 
@@ -51,8 +51,6 @@ TBA
 * MySQL
 
 ## Authors
-
----
 
 | Name            | Github                                        |
 | --------------- | --------------------------------------------- |
