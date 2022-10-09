@@ -7,7 +7,7 @@
   - [General info](#general-info)
   - [Features](#features)
   - [Database Model](#database-model)
-  - [Tech stack](#tech--stack)
+  - [Tech stack](#tech-stack)
   - [Authors](#authors)
 
 
