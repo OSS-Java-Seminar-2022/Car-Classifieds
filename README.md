@@ -3,7 +3,7 @@
 Java university project.
 
 ## Table of Contents
----
+
   - [General info](#general-info)
   - [Features](#features)
   - [Database Model](#database-model)
@@ -11,11 +11,10 @@ Java university project.
   - [Authors](#authors)
 
 ## General info
----
 <p>Car advertisment web app</p>
 
 Features
- ---
+
  <b><h3>User management</h3></b>
  <ul><li>Administrator<ul>
  <li>Access to account with username/email and password
@@ -41,7 +40,6 @@ Features
  <br>
 
 ## Database Model
----
 TBA
 ## Tech stack
 
