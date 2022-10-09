@@ -52,6 +52,7 @@ TBA
 
 | Name            | Github                                        |
 | --------------- | --------------------------------------------- |
-| Antonio Šabić    | [GitHub](https://github.com/ansabic)      |
-| Josip Čondić  | [GitHub](https://github.com/ararune) |
-| Jakov Soldić  | [GitHub](https://github.com/JakovSoldic) |
+| Josip Čondić  | [GitHub](https://github.com/ararune)|
+| Jakov Soldić  | [GitHub](https://github.com/JakovSoldic)|
+| Antonio Šabić    | [GitHub](https://github.com/ansabic)|
+
