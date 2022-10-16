@@ -1,4 +1,4 @@
-# Car classifieds
+# MarkeTour
 ## General info
 <p>The app is intended to provide buying digital tours on its marketplace that are created by tour-guide users, advertisable through the app and can be consumed by tourist users.
 </p>
