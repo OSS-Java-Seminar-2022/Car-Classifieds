@@ -1,6 +1,7 @@
 # Car classifieds
 ## General info
-<p>Car advertisment web app.</p>
+<p>The app is intended to provide buying digital tours on its marketplace that are created by tour-guide users, advertisable through the app and can be consumed by tourist users.
+</p>
 
 ## Table of Contents
 
@@ -13,26 +14,25 @@
 
 ## Features
 
- <b><h3>User management</h3></b>
  <ul><li>Administrator<ul>
  <li>Access to account with username/email and password
  <li>Edit ads
  <li>User managment(approve user, remove user)
  </ul>
  <li>Registered users<ul>
- <li>Create ads
+ <li>Any registered users can deposit money for tokens or withraw tokens to get money back.
  <li>Access to account with username/email and password
  <li>Can add to favorites
  </ul>
  <li>Non-registered users<ul>
- <li>Can only browse
+ <li>User can view content (tours) on the marketplace but cannot buy or consume any without registration.
+ <li>User can register as a tour-guide or a tourist.
  </ul></ul>
  <b><h3>Search features</h3></b>
- <ul><li>Search cars by brand
+ <ul><li>Search tours
  <li>Filter search<ul>
- <li>by lower/higher price
- <li>by lower/higher mileage
- <li>by production year</ul></ul>
+ <li>by country
+ <li>by city
  
 
  <br>
