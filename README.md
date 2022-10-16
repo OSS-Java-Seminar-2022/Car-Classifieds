@@ -18,18 +18,18 @@
 
 <li>User can register as a tour-guide or a tourist.
 
-<li>The only currency on the marketplace is a token. The only exchange rate is token to USD and it is dynamic. Every user is informed for every rate update via app (notifications section).
+<li>The only currency on the marketplace is a token. The only exchange rate is token to USD and it is dynamic. Every user is informed for every rate update via app         (notifications section).
 
 <li>Any registered-user can deposit money for tokens or withraw tokens to get money back.
 
-<li>As a registered tour-guide, user can create tours and sell them for any price on the marketplace. Every tour is visible to tourists for a year but tour-guides can prolong its duration for a fixed price.
+<li>As a registered tour-guide, user can create tours and sell them for any price on the marketplace. Every tour is visible to tourists for a year but tour-guides can     prolong its duration for a fixed price.
 
-<li>Every tour once published, is visible on the marketplace and is buyable and editable at any time. Tourist-user agrees to possible changes of a tour’s content at any time throughout its lifetime by buying it.
+<li>Every tour once published, is visible on the marketplace and is buyable and editable at any time. Tourist-user agrees to possible changes of a tour’s content at       any time throughout its lifetime by buying it.
 
-<li>Once bought a tour, a tourist-user can consume/use a tour as many time as he/she wants until it expires, and the tour gets in the “archived” section where the user can only see that he owned it before. If tour’s duration gets renewed, user can consume it the same way as before.
+<li>Once bought a tour, a tourist-user can consume/use a tour as many time as he/she wants until it expires, and the tour gets in the “archived” section where the user     can only see that he owned it before. If tour’s duration gets renewed, user can consume it the same way as before.
 
 <li>Every tour is a segmented walkthrough. Each segment has the same fixed-form of features which can all be used but not necessarily. 
-Features are: title text, normal text, picture, sound, location mark. Multi language support.
+    Features are: title text, normal text, picture, sound, location mark. Multi language support.
 
 <li>Every tour can be reviewed by any user on the marketplace in the comment section and can be given a rate (1-10) which is averaged to the total tour rate.
 </ul></ul>
