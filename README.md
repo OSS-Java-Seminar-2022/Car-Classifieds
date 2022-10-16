@@ -38,7 +38,9 @@
  <br>
 
 ## Database Model
-TBA
+
+[shema drawio](https://user-images.githubusercontent.com/77860923/196050313-36c9adeb-f37a-4817-ac53-076c06378d2a.png)
+
 ## Tech stack
 
 
