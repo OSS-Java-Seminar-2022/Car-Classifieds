@@ -39,7 +39,7 @@
 
 ## Database Model
 
-![](shema.drawio.png)
+![](scheme_02.drawio.png)
 
 ## Tech stack
 
