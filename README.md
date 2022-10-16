@@ -14,25 +14,24 @@
 
 ## Features
 
- <ul><li>Administrator<ul>
- <li>Access to account with username/email and password
- <li>Edit ads
- <li>User managment(approve user, remove user)
- </ul>
- <li>Registered users<ul>
- <li>Any registered users can deposit money for tokens or withraw tokens to get money back.
- <li>Access to account with username/email and password
- <li>Can add to favorites
- </ul>
- <li>Non-registered users<ul>
- <li>User can view content (tours) on the marketplace but cannot buy or consume any without registration.
- <li>User can register as a tour-guide or a tourist.
- </ul></ul>
- <b><h3>Search features</h3></b>
- <ul><li>Search tours
- <li>Filter search<ul>
- <li>by country
- <li>by city
+User can view content (tours) on the marketplace but cannot buy or consume any without registration.
+
+User can register as a tour-guide or a tourist.
+
+The only currency on the marketplace is a token. The only exchange rate is token to USD and it is dynamic. Every user is informed for every rate update via app (notifications section).
+
+Any registered-user can deposit money for tokens or withraw tokens to get money back.
+
+As a registered tour-guide, user can create tours and sell them for any price on the marketplace. Every tour is visible to tourists for a year but tour-guides can prolong its duration for a fixed price.
+
+Every tour once published, is visible on the marketplace and is buyable and editable at any time. Tourist-user agrees to possible changes of a tour’s content at any time throughout its lifetime by buying it.
+
+Once bought a tour, a tourist-user can consume/use a tour as many time as he/she wants until it expires, and the tour gets in the “archived” section where the user can only see that he owned it before. If tour’s duration gets renewed, user can consume it the same way as before.
+
+Every tour is a segmented walkthrough. Each segment has the same fixed-form of features which can all be used but not necessarily. 
+Features are: title text, normal text, picture, sound, location mark. Multi language support.
+
+Every tour can be reviewed by any user on the marketplace in the comment section and can be given a rate (1-10) which is averaged to the total tour rate.
  
 
  <br>
