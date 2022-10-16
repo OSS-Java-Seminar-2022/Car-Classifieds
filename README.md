@@ -13,7 +13,7 @@
 
 
 ## Features
-<ul><li>
+
 <li>User can view content (tours) on the marketplace but cannot buy or consume any without registration.
 
 <li>User can register as a tour-guide or a tourist.
