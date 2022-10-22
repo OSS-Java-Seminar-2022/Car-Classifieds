@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="MarkeTour:ear exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/MarkeTour_ear_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="MarkeTour/javaeeApplication/javaEEApplication" />
+    </root>
+  </artifact>
+</component>

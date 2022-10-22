@@ -1,3 +1,5 @@
+package com.example.marketour;
+
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,5 +18,3 @@ public class User {
     private int userCredentialsId;
 
 }
-
-

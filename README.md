@@ -5,11 +5,11 @@
 
 ## Table of Contents
 
-  - [General info](#general-info)
-  - [Features](#features)
-  - [Database Model](#database-model)
-  - [Tech stack](#tech-stack)
-  - [Authors](#authors)
+- [General info](#general-info)
+- [Features](#features)
+- [Database Model](#database-model)
+- [Tech stack](#tech-stack)
+- [Authors](#authors)
 
 
 ## Features
