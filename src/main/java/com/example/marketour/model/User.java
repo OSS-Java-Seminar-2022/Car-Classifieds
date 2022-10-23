@@ -1,6 +1,4 @@
-package com.example.marketour;
-
-import lombok.Data;
+package com.example.marketour.model;
 
 import javax.persistence.*;
 
