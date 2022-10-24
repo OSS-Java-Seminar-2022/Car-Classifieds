@@ -11,8 +11,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private int userId;
-    @ManyToOne
-    @JoinColumn(name = "user_type_id")
+    @Enumerated(EnumType.STRING)
     private UserType userType;
     @OneToOne
     @JoinColumn(name = "user_data_id")
