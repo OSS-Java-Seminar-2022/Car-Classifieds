@@ -1,5 +1,7 @@
 package com.example.marketour.model.user;
 
+import com.example.marketour.model.user_type.UserType;
+
 import javax.persistence.*;
 
 @Entity

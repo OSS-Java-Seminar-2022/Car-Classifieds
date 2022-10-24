@@ -1,4 +1,4 @@
-package com.example.marketour.model.user;
+package com.example.marketour.model.user_type;
 
 import javax.persistence.*;
 
