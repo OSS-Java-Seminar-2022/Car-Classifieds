@@ -12,6 +12,7 @@ public class User {
     @Column(name = "user_id")
     private int userId;
     @Enumerated(EnumType.STRING)
+    @Column(name = "user_type")
     private UserType userType;
     @OneToOne
     @JoinColumn(name = "user_data_id")

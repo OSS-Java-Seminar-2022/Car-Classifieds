@@ -13,8 +13,10 @@ public class UserData {
     @Column(name = "user_data_id")
     private int userDataId;
     @Enumerated(EnumType.STRING)
+    @Column(name = "city")
     private City city;
     @Enumerated(EnumType.STRING)
+    @Column(name = "country")
     private Country country;
     @Column(name = "tokens")
     private int tokens;
