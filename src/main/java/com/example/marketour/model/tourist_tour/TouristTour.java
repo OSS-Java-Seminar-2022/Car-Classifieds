@@ -3,11 +3,15 @@ package com.example.marketour.model.tourist_tour;
 import com.example.marketour.model.tour.Tour;
 import com.example.marketour.model.tour_page.TourPage;
 import com.example.marketour.model.user.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tourist_tour")
+@Getter
+@Setter
 public class TouristTour {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

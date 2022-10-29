@@ -3,11 +3,15 @@ package com.example.marketour.model.tour_page;
 import com.example.marketour.model.audio.Audio;
 import com.example.marketour.model.image.Image;
 import com.example.marketour.model.tour.Tour;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tour_page")
+@Getter
+@Setter
 public class TourPage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -2,11 +2,15 @@ package com.example.marketour.model.tour_review;
 
 import com.example.marketour.model.tour.Tour;
 import com.example.marketour.model.user.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tour_review")
+@Getter
+@Setter
 public class TourReview {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

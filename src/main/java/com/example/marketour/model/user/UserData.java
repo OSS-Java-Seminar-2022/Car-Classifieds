@@ -2,11 +2,15 @@ package com.example.marketour.model.user;
 
 import com.example.marketour.model.city.City;
 import com.example.marketour.model.country.Country;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user_data")
+@Getter
+@Setter
 public class UserData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
