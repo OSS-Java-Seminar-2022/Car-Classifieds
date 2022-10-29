@@ -12,12 +12,12 @@ public class User {
     @Column(name = "user_id")
     private int userId;
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_type")
+    @Column(name = "user_type", nullable = false)
     private UserType userType;
     @OneToOne
-    @JoinColumn(name = "user_data_id")
+    @JoinColumn(name = "user_data_id", nullable = false, unique = true)
     private UserData userData;
     @OneToOne
-    @JoinColumn(name = "user_credentials_id")
+    @JoinColumn(name = "user_credentials_id", nullable = false, unique = true)
     private UserCredentials userCredentials;
 }

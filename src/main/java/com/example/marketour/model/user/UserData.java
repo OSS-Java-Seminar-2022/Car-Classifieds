@@ -1,7 +1,7 @@
 package com.example.marketour.model.user;
 
-import com.example.marketour.model.City;
-import com.example.marketour.model.Country;
+import com.example.marketour.model.city.City;
+import com.example.marketour.model.country.Country;
 
 import javax.persistence.*;
 
@@ -12,12 +12,15 @@ public class UserData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_data_id")
     private int userDataId;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "city")
+    @Column(name = "city", nullable = false)
     private City city;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "country")
+    @Column(name = "country", nullable = false)
     private Country country;
-    @Column(name = "tokens")
+
+    @Column(name = "tokens", nullable = false)
     private int tokens;
 }

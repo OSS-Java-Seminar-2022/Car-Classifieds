@@ -1,4 +1,4 @@
-package com.example.marketour.model;
+package com.example.marketour.model.city;
 
 public enum City {
     Split,
