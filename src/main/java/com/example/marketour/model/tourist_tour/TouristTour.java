@@ -16,7 +16,7 @@ public class TouristTour {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tourist_tour_id")
-    private int touristTourId;
+    private Long touristTourId;
 
     @OneToOne
     @JoinColumn(name = "tourist_id", referencedColumnName = "user_id", nullable = false)

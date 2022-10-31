@@ -15,7 +15,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "transaction_id")
-    private int transaction_id;
+    private Long transaction_id;
 
     @OneToOne
     @JoinColumn(name = "guide_id", referencedColumnName = "user_id")

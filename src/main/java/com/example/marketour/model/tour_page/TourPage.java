@@ -5,6 +5,7 @@ import com.example.marketour.model.image.Image;
 import com.example.marketour.model.tour.Tour;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -12,11 +13,12 @@ import javax.persistence.*;
 @Table(name = "tour_page")
 @Getter
 @Setter
+@ToString
 public class TourPage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tour_page_id")
-    private int tourPageId;
+    private Long tourPageId;
 
     @OneToOne
     @JoinColumn(name = "tour_id", nullable = false)
@@ -40,12 +42,9 @@ public class TourPage {
     private Audio audio;
 
     @Column(name = "longitude")
-    private int longitude;
+    private Long longitude;
 
     @Column(name = "latitude")
-    private int latitude;
-
-    @Column(name = "completed", nullable = false)
-    private boolean completed;
+    private Long latitude;
 
 }

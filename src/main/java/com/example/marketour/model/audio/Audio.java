@@ -13,7 +13,7 @@ public class Audio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "audio_id")
-    private int audioId;
+    private Long audioId;
 
     @Column(name = "description")
     private String description;

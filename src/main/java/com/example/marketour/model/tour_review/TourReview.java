@@ -15,7 +15,7 @@ public class TourReview {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tour_review_id")
-    private int tourReviewId;
+    private Long tourReviewId;
 
     @OneToOne
     @JoinColumn(name = "tour_id", nullable = false)

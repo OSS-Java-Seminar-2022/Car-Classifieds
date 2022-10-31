@@ -4,6 +4,7 @@ import com.example.marketour.model.city.City;
 import com.example.marketour.model.country.Country;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -11,11 +12,12 @@ import javax.persistence.*;
 @Table(name = "user_data")
 @Getter
 @Setter
+@ToString
 public class UserData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_data_id")
-    private int userDataId;
+    private Long userDataId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "city", nullable = false)
