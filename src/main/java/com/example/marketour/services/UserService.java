@@ -9,13 +9,13 @@ import java.util.Objects;
 
 @Service
 public class UserService {
-    final private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public User checkLogin(String username, String password) {
-        return userRepository.findAll().stream().filter(user -> Objects.equals(user.getUsername(), username) && Objects.equals(user.getPassword(), password)).findFirst().get();
+        return userRepository.findAll().stream().filter(user -> Objects.equals(user.getUsername(), username) && Objects.equals(user.getPassword(), password)).findFirst().orElse(null);
     }
 }
