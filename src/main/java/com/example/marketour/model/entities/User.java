@@ -1,6 +1,7 @@
 package com.example.marketour.model.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,13 +28,13 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "city", nullable = false)
+    @Column(name = "city")
     private City city;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "country", nullable = false)
+    @Column(name = "country")
     private Country country;
 
     @Column(name = "tokens", nullable = false)
-    private int tokens;
+    private long tokens;
 }

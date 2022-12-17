@@ -1,8 +1,9 @@
 package com.example.marketour.controllers;
 
 import com.example.marketour.model.dtos.LoginRequestBody;
-import com.example.marketour.model.entities.User;
+import com.example.marketour.model.dtos.RegisterRequestBody;
 import com.example.marketour.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +20,29 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<User> login(@RequestBody LoginRequestBody body) {
-        final var user = userService.checkLogin(body.getUsername(), body.getPassword());
+    ResponseEntity<Object> login(@RequestBody LoginRequestBody body) {
+        if (body.getUsername() == null || body.getPassword() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password needed!");
+        }
+        final var user = userService.checkCredentials(body.getUsername(), body.getPassword());
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/register")
+    ResponseEntity<Object> register(@RequestBody RegisterRequestBody body) {
+        if (body.getUsername() == null || body.getUserType() == null || body.getPassword() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password/user type needed!");
+        }
+        final var user = userService.checkUsername(body.getUsername());
+        if (user != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists!");
+        } else {
+            final var addedUser = userService.createUser(body.getUsername(), body.getPassword(), body.getUserType(), 0);
+            return ResponseEntity.ok(addedUser);
         }
     }
 }
