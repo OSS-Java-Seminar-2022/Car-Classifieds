@@ -1,6 +1,6 @@
 package com.example.marketour.repositories;
 
-import com.example.marketour.model.Transaction;
+import com.example.marketour.model.entities.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

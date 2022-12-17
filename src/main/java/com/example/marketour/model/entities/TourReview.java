@@ -1,4 +1,4 @@
-package com.example.marketour.model;
+package com.example.marketour.model.entities;
 
 import lombok.Getter;
 import lombok.Setter;

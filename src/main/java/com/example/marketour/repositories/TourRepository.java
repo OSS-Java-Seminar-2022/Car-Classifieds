@@ -1,6 +1,6 @@
 package com.example.marketour.repositories;
 
-import com.example.marketour.model.Tour;
+import com.example.marketour.model.entities.Tour;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

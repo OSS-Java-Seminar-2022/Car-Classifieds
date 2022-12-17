@@ -1,4 +1,4 @@
-package com.example.marketour.model;
+package com.example.marketour.model.entities;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,14 +6,14 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "image")
+@Table(name = "audio")
 @Getter
 @Setter
-public class Image {
+public class Audio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "image_id")
-    private Long imageId;
+    @Column(name = "audio_id")
+    private Long audioId;
 
     @Column(name = "description")
     private String description;

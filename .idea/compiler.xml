@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="MarkeTour" target="1.8" />
+      <module name="MarkeTour" target="10" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
