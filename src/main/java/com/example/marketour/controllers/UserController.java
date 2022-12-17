@@ -28,7 +28,7 @@ public class UserController {
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found!");
         }
     }
 

@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user")
@@ -23,18 +24,18 @@ public class User {
     private UserType userType;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
-
     @Column(name = "password", nullable = false)
     private String password;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "city")
     private City city;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "country")
     private Country country;
-
     @Column(name = "tokens", nullable = false)
     private long tokens;
+
+    public boolean sameUser(User other) {
+        return Objects.equals(other.getUserId(), userId);
+    }
 }

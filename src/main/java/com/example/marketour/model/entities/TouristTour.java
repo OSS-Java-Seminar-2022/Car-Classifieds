@@ -24,7 +24,7 @@ public class TouristTour {
     private Tour tour;
 
     @OneToOne
-    @JoinColumn(name = "last_tour_page_id", nullable = false, referencedColumnName = "tour_page_id")
+    @JoinColumn(name = "last_tour_page_id", referencedColumnName = "tour_page_id")
     private TourPage progress;
 
     //in milliseconds since Epoch
