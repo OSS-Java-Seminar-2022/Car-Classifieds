@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MarkeTour</title>
+</head>
+<body>
+Login screen
+
+<button type="button" th:onclick="|window.location.href='/validLogin'|">Hello</button>
+
+<script>
+    navigator.geolocation.getCurrentPosition(position => console.log(position.coords.latitude));
+    navigator.geolocation.getCurrentPosition(position => console.log(position.coords.longitude));
+</script>
+
+</body>
+</html>
