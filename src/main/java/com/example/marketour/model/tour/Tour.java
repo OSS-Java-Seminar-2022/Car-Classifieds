@@ -2,6 +2,7 @@ package com.example.marketour.model.tour;
 
 import com.example.marketour.model.city.City;
 import com.example.marketour.model.country.Country;
+import com.example.marketour.model.location.Location;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,17 +20,13 @@ public class Tour {
     @Column(name = "tour_id")
     private Long tourId;
 
-    @Column(name = "start_latitude", nullable = false)
-    private Long startLatitude;
+    @OneToOne
+    @JoinColumn(name = "start_location_id", nullable = false, referencedColumnName = "location_id")
+    private Location startLocation;
 
-    @Column(name = "start_longitude", nullable = false)
-    private Long startLongitude;
-
-    @Column(name = "end_latitude", nullable = false)
-    private Long endLatitude;
-
-    @Column(name = "end_longitude", nullable = false)
-    private Long endLongitude;
+    @OneToOne
+    @JoinColumn(name = "end_location_id", nullable = false, referencedColumnName = "location_id")
+    private Location endLocation;
 
     @Column(name = "country", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -38,14 +35,6 @@ public class Tour {
     @Column(name = "city", nullable = false)
     @Enumerated(EnumType.STRING)
     private City city;
-
-    //in meters
-    @Column(name = "length")
-    private int length;
-
-    //in minutes
-    @Column(name = "expected_duration")
-    private int expectedDuration;
 
     @Column(name = "price", nullable = false)
     private double tokens;

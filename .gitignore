@@ -137,3 +137,5 @@ fabric.properties
 hs_err_pid*
 replay_pid*
 
+/.idea/jpa-buddy.xml
+/target/classes/application.properties

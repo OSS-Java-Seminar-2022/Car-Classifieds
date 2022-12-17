@@ -18,10 +18,6 @@ public class Image {
     @Column(name = "description")
     private String description;
 
-    //in millis since epoch
-    @Column(name = "create_time", nullable = false)
-    private Long createTime;
-
     @Lob
     private byte[] data;
 }

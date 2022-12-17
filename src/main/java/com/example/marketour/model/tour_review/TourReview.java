@@ -29,8 +29,11 @@ public class TourReview {
     private String text;
 
 
-    @Column(name = "rate")
-    private int rate;
+    @Column(name = "rate_accumulation")
+    private long rateAccumulation;
+
+    @Column(name = "rate_count")
+    private long rateCount;
 
     //millis since epoch
     @Column(name = "time", nullable = false)

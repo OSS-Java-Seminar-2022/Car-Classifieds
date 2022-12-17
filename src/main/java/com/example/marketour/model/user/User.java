@@ -1,5 +1,7 @@
 package com.example.marketour.model.user;
 
+import com.example.marketour.model.city.City;
+import com.example.marketour.model.country.Country;
 import com.example.marketour.model.user_type.UserType;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,10 +22,20 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
     private UserType userType;
-    @OneToOne
-    @JoinColumn(name = "user_data_id", nullable = false, unique = true)
-    private UserData userData;
-    @OneToOne
-    @JoinColumn(name = "user_credentials_id", nullable = false, unique = true)
-    private UserCredentials userCredentials;
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "city", nullable = false)
+    private City city;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "country", nullable = false)
+    private Country country;
+
+    @Column(name = "tokens", nullable = false)
+    private int tokens;
 }

@@ -2,6 +2,7 @@ package com.example.marketour.model.tour_page;
 
 import com.example.marketour.model.audio.Audio;
 import com.example.marketour.model.image.Image;
+import com.example.marketour.model.location.Location;
 import com.example.marketour.model.tour.Tour;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,10 +42,9 @@ public class TourPage {
     @JoinColumn(name = "audio_id")
     private Audio audio;
 
-    @Column(name = "longitude")
-    private Long longitude;
+    @OneToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
-    @Column(name = "latitude")
-    private Long latitude;
 
 }
