@@ -1,4 +1,4 @@
-package com.example.marketour.model.location;
+package com.example.marketour.model;
 
 import lombok.Getter;
 import lombok.Setter;

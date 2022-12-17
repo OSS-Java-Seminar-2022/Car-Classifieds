@@ -1,8 +1,5 @@
-package com.example.marketour.model.tourist_tour;
+package com.example.marketour.model;
 
-import com.example.marketour.model.tour.Tour;
-import com.example.marketour.model.tour_page.TourPage;
-import com.example.marketour.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 

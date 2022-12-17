@@ -1,6 +1,6 @@
-package com.example.marketour.services.user_service;
+package com.example.marketour.services;
 
-import com.example.marketour.repositories.user_repository.UserRepository;
+import com.example.marketour.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 

@@ -1,8 +1,5 @@
-package com.example.marketour.model.user;
+package com.example.marketour.model;
 
-import com.example.marketour.model.city.City;
-import com.example.marketour.model.country.Country;
-import com.example.marketour.model.user_type.UserType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

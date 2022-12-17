@@ -1,6 +1,6 @@
-package com.example.marketour.repositories.user_repository;
+package com.example.marketour.repositories;
 
-import com.example.marketour.model.user.User;
+import com.example.marketour.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

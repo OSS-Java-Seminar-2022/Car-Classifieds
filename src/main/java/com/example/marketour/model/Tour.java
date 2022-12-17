@@ -1,8 +1,5 @@
-package com.example.marketour.model.tour;
+package com.example.marketour.model;
 
-import com.example.marketour.model.city.City;
-import com.example.marketour.model.country.Country;
-import com.example.marketour.model.location.Location;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -1,4 +1,4 @@
-package com.example.marketour.model.user_type;
+package com.example.marketour.model;
 
 public enum UserType {
     guide,

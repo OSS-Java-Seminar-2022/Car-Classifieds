@@ -1,9 +1,5 @@
-package com.example.marketour.model.tour_page;
+package com.example.marketour.model;
 
-import com.example.marketour.model.audio.Audio;
-import com.example.marketour.model.image.Image;
-import com.example.marketour.model.location.Location;
-import com.example.marketour.model.tour.Tour;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

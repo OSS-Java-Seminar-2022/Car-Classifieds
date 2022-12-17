@@ -1,7 +1,5 @@
-package com.example.marketour.model.transaction;
+package com.example.marketour.model;
 
-import com.example.marketour.model.tour.Tour;
-import com.example.marketour.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 

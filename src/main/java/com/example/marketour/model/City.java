@@ -1,4 +1,4 @@
-package com.example.marketour.model.city;
+package com.example.marketour.model;
 
 
 public enum City {

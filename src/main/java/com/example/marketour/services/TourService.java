@@ -1,6 +1,6 @@
-package com.example.marketour.services.tour_service;
+package com.example.marketour.services;
 
-import com.example.marketour.repositories.tour_repository.TourRepository;
+import com.example.marketour.repositories.TourRepository;
 import org.springframework.stereotype.Service;
 
 
