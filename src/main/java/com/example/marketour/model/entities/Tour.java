@@ -40,8 +40,8 @@ public class Tour {
     private boolean visibleOnMarket;
 
     public static boolean filter(Tour tour, Filter filter) {
-        return (filter.city == null || tour.city.equals(filter.city)) &&
+        return filter == null ||( (filter.city == null || tour.city.equals(filter.city)) &&
                 (filter.country == null || tour.country.equals(filter.country)) &&
-                (filter.priceRange == null || filter.priceRange.contains(tour.price));
+                (filter.priceRange == null || filter.priceRange.contains(tour.price)));
     }
 }
