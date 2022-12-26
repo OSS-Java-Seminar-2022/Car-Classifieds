@@ -1,5 +1,6 @@
 package com.example.marketour.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,12 +19,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
+    @JsonIgnore
     private Long userId;
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
+    @JsonIgnore
     private UserType userType;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
@@ -33,7 +37,8 @@ public class User {
     @Column(name = "country")
     private Country country;
     @Column(name = "tokens", nullable = false)
-    private long tokens;
+    @JsonIgnore
+    private Long tokens;
 
     public boolean sameUser(User other) {
         return Objects.equals(other.getUserId(), userId);
