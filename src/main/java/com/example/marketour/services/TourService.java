@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.marketour.model.entities.Tour.filter;
+
 
 @Service
 public class TourService {
@@ -19,16 +21,16 @@ public class TourService {
         this.guideTourRepository = guideTourRepository;
     }
 
-    public List<TouristTour> getAllTouristsTours(User user) {
-        return touristTourRepository.findAll().stream().filter(tour -> tour.getTourist().sameUser(user) && user.getUserType() == UserType.tourist).collect(Collectors.toList());
+    public List<TouristTour> getAllTouristsTours(User user, Filter filter) {
+        return touristTourRepository.findAll().stream().filter(tour -> tour.getTourist().sameUser(user) && user.getUserType() == UserType.tourist && filter(tour.getTour(), filter)).collect(Collectors.toList());
     }
 
-    public List<GuideTour> getAllGuideTours(User user) {
-        return guideTourRepository.findAll().stream().filter(tour -> tour.getGuide().sameUser(user) && user.getUserType() == UserType.guide).collect(Collectors.toList());
+    public List<GuideTour> getAllGuideTours(User user, Filter filter) {
+        return guideTourRepository.findAll().stream().filter(tour -> tour.getGuide().sameUser(user) && user.getUserType() == UserType.guide && filter(tour.getTour(), filter)).collect(Collectors.toList());
     }
 
-    public List<Tour> getAllToursOnMarketplace() {
-        return guideTourRepository.findAll().stream().map(GuideTour::getTour).filter(Tour::isVisibleOnMarket).collect(Collectors.toList());
+    public List<Tour> getAllToursOnMarketplace(Filter filter) {
+        return guideTourRepository.findAll().stream().map(GuideTour::getTour).filter(e -> e.isVisibleOnMarket() && filter(e, filter)).collect(Collectors.toList());
     }
 
 }

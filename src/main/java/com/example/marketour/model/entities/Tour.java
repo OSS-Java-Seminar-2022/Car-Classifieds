@@ -34,9 +34,14 @@ public class Tour {
     private City city;
 
     @Column(name = "price", nullable = false)
-    private double tokens;
+    private Double price;
 
     @Column(name = "visible_on_market", nullable = false)
     private boolean visibleOnMarket;
 
+    public static boolean filter(Tour tour, Filter filter) {
+        return (filter.city == null || tour.city.equals(filter.city)) &&
+                (filter.country == null || tour.country.equals(filter.country)) &&
+                (filter.priceRange == null || filter.priceRange.contains(tour.price));
+    }
 }
