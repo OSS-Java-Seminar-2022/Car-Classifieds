@@ -22,7 +22,7 @@ public class TourPage {
     private Tour tour;
 
     @Column(name = "page", nullable = false)
-    private int page;
+    private Integer page;
 
     @Column(name = "title", nullable = false)
     private String title;

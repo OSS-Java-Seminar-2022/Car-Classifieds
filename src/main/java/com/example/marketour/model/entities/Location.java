@@ -1,6 +1,7 @@
 package com.example.marketour.model.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Setter
+@NoArgsConstructor
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,10 +20,10 @@ public class Location {
     private Long locationId;
 
     @Column(name = "longitude", nullable = false)
-    private Long longitude;
+    private Double longitude;
 
     @Column(name = "latitude", nullable = false)
-    private Long latitude;
+    private Double latitude;
 
     @Column(name = "name", nullable = false)
     private String name;
