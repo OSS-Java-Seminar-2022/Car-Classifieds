@@ -632,6 +632,10 @@ video {
   display: none;
 }
 
+.h-10 {
+  height: 2.5rem;
+}
+
 .h-8 {
   height: 2rem;
 }
@@ -642,6 +646,10 @@ video {
 
 .h-full {
   height: 100%;
+}
+
+.w-52 {
+  width: 13rem;
 }
 
 .w-16 {
@@ -865,6 +873,11 @@ video {
   padding-bottom: 2.5rem;
 }
 
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .px-7 {
   padding-left: 1.75rem;
   padding-right: 1.75rem;
@@ -1008,6 +1021,59 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+body {
+  background-repeat: no-repeat;
+  background-size: 800px;
+  background-position: 90% -25%;
+}
+
+#cta {
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 576px) {
+  body {
+    background-position: 50px -50px;
+    background-size: 500px;
+  }
+}
+
+/* Hamburger menu */
+
+.hamburger {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  transition: all 0.25s;
+  position: relative;
+}
+
+.hamburger-top,
+.hamburger-middle,
+.hamburger-bottom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background: #000;
+  transform: rotate(0);
+  transition: all 0.5s;
+}
+
+.hamburger-middle {
+  transform: translateY(7px);
+}
+
+.hamburger-bottom {
+  transform: translateY(14px);
+}
+
+.open {
+  transform: rotate(90deg);
+  transform: translateY(0px);
+}
+
 .hover\:bg-blue-300:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(147 197 253 / var(--tw-bg-opacity));
@@ -1016,11 +1082,6 @@ video {
 .hover\:bg-gray-900:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-blue-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
 .hover\:text-darkGrayishBlue:hover {
@@ -1033,9 +1094,9 @@ video {
   color: rgb(96 165 250 / var(--tw-text-opacity));
 }
 
-.hover\:text-red-700:hover {
+.hover\:text-red-500:hover {
   --tw-text-opacity: 1;
-  color: rgb(185 28 28 / var(--tw-text-opacity));
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
 .hover\:shadow-lg:hover {
@@ -1064,9 +1125,9 @@ video {
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
-.focus\:text-red-700:focus {
+.focus\:text-red-500:focus {
   --tw-text-opacity: 1;
-  color: rgb(185 28 28 / var(--tw-text-opacity));
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
 .focus\:shadow-lg:focus {
