@@ -98,7 +98,8 @@
                     </div>
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="userTypes">Select
                         an option</label>
-                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="userTypes"
+                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            id="userTypes"
                             th:field="*{userType}">
                         <th:block th:each="userType : ${userTypes}">
                             <option th:text="${userType}" th:value="${userType}">temp</option>
@@ -106,7 +107,8 @@
                     </select>
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="countries">Select
                         an option</label>
-                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="countries"
+                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            id="countries"
                             th:field="*{country}">
                         <th:block th:each="country : ${countries}">
                             <option th:text="${country}" th:value="${country}">temp</option>
@@ -114,7 +116,8 @@
                     </select>
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="cities">Select an
                         option</label>
-                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="cities"
+                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            id="cities"
                             th:field="*{city}">
                         <th:block th:each="city : ${cities}">
                             <option th:text="${city}" th:value="${city}">temp</option>
@@ -218,15 +221,8 @@
 </footer>
 <script th:src="@{js/hamburgerMenu.js}"></script>
 <script>
-    function tryLogin(user) {
-        console.log("user: " + user);
-        fetch("users/login", {
-            method: "post",
-            body: JSON.stringify(user),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(value => console.log(value));
+    function tryLogin(country) {
+
     }
 </script>
 </body>

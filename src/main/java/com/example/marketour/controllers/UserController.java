@@ -8,15 +8,15 @@ import com.example.marketour.model.entities.UserType;
 import com.example.marketour.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+@Controller
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<Object> login(@ModelAttribute("user") User requestUser, HttpServletRequest request) {
+    Object login(@ModelAttribute("user") User requestUser, HttpServletRequest request) {
         if (requestUser.getUsername() == null || requestUser.getPassword() == null) {
             ObjectError error = new ObjectError("globalError", "Username/password needed!");
             //bindingResult.addError(error);
@@ -37,7 +37,7 @@ public class UserController {
             final var session = request.getSession(true);
             if (session.getAttribute("user") == null) {
                 session.setAttribute("user", user);
-                return ResponseEntity.ok(user);
+                return "redirect:/main";
             } else {
                 return ResponseEntity.ok("Already logged in!");
             }
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    ResponseEntity<Object> register(@ModelAttribute("user") RegisterUser registerUser, HttpServletRequest request) {
+    Object register(@ModelAttribute("user") RegisterUser registerUser, HttpServletRequest request) {
         var tempUser = new User();
         tempUser.setUsername(registerUser.getUsername());
         tempUser.setPassword(registerUser.getPassword());
@@ -76,7 +76,7 @@ public class UserController {
             final var addedUser = userService.createUser(tempUser.getUsername(), tempUser.getPassword(), tempUser.getUserType(), 0L, tempUser.getCity(), tempUser.getCountry());
             final var session = request.getSession(true);
             session.setAttribute("user", addedUser);
-            return ResponseEntity.ok(addedUser);
+            return "redirect:/main";
         }
     }
 }

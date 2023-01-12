@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
     <title>
-        Login
+        Marketour
     </title>
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
@@ -17,20 +17,17 @@
     <div class="flex items-center justify-between">
         <!-- Logo -->
         <div class="pt-2">
-            <a th:href="@{/}">
+            <a th:href="@{/main}">
                 <img alt="marke logo" class="h-10 w-52" th:src="@{img/marke-logo.svg}"/>
             </a>
 
         </div>
         <!-- Menu Items -->
         <div class="hidden space-x-6 md:flex">
-            <a class="hover:text-darkGrayishBlue" th:href="@{/}">Home</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Pricing</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Products</a>
-            <a class="hover:text-darkGrayishBlue" href="#">About Us</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Contact</a>
+            <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('my_tours')">My tours</a>
+            <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('marketplace')">Marketplace</a>
+            <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('bank')">Bank</a>
         </div>
-        <!-- Button -->
 
         <!-- Hamburger Icon -->
         <button
@@ -43,80 +40,27 @@
         </button>
     </div>
 
-    <!-- Mobile Menu -->
     <div class="md:hidden">
         <div
                 class="absolute flex-col items-center hidden self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"
                 id="menu"
         >
-            <a th:href="@{/}">Home</a>
-            <a href="#">Pricing</a>
-            <a href="#">Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
+            <a href="#" onclick="tabClick('my_tours')">My tours</a>
+            <a href="#" onclick="tabClick('marketplace')">Marketplace</a>
+            <a href="#" onclick="tabClick('bank')">Bank</a>
         </div>
+    </div>
+    <div id="my_tours">
+        <p>My tours</p>
+    </div>
+    <div id="marketplace">
+        <p>Marketplace</p>
+    </div>
+    <div id="bank">
+        <p>Bank</p>
     </div>
 </nav>
 
-<section class="h-screen">
-    <div class="px-6 h-full text-gray-800">
-        <div
-                class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
-        >
-            <div
-                    class="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0"
-            >
-                <img
-                        alt="Sample image"
-                        class="w-full"
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                />
-            </div>
-            <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                <form method="post" th:action="@{/users/login}" th:object="${user}">
-
-                    <!-- Username input -->
-                    <div class="mb-6">
-                        <input
-                                class="form-control block w-full px-2 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                id="usernameField"
-                                placeholder="Username"
-                                th:field="*{username}"
-                                type="text"
-                        />
-                    </div>
-
-                    <!-- Password input -->
-                    <div class="mb-6">
-                        <input
-                                class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                id="passwordField"
-                                placeholder="Password"
-                                th:field="*{password}"
-                                type="password"
-                        />
-                    </div>
-                    <div class="text-center lg:text-left">
-                        <button
-                                class="inline-block px-7 py-3 bg-blue-400 text-white font-medium text-sm leading-snug uppercase rounded-full  shadow-md hover:bg-blue-300 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                                type="submit"
-                        >
-                            Login
-                        </button>
-                        <p class="text-sm font-semibold mt-2 pt-1 mb-0">
-                            Don't have an account?
-                            <a
-                                    class="text-red-600 hover:text-red-500 focus:text-red-500 transition duration-200 ease-in-out"
-                                    th:href="@{/register}"
-                            >Register</a
-                            >
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Footer -->
 <footer class="bg-veryDarkBlue">
@@ -133,7 +77,7 @@
             </div>
             <!-- Logo -->
             <div class="pt-2">
-                <a th:href="@{/}">
+                <a th:href="@{/main}">
                     <img alt="marke logo" th:src="@{img/marke-logo.svg}"/>
                 </a>
 
@@ -165,7 +109,7 @@
         <!-- List Container -->
         <div class="flex justify-around space-x-32">
             <div class="flex flex-col space-y-3 text-white">
-                <a class="hover:text-blue-400" th:href="@{/}">Home</a>
+                <a class="hover:text-blue-400" href="#">Home</a>
                 <a class="hover:text-blue-400" href="#">Pricing</a>
                 <a class="hover:text-blue-400" href="#">Products</a>
                 <a class="hover:text-blue-400" href="#">About</a>
@@ -200,17 +144,27 @@
     </div>
 </footer>
 <script th:src="@{js/hamburgerMenu.js}"></script>
+</body>
+
 <script>
-    function tryLogin(user) {
-        console.log("user: " + user);
-        fetch("users/login", {
-            method: "post",
-            body: JSON.stringify(user),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(value => console.log(value));
+    document.getElementById("my_tours").style.display = "block";
+    document.getElementById("marketplace").style.display = "none";
+    document.getElementById("bank").style.display = "none";
+
+    function tabClick(page) {
+        if (page === "my_tours") {
+            document.getElementById("my_tours").style.display = "block";
+            document.getElementById("marketplace").style.display = "none";
+            document.getElementById("bank").style.display = "none";
+        } else if (page === "marketplace") {
+            document.getElementById("my_tours").style.display = "none";
+            document.getElementById("marketplace").style.display = "block";
+            document.getElementById("bank").style.display = "none";
+        } else if (page === "bank") {
+            document.getElementById("my_tours").style.display = "none";
+            document.getElementById("marketplace").style.display = "none";
+            document.getElementById("bank").style.display = "block";
+        }
     }
 </script>
-</body>
 </html>

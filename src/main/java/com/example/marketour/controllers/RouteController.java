@@ -30,7 +30,11 @@ public class RouteController {
         model.addAttribute("countries", Country.values());
         model.addAttribute("userTypes", UserType.values());
         return "register";
+    }
 
+    @GetMapping(value = "/main")
+    String main(@ModelAttribute("user") User user, Model model) {
+        return "main";
     }
 
 }
