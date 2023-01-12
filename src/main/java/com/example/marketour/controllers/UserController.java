@@ -1,16 +1,20 @@
 package com.example.marketour.controllers;
 
-import com.example.marketour.model.dtos.RegisterRequestBody;
+import com.example.marketour.model.dtos.RegisterUser;
+import com.example.marketour.model.entities.City;
+import com.example.marketour.model.entities.Country;
 import com.example.marketour.model.entities.User;
+import com.example.marketour.model.entities.UserType;
 import com.example.marketour.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
@@ -55,15 +59,21 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    ResponseEntity<Object> register(@RequestBody RegisterRequestBody body, HttpServletRequest request) {
-        if (body.getUsername() == null || body.getUserType() == null || body.getPassword() == null) {
+    ResponseEntity<Object> register(@ModelAttribute("user") RegisterUser registerUser, HttpServletRequest request) {
+        var tempUser = new User();
+        tempUser.setUsername(registerUser.getUsername());
+        tempUser.setPassword(registerUser.getPassword());
+        tempUser.setCountry(Country.valueOf(registerUser.getCountry()));
+        tempUser.setCity(City.valueOf(registerUser.getCity()));
+        tempUser.setUserType(UserType.valueOf(registerUser.getUserType()));
+        if (tempUser.getUsername() == null || tempUser.getUserType() == null || tempUser.getPassword() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password/user type needed!");
         }
-        final var user = userService.checkUsernameExists(body.getUsername());
+        final var user = userService.checkUsernameExists(tempUser.getUsername());
         if (user != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists!");
         } else {
-            final var addedUser = userService.createUser(body.getUsername(), body.getPassword(), body.getUserType(), 0L);
+            final var addedUser = userService.createUser(tempUser.getUsername(), tempUser.getPassword(), tempUser.getUserType(), 0L, tempUser.getCity(), tempUser.getCountry());
             final var session = request.getSession(true);
             session.setAttribute("user", addedUser);
             return ResponseEntity.ok(addedUser);

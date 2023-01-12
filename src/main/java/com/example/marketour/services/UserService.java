@@ -1,5 +1,7 @@
 package com.example.marketour.services;
 
+import com.example.marketour.model.entities.City;
+import com.example.marketour.model.entities.Country;
 import com.example.marketour.model.entities.User;
 import com.example.marketour.model.entities.UserType;
 import com.example.marketour.repositories.UserRepository;
@@ -24,12 +26,14 @@ public class UserService {
         return userRepository.findAll().stream().filter(user -> Objects.equals(user.getUsername(), username)).findFirst().orElse(null);
     }
 
-    public User createUser(String username, String password, UserType userType, Long tokens) {
+    public User createUser(String username, String password, UserType userType, Long tokens, City city, Country country) {
         final var newUser = new User();
         newUser.setUsername(username);
         newUser.setPassword(password);
         newUser.setUserType(userType);
         newUser.setTokens(tokens);
+        newUser.setCountry(country);
+        newUser.setCity(city);
         return userRepository.save(newUser);
     }
 }

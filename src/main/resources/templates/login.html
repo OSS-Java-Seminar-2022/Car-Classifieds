@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://wwww.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
     <title>
         Login
     </title>
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 <body>
@@ -18,29 +18,24 @@
         <!-- Logo -->
         <div class="pt-2">
             <a th:href="@{/}">
-                <img class="h-10 w-52" th:src="@{img/marke-logo.svg}" alt="marke logo"/>
+                <img alt="marke logo" class="h-10 w-52" th:src="@{img/marke-logo.svg}"/>
             </a>
 
         </div>
         <!-- Menu Items -->
         <div class="hidden space-x-6 md:flex">
-            <a th:href="@{/}" class="hover:text-darkGrayishBlue">Home</a>
-            <a href="#" class="hover:text-darkGrayishBlue">Pricing</a>
-            <a href="#" class="hover:text-darkGrayishBlue">Products</a>
-            <a href="#" class="hover:text-darkGrayishBlue">About Us</a>
-            <a href="#" class="hover:text-darkGrayishBlue">Contact</a>
+            <a class="hover:text-darkGrayishBlue" th:href="@{/}">Home</a>
+            <a class="hover:text-darkGrayishBlue" href="#">Pricing</a>
+            <a class="hover:text-darkGrayishBlue" href="#">Products</a>
+            <a class="hover:text-darkGrayishBlue" href="#">About Us</a>
+            <a class="hover:text-darkGrayishBlue" href="#">Contact</a>
         </div>
         <!-- Button -->
-        <a
-                th:href="@{/login}"
-                class="hidden p-3 px-6 pt-2 text-white bg-blue-400 rounded-full baseline hover:bg-blue-300 md:block"
-        >Get Started</a
-        >
 
         <!-- Hamburger Icon -->
         <button
-                id="menu-btn"
                 class="block hamburger md:hidden focus:outline-none"
+                id="menu-btn"
         >
             <span class="hamburger-top"></span>
             <span class="hamburger-middle"></span>
@@ -51,8 +46,8 @@
     <!-- Mobile Menu -->
     <div class="md:hidden">
         <div
-                id="menu"
                 class="absolute flex-col items-center hidden self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"
+                id="menu"
         >
             <a th:href="@{/}">Home</a>
             <a href="#">Pricing</a>
@@ -72,47 +67,47 @@
                     class="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0"
             >
                 <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                        class="w-full"
                         alt="Sample image"
+                        class="w-full"
+                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                 />
             </div>
             <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                <form th:object="${user}" th:action="@{/users/login}" method="post">
+                <form method="post" th:action="@{/users/login}" th:object="${user}">
 
                     <!-- Username input -->
                     <div class="mb-6">
                         <input
-                                type="text"
                                 class="form-control block w-full px-2 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                 id="usernameField"
-                                th:field="*{username}"
                                 placeholder="Username"
+                                th:field="*{username}"
+                                type="text"
                         />
                     </div>
 
                     <!-- Password input -->
                     <div class="mb-6">
                         <input
-                                type="password"
                                 class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                 id="passwordField"
-                                th:field="*{password}"
                                 placeholder="Password"
+                                th:field="*{password}"
+                                type="password"
                         />
                     </div>
                     <div class="text-center lg:text-left">
                         <button
-                                type="submit"
                                 class="inline-block px-7 py-3 bg-blue-400 text-white font-medium text-sm leading-snug uppercase rounded-full  shadow-md hover:bg-blue-300 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                                type="submit"
                         >
                             Login
                         </button>
                         <p class="text-sm font-semibold mt-2 pt-1 mb-0">
                             Don't have an account?
                             <a
-                                    href="#"
                                     class="text-red-600 hover:text-red-500 focus:text-red-500 transition duration-200 ease-in-out"
+                                    th:href="@{/register}"
                             >Register</a
                             >
                         </p>
@@ -139,7 +134,7 @@
             <!-- Logo -->
             <div class="pt-2">
                 <a th:href="@{/}">
-                    <img th:src="@{img/marke-logo.svg}" alt="marke logo"/>
+                    <img alt="marke logo" th:src="@{img/marke-logo.svg}"/>
                 </a>
 
             </div>
@@ -147,38 +142,38 @@
             <div class="flex justify-center space-x-4">
                 <!-- Link 1 -->
                 <a href="#">
-                    <img th:src="@{img/icon-facebook.svg}" alt="" class="h-8"/>
+                    <img alt="" class="h-8" th:src="@{img/icon-facebook.svg}"/>
                 </a>
                 <!-- Link 2 -->
                 <a href="#">
-                    <img th:src="@{img/icon-youtube.svg}" alt="" class="h-8"/>
+                    <img alt="" class="h-8" th:src="@{img/icon-youtube.svg}"/>
                 </a>
                 <!-- Link 3 -->
                 <a href="#">
-                    <img th:src="@{img/icon-twitter.svg}" alt="" class="h-8"/>
+                    <img alt="" class="h-8" th:src="@{img/icon-twitter.svg}"/>
                 </a>
                 <!-- Link 4 -->
                 <a href="#">
-                    <img th:src="@{img/icon-pinterest.svg}" alt="" class="h-8"/>
+                    <img alt="" class="h-8" th:src="@{img/icon-pinterest.svg}"/>
                 </a>
                 <!-- Link 5 -->
                 <a href="#">
-                    <img th:src="@{img/icon-instagram.svg}" alt="" class="h-8"/>
+                    <img alt="" class="h-8" th:src="@{img/icon-instagram.svg}"/>
                 </a>
             </div>
         </div>
         <!-- List Container -->
         <div class="flex justify-around space-x-32">
             <div class="flex flex-col space-y-3 text-white">
-                <a th:href="@{/}" class="hover:text-blue-400">Home</a>
-                <a href="#" class="hover:text-blue-400">Pricing</a>
-                <a href="#" class="hover:text-blue-400">Products</a>
-                <a href="#" class="hover:text-blue-400">About</a>
+                <a class="hover:text-blue-400" th:href="@{/}">Home</a>
+                <a class="hover:text-blue-400" href="#">Pricing</a>
+                <a class="hover:text-blue-400" href="#">Products</a>
+                <a class="hover:text-blue-400" href="#">About</a>
             </div>
             <div class="flex flex-col space-y-3 text-white">
-                <a href="#" class="hover:text-blue-400">Careers</a>
-                <a href="#" class="hover:text-blue-400">Community</a>
-                <a href="#" class="hover:text-blue-400">Privacy Policy</a>
+                <a class="hover:text-blue-400" href="#">Careers</a>
+                <a class="hover:text-blue-400" href="#">Community</a>
+                <a class="hover:text-blue-400" href="#">Privacy Policy</a>
             </div>
         </div>
 
@@ -187,9 +182,9 @@
             <form>
                 <div class="flex space-x-3">
                     <input
-                            type="text"
                             class="flex-1 px-4 rounded-full focus:outline-none"
                             placeholder="Updated in your inbox"
+                            type="text"
                     />
                     <button
                             class="px-6 py-2 text-white rounded-full bg-blue-400 hover:bg-blue-300 focus:outline-none"
