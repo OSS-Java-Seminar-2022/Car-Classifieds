@@ -8,6 +8,10 @@ body {
     background-position: 90% -25%;
 }
 
+.error {
+    color: red;
+}
+
 #cta {
     background-repeat: no-repeat;
 }

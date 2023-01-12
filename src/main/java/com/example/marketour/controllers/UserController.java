@@ -1,17 +1,16 @@
 package com.example.marketour.controllers;
 
-import com.example.marketour.model.dtos.LoginRequestBody;
 import com.example.marketour.model.dtos.RegisterRequestBody;
 import com.example.marketour.model.entities.User;
 import com.example.marketour.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
@@ -23,11 +22,13 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<Object> login(@RequestBody LoginRequestBody body, HttpServletRequest request) {
-        if (body.getUsername() == null || body.getPassword() == null) {
+    ResponseEntity<Object> login(@ModelAttribute("user") User requestUser, HttpServletRequest request) {
+        if (requestUser.getUsername() == null || requestUser.getPassword() == null) {
+            ObjectError error = new ObjectError("globalError", "Username/password needed!");
+            //bindingResult.addError(error);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password needed!");
         }
-        final var user = userService.checkCredentialsExist(body.getUsername(), body.getPassword());
+        final var user = userService.checkCredentialsExist(requestUser.getUsername(), requestUser.getPassword());
         if (user != null) {
             final var session = request.getSession(true);
             if (session.getAttribute("user") == null) {

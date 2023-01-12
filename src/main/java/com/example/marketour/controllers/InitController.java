@@ -1,5 +1,6 @@
 package com.example.marketour.controllers;
 
+import com.example.marketour.model.entities.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,5 @@ public class InitController {
         return "login";
     }
 
-    @GetMapping(value = "/validLogin")
-    String validLogin() {
-        return "tourist_main_screen";
-    }
+
 }

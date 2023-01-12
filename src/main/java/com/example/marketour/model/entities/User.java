@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
@@ -25,8 +26,10 @@ public class User {
     @Column(name = "user_type", nullable = false)
     @JsonIgnore
     private UserType userType;
+    @NotEmpty(message = "Username cannot be empty.")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @NotEmpty(message = "Password cannot be empty.")
     @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
