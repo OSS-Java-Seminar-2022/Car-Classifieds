@@ -61,6 +61,32 @@
     </div>
 </nav>
 
+<!-- Body -->
+<div class="my_tours">
+    <table>
+        <th:block th:each="myTour : ${userTours}">
+            <tr>
+                <td>
+                    <a class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+                       href="#">
+                        <img alt=""
+                             class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" th:src="|data:image/png;base64,${imageMap.get(myTour.tour.tourId)}|">
+                        <div class="flex flex-col justify-between p-4 leading-normal">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                                th:text="${myTour.tour.country}">..</h5>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" th:text="${myTour.tour.city}">
+                                Here
+                                are the biggest enterprise technology acquisitions of 2021 so far, in reverse
+                                chronological
+                                order.</p>
+                        </div>
+                    </a>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+
 
 <!-- Footer -->
 <footer class="bg-veryDarkBlue">
@@ -147,23 +173,46 @@
 </body>
 
 <script>
-    document.getElementById("my_tours").style.display = "block";
-    document.getElementById("marketplace").style.display = "none";
-    document.getElementById("bank").style.display = "none";
+    myToursVisible();
+
+    function elementVisibility(name, visible) {
+        Array.prototype.forEach.call(document.getElementsByClassName(name), function (e) {
+            if (visible)
+                e.style.display = "block";
+            else
+                e.style.display = "none";
+        });
+        if (visible)
+            document.getElementById(name).style.display = "block";
+        else
+            document.getElementById(name).style.display = "none";
+    }
+
+    function myToursVisible() {
+        elementVisibility("my_tours", true);
+        elementVisibility("marketplace", false);
+        elementVisibility("bank", false);
+    }
+
+    function marketplaceVisible() {
+        elementVisibility("my_tours", false);
+        elementVisibility("marketplace", true);
+        elementVisibility("bank", false);
+    }
+
+    function bankVisible() {
+        elementVisibility("my_tours", false);
+        elementVisibility("marketplace", false);
+        elementVisibility("bank", true);
+    }
 
     function tabClick(page) {
         if (page === "my_tours") {
-            document.getElementById("my_tours").style.display = "block";
-            document.getElementById("marketplace").style.display = "none";
-            document.getElementById("bank").style.display = "none";
+            myToursVisible();
         } else if (page === "marketplace") {
-            document.getElementById("my_tours").style.display = "none";
-            document.getElementById("marketplace").style.display = "block";
-            document.getElementById("bank").style.display = "none";
+            marketplaceVisible();
         } else if (page === "bank") {
-            document.getElementById("my_tours").style.display = "none";
-            document.getElementById("marketplace").style.display = "none";
-            document.getElementById("bank").style.display = "block";
+            bankVisible();
         }
     }
 </script>
