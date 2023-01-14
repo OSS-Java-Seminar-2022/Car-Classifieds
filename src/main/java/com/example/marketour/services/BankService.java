@@ -15,6 +15,10 @@ public class BankService {
         this.userRepository = userRepository;
     }
 
+    public double getTokens(User user) {
+        return userRepository.findAll().stream().filter(u -> u.sameUser(user)).findFirst().get().getTokens();
+    }
+
     public void addTokens(User user, Long amount) {
         user.setTokens(user.getTokens() + amount);
         userRepository.save(user);

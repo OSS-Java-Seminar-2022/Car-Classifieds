@@ -27,6 +27,7 @@
             <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('my_tours')">My tours</a>
             <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('marketplace')">Marketplace</a>
             <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('profile')">Profile</a>
+            <a href="#" id="tokens">Unknown amount</a>
         </div>
 
         <!-- Hamburger Icon -->
@@ -198,7 +199,22 @@
 </footer>
 <script th:src="@{js/hamburgerMenu.js}"></script>
 </body>
+<script>
+    moneyCheck();
+    moneyCheckTimer();
 
+    async function moneyCheck() {
+        let response = await fetch("http://localhost:8080/bank/getTokens", {
+            method: "get",
+        });
+        let tokens = await response.text();
+        document.getElementById("tokens").innerText = tokens.toString() + " tokens";
+    }
+
+    function moneyCheckTimer() {
+        setInterval(moneyCheck, 10000);
+    }
+</script>
 <script>
     myToursVisible();
 
