@@ -1,6 +1,7 @@
 package com.example.marketour.controllers;
 
 import com.example.marketour.model.entities.*;
+import com.example.marketour.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +21,12 @@ public class RouteController {
     private final TourController tourController;
     private final ImageController imageController;
 
-    public RouteController(TourController tourController, ImageController imageController) {
+    private final UserService userService;
+
+    public RouteController(TourController tourController, ImageController imageController, UserService userService) {
         this.tourController = tourController;
         this.imageController = imageController;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -44,13 +48,14 @@ public class RouteController {
     }
 
     @GetMapping(value = "/main")
-    String main(@ModelAttribute("user") User user, HttpServletRequest httpServletRequest, Model model) {
+    String main(HttpServletRequest httpServletRequest, Model model) {
         final var userSpecificTours = tourController.getAllToursOfThisUser(httpServletRequest, model);
         final var allTours = tourController.getAllToursOnMarket(httpServletRequest, model);
         final var imageMap = ((ArrayList<Tour>) allTours.getBody()).stream().map(tour -> Map.entry(tour.getTourId(), Objects.requireNonNull(Base64.getEncoder().encodeToString(Objects.requireNonNull(imageController.getFirstPageImage(tour.getTourId()).getBody()).getData())))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         model.addAttribute("userTours", userSpecificTours.getBody());
         model.addAttribute("allTours", allTours.getBody());
         model.addAttribute("imageMap", imageMap);
+        model.addAttribute("user", httpServletRequest.getSession().getAttribute("user"));
         return "main";
     }
 
