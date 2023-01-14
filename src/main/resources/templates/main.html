@@ -26,7 +26,7 @@
         <div class="hidden space-x-6 md:flex">
             <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('my_tours')">My tours</a>
             <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('marketplace')">Marketplace</a>
-            <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('bank')">Bank</a>
+            <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('profile')">Profile</a>
         </div>
 
         <!-- Hamburger Icon -->
@@ -47,7 +47,7 @@
         >
             <a href="#" onclick="tabClick('my_tours')">My tours</a>
             <a href="#" onclick="tabClick('marketplace')">Marketplace</a>
-            <a href="#" onclick="tabClick('bank')">Bank</a>
+            <a href="#" onclick="tabClick('profile')">Profile</a>
         </div>
     </div>
     <div id="my_tours">
@@ -56,8 +56,8 @@
     <div id="marketplace">
         <p>Marketplace</p>
     </div>
-    <div id="bank">
-        <p>Bank</p>
+    <div id="profile">
+        <p>Profile</p>
     </div>
 </nav>
 
@@ -70,11 +70,38 @@
                     <a class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
                        href="#">
                         <img alt=""
-                             class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" th:src="|data:image/png;base64,${imageMap.get(myTour.tour.tourId)}|">
+                             class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                             th:src="|data:image/png;base64,${imageMap.get(myTour.tour.tourId)}|">
                         <div class="flex flex-col justify-between p-4 leading-normal">
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
                                 th:text="${myTour.tour.country}">..</h5>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" th:text="${myTour.tour.city}">
+                                Here
+                                are the biggest enterprise technology acquisitions of 2021 so far, in reverse
+                                chronological
+                                order.</p>
+                        </div>
+                    </a>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</div>
+
+<div class="marketplace">
+    <table>
+        <th:block th:each="tour : ${allTours}">
+            <tr>
+                <td>
+                    <a class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+                       href="#">
+                        <img alt=""
+                             class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                             th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">
+                        <div class="flex flex-col justify-between p-4 leading-normal">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                                th:text="${tour.country}">..</h5>
+                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" th:text="${tour.city}">
                                 Here
                                 are the biggest enterprise technology acquisitions of 2021 so far, in reverse
                                 chronological
@@ -191,19 +218,19 @@
     function myToursVisible() {
         elementVisibility("my_tours", true);
         elementVisibility("marketplace", false);
-        elementVisibility("bank", false);
+        elementVisibility("profile", false);
     }
 
     function marketplaceVisible() {
         elementVisibility("my_tours", false);
         elementVisibility("marketplace", true);
-        elementVisibility("bank", false);
+        elementVisibility("profile", false);
     }
 
-    function bankVisible() {
+    function profileVisible() {
         elementVisibility("my_tours", false);
         elementVisibility("marketplace", false);
-        elementVisibility("bank", true);
+        elementVisibility("profile", true);
     }
 
     function tabClick(page) {
@@ -211,8 +238,8 @@
             myToursVisible();
         } else if (page === "marketplace") {
             marketplaceVisible();
-        } else if (page === "bank") {
-            bankVisible();
+        } else if (page === "profile") {
+            profileVisible();
         }
     }
 </script>

@@ -7,7 +7,6 @@ import org.springframework.data.domain.Range;
 public class Filter {
     final Country country;
     final City city;
-
     final Range<Double> priceRange;
 
     public Filter(Country country, City city, Range<Double> priceRange) {

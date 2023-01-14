@@ -20,6 +20,10 @@ public class TourPagesService {
         return tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTour().getTourId(), tourId)).collect(Collectors.toList());
     }
 
+    public TourPage getFirstPage(Long tourId) {
+        return tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTour().getTourId(), tourId) && tourPage.getPage() == 1).findFirst().orElse(null);
+    }
+
     public void insertNewTourPage(Tour tour, Integer page, String title, String body, Image image, Audio audio, Location location) {
         final var newTourPage = new TourPage();
         newTourPage.setPage(page);

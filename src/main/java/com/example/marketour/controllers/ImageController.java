@@ -25,4 +25,9 @@ public class ImageController {
     public ResponseEntity<List<Image>> getTourImages(@PathVariable Long tourId) {
         return ResponseEntity.ok(tourPagesService.getAllTourPages(tourId).stream().map(TourPage::getImage).collect(Collectors.toList()));
     }
+
+    @GetMapping("/{tourId}/first")
+    public ResponseEntity<Image> getFirstPageImage(@PathVariable Long tourId) {
+        return ResponseEntity.ok(tourPagesService.getFirstPage(tourId).getImage());
+    }
 }

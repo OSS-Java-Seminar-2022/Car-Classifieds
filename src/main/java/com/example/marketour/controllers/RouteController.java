@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -45,22 +45,12 @@ public class RouteController {
 
     @GetMapping(value = "/main")
     String main(@ModelAttribute("user") User user, HttpServletRequest httpServletRequest, Model model) {
-        final var result = tourController.getAllToursOfThisUser(httpServletRequest, model);
-        if (result.getBody() instanceof ArrayList) {
-            Map<Long, Image> tourIdToImageMap = new HashMap<>();
-            if (!((ArrayList<?>) result.getBody()).isEmpty() && ((ArrayList<?>) result.getBody()).get(0) instanceof TouristTour) {
-                tourIdToImageMap = ((ArrayList<TouristTour>) result.getBody()).stream().map(touristTour -> Map.entry(touristTour.getTour().getTourId(), imageController.getTourImages(touristTour.getTour().getTourId()).getBody().get(0))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            } else if (!((ArrayList<?>) result.getBody()).isEmpty() && ((ArrayList<?>) result.getBody()).get(0) instanceof GuideTour) {
-                tourIdToImageMap = ((ArrayList<GuideTour>) result.getBody()).stream().map(guideTour -> Map.entry(guideTour.getTour().getTourId(), imageController.getTourImages(guideTour.getTour().getTourId()).getBody().get(0))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            }
-            final var finalMap = tourIdToImageMap.entrySet().stream().map(entry -> Map.entry(entry.getKey(), Base64.getEncoder().encodeToString(entry.getValue().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            model.addAttribute("userTours", result.getBody());
-            model.addAttribute("imageMap", finalMap);
-        } else {
-            //TODO Error handling
-        }
-
-
+        final var userSpecificTours = tourController.getAllToursOfThisUser(httpServletRequest, model);
+        final var allTours = tourController.getAllToursOnMarket(httpServletRequest, model);
+        final var imageMap = ((ArrayList<Tour>) allTours.getBody()).stream().map(tour -> Map.entry(tour.getTourId(), Objects.requireNonNull(Base64.getEncoder().encodeToString(Objects.requireNonNull(imageController.getFirstPageImage(tour.getTourId()).getBody()).getData())))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        model.addAttribute("userTours", userSpecificTours.getBody());
+        model.addAttribute("allTours", allTours.getBody());
+        model.addAttribute("imageMap", imageMap);
         return "main";
     }
 
