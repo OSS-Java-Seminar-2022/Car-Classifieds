@@ -18,7 +18,7 @@ public class BankController {
     }
 
     @PostMapping("/addTokens/{tokens}")
-    public ResponseEntity<Object> addTokens(@PathVariable Long tokens, HttpServletRequest request) {
+    public ResponseEntity<Object> addTokens(@PathVariable Double tokens, HttpServletRequest request) {
         final var session = request.getSession();
         if (session != null) {
             final var user = (User) session.getAttribute("user");
@@ -34,7 +34,7 @@ public class BankController {
     }
 
     @PostMapping("/removeTokens/{tokens}")
-    public ResponseEntity<Object> removeTokens(@PathVariable Long tokens, HttpServletRequest request) {
+    public ResponseEntity<Object> removeTokens(@PathVariable Double tokens, HttpServletRequest request) {
         final var session = request.getSession();
         if (session != null) {
             final var user = (User) session.getAttribute("user");

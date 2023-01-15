@@ -59,7 +59,7 @@ public class RouteController {
         final var imageMap = ((ArrayList<Tour>) allTours.getBody()).stream().map(tour -> Map.entry(tour.getTourId(), Objects.requireNonNull(Base64.getEncoder().encodeToString(Objects.requireNonNull(imageController.getFirstPageImage(tour.getTourId()).getBody()).getData())))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         final var user = (User) httpServletRequest.getSession().getAttribute("user");
         model.addAttribute("userTours", userSpecificTours.getBody());
-        model.addAttribute("allTours", allTours.getBody());
+        model.addAttribute("allTours", ((ArrayList<Tour>) allTours.getBody()).stream().filter(tour -> !((ArrayList<Tour>) userSpecificTours.getBody()).stream().map(tour1 -> tour1.getTourId()).collect(Collectors.toList()).contains(tour.getTourId())).collect(Collectors.toList()));
         model.addAttribute("imageMap", imageMap);
         if (user.getImage() != null) {
             model.addAttribute("userAvatar", Base64.getEncoder().encodeToString(user.getImage().getData()));

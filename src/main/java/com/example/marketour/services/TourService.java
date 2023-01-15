@@ -25,12 +25,12 @@ public class TourService {
         this.tourRepository = tourRepository;
     }
 
-    public List<TouristTour> getAllTouristsTours(User user, Filter filter) {
-        return touristTourRepository.findAll().stream().filter(tour -> tour.getTourist().sameUser(user) && user.getUserType() == UserType.tourist && filter(tour.getTour(), filter)).collect(Collectors.toList());
+    public List<Tour> getAllTouristsTours(User user, Filter filter) {
+        return touristTourRepository.findAll().stream().filter(tour -> tour.getTourist().sameUser(user) && user.getUserType() == UserType.tourist && filter(tour.getTour(), filter)).map(TouristTour::getTour).collect(Collectors.toList());
     }
 
-    public List<GuideTour> getAllGuideTours(User user, Filter filter) {
-        return guideTourRepository.findAll().stream().filter(tour -> tour.getGuide().sameUser(user) && user.getUserType() == UserType.guide && filter(tour.getTour(), filter)).collect(Collectors.toList());
+    public List<Tour> getAllGuideTours(User user, Filter filter) {
+        return guideTourRepository.findAll().stream().filter(tour -> tour.getGuide().sameUser(user) && user.getUserType() == UserType.guide && filter(tour.getTour(), filter)).map(GuideTour::getTour).collect(Collectors.toList());
     }
 
     public List<Tour> getAllToursOnMarketplace(Filter filter) {
@@ -39,6 +39,14 @@ public class TourService {
 
     public Tour findById(Long tourId) {
         return tourRepository.findAll().stream().filter(tour -> tour.getTourId().equals(tourId)).findFirst().orElse(null);
+    }
+
+    public void addTouristTour(User user, Tour tour) {
+        final var touristTour = new TouristTour();
+        touristTour.setTourist(user);
+        touristTour.setTour(tour);
+        touristTour.setLastUsed(System.currentTimeMillis());
+        touristTourRepository.save(touristTour);
     }
 
 }

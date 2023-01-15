@@ -13,7 +13,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "transaction_id")
-    private Long transaction_id;
+    private Long transactionId;
 
     @OneToOne
     @JoinColumn(name = "guide_id", referencedColumnName = "user_id")
@@ -27,12 +27,7 @@ public class Transaction {
     @JoinColumn(name = "tour_id")
     private Tour tour;
 
-    @Column(name = "purchase_price")
-    private int purchasePrice;
-
     @Column(name = "purchase_time")
     private Long purchaseTime;
 
-    @Column(name = "exchange_rate")
-    private double exchangeRate;
 }

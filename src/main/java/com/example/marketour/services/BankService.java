@@ -19,27 +19,27 @@ public class BankService {
         return userRepository.findAll().stream().filter(u -> u.sameUser(user)).findFirst().get().getTokens();
     }
 
-    public void addTokens(User user, Long amount) {
+    public void addTokens(User user, Double amount) {
         user.setTokens(user.getTokens() + amount);
         userRepository.save(user);
-        moneyRepository.removeMoney(amount.doubleValue());
+        moneyRepository.removeMoney(amount);
     }
 
-    public void removeTokens(User user, Long amount) {
+    public void removeTokens(User user, Double amount) {
         user.setTokens(user.getTokens() - amount);
         userRepository.save(user);
-        moneyRepository.addMoney(amount.doubleValue());
+        moneyRepository.addMoney(amount);
     }
 
-    public void setTokens(User user, Long amount) {
+    public void setTokens(User user, Double amount) {
         final var oldTokens = user.getTokens();
         user.setTokens(amount);
-        final long difference = oldTokens - amount;
+        final double difference = oldTokens - amount;
         userRepository.save(user);
         if (difference > 0) {
-            moneyRepository.addMoney((double) difference);
+            moneyRepository.addMoney(difference);
         } else {
-            moneyRepository.removeMoney((double) difference);
+            moneyRepository.removeMoney(difference);
         }
     }
 }

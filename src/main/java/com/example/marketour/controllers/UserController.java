@@ -62,7 +62,7 @@ public class UserController {
         if (user != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists!");
         } else {
-            final var addedUser = userService.createUser(tempUser.getUsername(), tempUser.getPassword(), tempUser.getUserType(), 0L, tempUser.getCity(), tempUser.getCountry());
+            final var addedUser = userService.createUser(tempUser.getUsername(), tempUser.getPassword(), tempUser.getUserType(), 0.0, tempUser.getCity(), tempUser.getCountry());
             final var session = request.getSession(true);
             session.setAttribute("user", addedUser);
             return "redirect:/main";

@@ -41,7 +41,7 @@ public class User {
     private Country country;
     @Column(name = "tokens", nullable = false)
     @JsonIgnore
-    private Long tokens;
+    private Double tokens;
     @OneToOne
     @JoinColumn(name = "image_id")
     private Image image;

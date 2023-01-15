@@ -1,6 +1,7 @@
 package com.example.marketour.controllers;
 
 import com.example.marketour.model.entities.Filter;
+import com.example.marketour.model.entities.Tour;
 import com.example.marketour.model.entities.User;
 import com.example.marketour.model.entities.UserType;
 import com.example.marketour.services.TourService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tours")
@@ -29,20 +31,16 @@ public class TourController {
             final var user = (User) session.getAttribute("user");
             if (user != null) {
                 final var filter = (Filter) model.getAttribute("filter");
+                final List<Tour> result;
                 if (user.getUserType() == UserType.tourist) {
-                    final var result = tourService.getAllTouristsTours(user, filter);
-                    if (result != null) {
-                        return ResponseEntity.ok(result);
-                    } else {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tours not found for that user!");
-                    }
+                    result = tourService.getAllTouristsTours(user, filter);
                 } else {
-                    final var result = tourService.getAllGuideTours(user, filter);
-                    if (result != null) {
-                        return ResponseEntity.ok(result);
-                    } else {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tours not found for that user!");
-                    }
+                    result = tourService.getAllGuideTours(user, filter);
+                }
+                if (result != null) {
+                    return ResponseEntity.ok(result);
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tours not found for that user!");
                 }
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tours not found for that user!");

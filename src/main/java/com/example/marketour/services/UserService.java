@@ -26,7 +26,7 @@ public class UserService {
         return userRepository.findAll().stream().filter(user -> Objects.equals(user.getUsername(), username)).findFirst().orElse(null);
     }
 
-    public User createUser(String username, String password, UserType userType, Long tokens, City city, Country country) {
+    public User createUser(String username, String password, UserType userType, Double tokens, City city, Country country) {
         final var newUser = new User();
         newUser.setUsername(username);
         newUser.setPassword(password);
