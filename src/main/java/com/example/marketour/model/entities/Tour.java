@@ -21,6 +21,10 @@ public class Tour {
     @JoinColumn(name = "start_location_id", nullable = false, referencedColumnName = "location_id")
     private Location startLocation;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+    @Column(name = "description", nullable = false)
+    private String description;
     @OneToOne
     @JoinColumn(name = "end_location_id", nullable = false, referencedColumnName = "location_id")
     private Location endLocation;
@@ -40,7 +44,7 @@ public class Tour {
     private boolean visibleOnMarket;
 
     public static boolean filter(Tour tour, Filter filter) {
-        return filter == null ||( (filter.city == null || tour.city.equals(filter.city)) &&
+        return filter == null || ((filter.city == null || tour.city.equals(filter.city)) &&
                 (filter.country == null || tour.country.equals(filter.country)) &&
                 (filter.priceRange == null || filter.priceRange.contains(tour.price)));
     }

@@ -33,6 +33,25 @@ public class BankController {
         }
     }
 
+    @PostMapping("/removeTokens/{tokens}")
+    public ResponseEntity<Object> removeTokens(@PathVariable Long tokens, HttpServletRequest request) {
+        final var session = request.getSession();
+        if (session != null) {
+            final var user = (User) session.getAttribute("user");
+            if (user != null) {
+                if (user.getTokens() < tokens) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Withdraw amount is too high!");
+                }
+                bankService.removeTokens(user, tokens);
+                return ResponseEntity.ok("Successfully removed " + tokens + " tokens!");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged out!");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged out!");
+        }
+    }
+
     @GetMapping("/getTokens")
     public ResponseEntity<Object> getTokens(HttpServletRequest request) {
         final var session = request.getSession();
