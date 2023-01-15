@@ -28,6 +28,7 @@
             <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('marketplace')">Marketplace</a>
             <a class="hover:text-darkGrayishBlue" href="#" onclick="tabClick('profile')">Profile</a>
             <a href="#" id="tokens">Unknown amount</a>
+            <a class="hover:text-darkGrayishBlue text-blue-600" href="#" onclick="tabClick('logout')">Logout</a>
         </div>
 
         <!-- Hamburger Icon -->
@@ -50,15 +51,6 @@
             <a href="#" onclick="tabClick('marketplace')">Marketplace</a>
             <a href="#" onclick="tabClick('profile')">Profile</a>
         </div>
-    </div>
-    <div id="my_tours">
-        <p>My tours</p>
-    </div>
-    <div id="marketplace">
-        <p>Marketplace</p>
-    </div>
-    <div id="profile">
-        <p>Profile</p>
     </div>
 </nav>
 
@@ -269,10 +261,6 @@
             else
                 e.style.display = "none";
         });
-        if (visible)
-            document.getElementById(name).style.display = "block";
-        else
-            document.getElementById(name).style.display = "none";
     }
 
     function myToursVisible() {
@@ -300,6 +288,9 @@
             marketplaceVisible();
         } else if (page === "profile") {
             profileVisible();
+        } else if (page === "logout") {
+            //promptLogout();
+            window.location.href = "http://localhost:8080/logout"
         }
     }
 </script>

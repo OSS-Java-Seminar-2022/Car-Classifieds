@@ -46,17 +46,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/logout")
-    ResponseEntity<Object> logout(HttpServletRequest request) {
-        final var session = request.getSession();
-        final var user = (User) session.getAttribute("user");
-        if (user != null) {
-            session.invalidate();
-            return ResponseEntity.ok("User logged out!");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User already logged out!");
-        }
-    }
 
     @PostMapping("/register")
     Object register(@ModelAttribute("user") RegisterUser registerUser, HttpServletRequest request) {
@@ -77,6 +66,18 @@ public class UserController {
             final var session = request.getSession(true);
             session.setAttribute("user", addedUser);
             return "redirect:/main";
+        }
+    }
+
+    @PostMapping("/logout")
+    ResponseEntity<Object> logout(HttpServletRequest request) {
+        final var session = request.getSession();
+        final var user = (User) session.getAttribute("user");
+        if (user != null) {
+            session.invalidate();
+            return ResponseEntity.ok("User logged out!");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User already logged out!");
         }
     }
 }

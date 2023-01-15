@@ -1,7 +1,7 @@
 package com.example.marketour.controllers;
 
 import com.example.marketour.model.entities.*;
-import com.example.marketour.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +26,12 @@ public class RouteController {
     private final TourController tourController;
     private final ImageController imageController;
 
-    private final UserService userService;
+    private final UserController userController;
 
-    public RouteController(TourController tourController, ImageController imageController, UserService userService) {
+    public RouteController(TourController tourController, ImageController imageController, UserController userController) {
         this.tourController = tourController;
         this.imageController = imageController;
-        this.userService = userService;
+        this.userController = userController;
     }
 
     @GetMapping("/")
@@ -74,6 +74,17 @@ public class RouteController {
         }
         model.addAttribute("user", user);
         return "main";
+    }
+
+    @GetMapping(value = "/logout")
+    String logout(HttpServletRequest request) {
+        final var response = userController.logout(request);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return "redirect:/";
+        } else {
+            //TODO error handling
+            return "redirect:/";
+        }
     }
 
 }
