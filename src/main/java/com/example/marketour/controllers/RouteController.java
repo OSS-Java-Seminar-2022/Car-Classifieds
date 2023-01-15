@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Map;
@@ -48,14 +53,26 @@ public class RouteController {
     }
 
     @GetMapping(value = "/main")
-    String main(HttpServletRequest httpServletRequest, Model model) {
+    String main(HttpServletRequest httpServletRequest, Model model) throws IOException {
         final var userSpecificTours = tourController.getAllToursOfThisUser(httpServletRequest, model);
         final var allTours = tourController.getAllToursOnMarket(httpServletRequest, model);
         final var imageMap = ((ArrayList<Tour>) allTours.getBody()).stream().map(tour -> Map.entry(tour.getTourId(), Objects.requireNonNull(Base64.getEncoder().encodeToString(Objects.requireNonNull(imageController.getFirstPageImage(tour.getTourId()).getBody()).getData())))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        final var user = (User) httpServletRequest.getSession().getAttribute("user");
         model.addAttribute("userTours", userSpecificTours.getBody());
         model.addAttribute("allTours", allTours.getBody());
         model.addAttribute("imageMap", imageMap);
-        model.addAttribute("user", httpServletRequest.getSession().getAttribute("user"));
+        if (user.getImage() != null) {
+            model.addAttribute("userAvatar", Base64.getEncoder().encodeToString(user.getImage().getData()));
+        } else {
+            File newFile = new File("src/main/resources/static/img/covo.png");
+            BufferedImage originalImage = ImageIO.read(newFile);
+            ByteArrayOutputStream oStream = new ByteArrayOutputStream();
+            ImageIO.write(originalImage, "png", oStream);
+            byte[] imageInByte = oStream.toByteArray();
+            model.addAttribute("userAvatar", Base64.getEncoder().encodeToString(imageInByte));
+
+        }
+        model.addAttribute("user", user);
         return "main";
     }
 
