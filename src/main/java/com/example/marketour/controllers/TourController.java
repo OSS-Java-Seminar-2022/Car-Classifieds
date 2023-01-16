@@ -51,6 +51,22 @@ public class TourController {
 
     }
 
+    @GetMapping("/getAll")
+    public ResponseEntity<Object> getAllTours(HttpServletRequest request) {
+        final var session = request.getSession();
+        if (session.getAttribute("user") != null) {
+            final var result = tourService.getAllTours();
+            if (result != null) {
+                return ResponseEntity.ok(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tours not found for that user!");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
+        }
+
+    }
+
     @GetMapping("/market")
     public ResponseEntity<Object> getAllToursOnMarket(HttpServletRequest request, Model model) {
         final var session = request.getSession();

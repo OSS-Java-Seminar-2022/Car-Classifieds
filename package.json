@@ -22,5 +22,8 @@
   "homepage": "https://github.com/OSS-Java-Seminar-2022/MarkeTour#readme",
   "devDependencies": {
     "tailwindcss": "^3.2.4"
+  },
+  "dependencies": {
+    "location-picker": "^1.1.1"
   }
 }

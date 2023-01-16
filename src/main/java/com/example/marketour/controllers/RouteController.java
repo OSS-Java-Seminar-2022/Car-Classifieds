@@ -44,6 +44,18 @@ public class RouteController {
         return "login";
     }
 
+    @GetMapping(value = "/pageCreate")
+    String pageCreate(Model model, HttpServletRequest httpServletRequest) {
+        return "pageCreate";
+    }
+
+    @GetMapping(value = "/newTour")
+    String newTour(Model model, HttpServletRequest httpServletRequest) {
+        final var user = (User) httpServletRequest.getSession().getAttribute("user");
+        model.addAttribute("user", user);
+        return "newTour";
+    }
+
     @GetMapping(value = "/register")
     String register(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("cities", City.values());

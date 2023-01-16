@@ -29,6 +29,10 @@ public class TourService {
         return touristTourRepository.findAll().stream().filter(tour -> tour.getTourist().sameUser(user) && user.getUserType() == UserType.tourist && filter(tour.getTour(), filter)).map(TouristTour::getTour).collect(Collectors.toList());
     }
 
+    public List<Tour> getAllTours() {
+        return tourRepository.findAll();
+    }
+
     public List<Tour> getAllGuideTours(User user, Filter filter) {
         return guideTourRepository.findAll().stream().filter(tour -> tour.getGuide().sameUser(user) && user.getUserType() == UserType.guide && filter(tour.getTour(), filter)).map(GuideTour::getTour).collect(Collectors.toList());
     }

@@ -34,7 +34,7 @@ public class TourPageController {
     }
 
 
-    @GetMapping("/get/{tourId}")
+    @GetMapping("/getAll")
     public ResponseEntity<List<TourPage>> getAllTourPages(@PathVariable Long tourId) {
         return ResponseEntity.ok(tourPagesService.getAllTourPages(tourId));
     }
