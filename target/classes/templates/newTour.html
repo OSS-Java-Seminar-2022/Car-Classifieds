@@ -9,12 +9,12 @@
     </title>
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    <link crossorigin="" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-          crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+          rel="stylesheet"/>
+    <script crossorigin=""
             integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-            crossorigin=""></script>
+            src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
         #map {
             width: 600px;
@@ -41,28 +41,28 @@
 <div class="mb-4">
     <label class="block text-gray-700 font-medium mb-2" for="name">Tour name</label>
     <input class="bg-white rounded-lg px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-           id="name" type="text" th:value="${name}">
+           id="name" th:value="${name}" type="text">
 </div>
 <p class="block text-gray-700 font-medium mb-2 py-4">Pin your start location</p>
 <div class="mb-4">
     <label class="block text-gray-700 font-medium mb-2" for="latitude">Latitude</label>
     <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-           id="latitude" type="text" th:value="${latitude}" readonly>
+           id="latitude" readonly th:value="${latitude}" type="text">
 </div>
 <div class="mb-4">
     <label class="block text-gray-700 font-medium mb-2" for="longitude">Longitude</label>
     <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-           id="longitude" type="text" th:value="${longitude}" readonly>
+           id="longitude" readonly th:value="${longitude}" type="text">
 </div>
 <div class="mb-4">
     <label class="block text-gray-700 font-medium mb-2" for="city">City</label>
     <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-           id="city" type="text" readonly>
+           id="city" readonly type="text">
 </div>
 <div class="mb-4">
     <label class="block text-gray-700 font-medium mb-2" for="country">Country</label>
     <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-           id="country" type="text" readonly>
+           id="country" readonly type="text">
 </div>
 <button class="flex justify-center bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
         onclick="tryProceed()" type="submit">
@@ -102,15 +102,16 @@
     function showError(text) {
         toast(text);
     }
+
     function proceed() {
         window.location.href = "/pageCreate";
     }
+
     async function tryProceed() {
         let allToursResponse = await fetch("http://localhost:8080/tours/getAll");
         if (allToursResponse.ok) {
             let allTours = JSON.parse(await allToursResponse.text());
             let tourNames = allTours.map((e) => e.name);
-            console.log("value:" + document.getElementById("name").value);
             if (document.getElementById("name").value && !tourNames.includes(document.getElementById("name").value)) {
                 proceed();
             } else {

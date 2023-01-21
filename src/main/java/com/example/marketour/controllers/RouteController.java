@@ -46,6 +46,12 @@ public class RouteController {
 
     @GetMapping(value = "/pageCreate")
     String pageCreate(Model model, HttpServletRequest httpServletRequest) {
+        model.addAttribute("tourPage", new TourPage());
+        final var tours = tourController.getAllToursOfThisUser(httpServletRequest, model);
+        if (tours.getBody() != null) {
+            model.addAttribute("tours", tours.getBody());
+        }
+
         return "pageCreate";
     }
 
