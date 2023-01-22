@@ -147,6 +147,7 @@
         </th:block>
     </table>
 </div>
+<!--Profile-->
 <div class="profile">
     <div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
 
@@ -258,10 +259,15 @@
     </div>
 </div>
 
-<div class="hidden flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
-     id="toast"
-     role="alert">
-    <div class="ml-3 text-sm font-normal" id="toastText">...</div>
+<!--Toast-->
+<div id="toast" class="mt-5 mr-5 bg-blue-400 text-white p-4 hidden fixed top-0 right-0 rounded-lg shadow-2xl">
+    <button id="hideAllToasts" class="text-white absolute top-0 right-0 p-2 pr-4 pb-6 focus:outline-none" onclick="hideAllToasts()">
+        <span class="sr-only">Close menu</span>
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+    <ul id="toastList" class="pt-2"></ul>
 </div>
 
 
@@ -385,149 +391,9 @@
         </div>
     </div>
 </footer>
-<script th:src="@{js/hamburgerMenu.js}"></script>
+<script type="text/javascript" th:src="@{js/hamburgerMenu.js}"></script>
+<script type="text/javascript" th:src="@{js/toast.js}"></script>
+<script type="text/javascript" th:src="@{js/transaction.js}"></script>
+<script type="text/javascript" th:src="@{js/tabs.js}"></script>
 </body>
-<script>
-    let tourInCart;
-
-    function cancelBuy() {
-        document.getElementById("buyPrompt").style.display = "none";
-    }
-
-    async function approveBuy() {
-        let tourId = tourInCart.tourId;
-        let response = await fetch("http://localhost:8080/transaction/buy/" + tourId, {
-            method: "post"
-        });
-        cancelBuy();
-        tourInCart = null;
-        if (response.ok) {
-            await moneyCheck();
-            document.location.href = "http://localhost:8080/main";
-        } else {
-            toast(await response.text());
-        }
-    }
-
-    function buy(tour) {
-        tourInCart = tour;
-        console.log(tour);
-        document.getElementById("promptText").innerText = "Are you sure you want to buy " + tour.name + " tour for " + tour.price + " tokens?";
-        document.getElementById("buyPrompt").style.display = "block";
-    }
-
-</script>
-<script>
-    let tempTimeoutId;
-
-    function toast(text) {
-        setToastText(text);
-        showToast(true);
-        clearTimeout(tempTimeoutId);
-        tempTimeoutId = setTimeout(() => {
-            showToast(false);
-        }, 5000);
-    }
-
-    function showToast(visibility) {
-        if (visibility) {
-            document.getElementById("toast").style.display = "block";
-        } else {
-            document.getElementById("toast").style.display = "none";
-        }
-    }
-
-    function setToastText(text) {
-        document.getElementById("toastText").innerText = text;
-    }
-</script>
-<script>
-    async function withdrawTokens() {
-        let value = document.getElementById("tokensToWithdraw").value;
-        if (value > 0) {
-            let response = await fetch("http://localhost:8080/bank/removeTokens/" + value, {
-                method: "post"
-            });
-            if (response.ok) {
-                await moneyCheck();
-            }
-            toast(await response.text());
-
-        } else {
-            toast("Wrong input for withdrawal");
-        }
-    }
-
-    async function addTokens() {
-        let value = document.getElementById("tokensToAdd").value;
-        if (value > 0) {
-            await fetch("http://localhost:8080/bank/addTokens/" + value, {
-                method: "post"
-            });
-            await moneyCheck();
-            toast("Successfully added " + value + " tokens!");
-        } else {
-            toast("Error");
-        }
-    }
-</script>
-<script>
-    moneyCheck();
-    moneyCheckTimer();
-
-    async function moneyCheck() {
-        let response = await fetch("http://localhost:8080/bank/getTokens", {
-            method: "get",
-        });
-        let tokens = await response.text();
-        document.getElementById("tokens").innerText = tokens.toString() + " tokens";
-    }
-
-    function moneyCheckTimer() {
-        setInterval(moneyCheck, 10000);
-    }
-</script>
-<script>
-    myToursVisible();
-
-    function elementVisibility(name, visible) {
-        Array.prototype.forEach.call(document.getElementsByClassName(name), function (e) {
-            if (visible)
-                e.style.display = "block";
-            else
-                e.style.display = "none";
-        });
-    }
-
-    function myToursVisible() {
-        elementVisibility("my_tours", true);
-        elementVisibility("marketplace", false);
-        elementVisibility("profile", false);
-    }
-
-    function marketplaceVisible() {
-        elementVisibility("my_tours", false);
-        elementVisibility("marketplace", true);
-        elementVisibility("profile", false);
-    }
-
-    function profileVisible() {
-        elementVisibility("my_tours", false);
-        elementVisibility("marketplace", false);
-        elementVisibility("profile", true);
-    }
-
-    function tabClick(page) {
-        if (page === "my_tours") {
-            myToursVisible();
-        } else if (page === "marketplace") {
-            marketplaceVisible();
-        } else if (page === "profile") {
-            profileVisible();
-        } else if (page === "logout") {
-            //promptLogout();
-            window.location.href = "http://localhost:8080/logout"
-        }
-    }
-</script>
 </html>
