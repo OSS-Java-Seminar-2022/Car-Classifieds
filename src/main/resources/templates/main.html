@@ -10,7 +10,7 @@
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
 <!-- Navbar -->
 <nav class="relative container mx-auto p-6">
     <!-- Flex container -->
@@ -97,17 +97,22 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-center md:text-left">
             <th:block th:each="myTour : ${userTours}">
                 <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                    <img class="w-full h-64 object-cover" th:src="|data:image/png;base64,${imageMap.get(myTour.tourId)}|" alt="Tour image">
+                    <img class="w-full h-64 object-cover"
+                         th:src="|data:image/png;base64,${imageMap.get(myTour.tourId)}|" alt="Tour image">
                     <div class="px-6 py-4">
                         <div class="font-bold text-xl mb-2" th:text="${myTour.name}">..</div>
                         <p class="text-gray-700 text-base mb-4" th:text="${myTour.description}">..</p>
                     </div>
                     <div class="px-6 py-4 flex justify-between items-center">
                         <div class="flex">
-                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2" th:text="${myTour.country}"></span>
-                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2" th:text="${myTour.city}"></span>
+                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                                  th:text="${myTour.country}"></span>
+                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                                  th:text="${myTour.city}"></span>
                         </div>
-                        <a class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4" href="#">Buy</a>
+<!--                        Ovaj botun treba postavit na view ako je korisnik user, na edit ako je korisnik guide-->
+                        <a class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4"
+                           href="#">Buy</a>
                     </div>
                 </div>
             </th:block>
@@ -122,15 +127,18 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-center md:text-left">
             <th:block th:each="tour : ${allTours}">
                 <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                    <img class="w-full h-64 object-cover" th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|" alt="Tour image">
+                    <img class="w-full h-64 object-cover" th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|"
+                         alt="Tour image">
                     <div class="px-6 py-4">
                         <div class="font-bold text-xl mb-2" th:text="${tour.name}">..</div>
                         <p class="text-gray-700 text-base mb-4" th:text="${tour.description}">..</p>
                     </div>
                     <div class="px-6 py-4 flex justify-between items-center">
                         <div class="flex">
-                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2" th:text="${tour.country}"></span>
-                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2" th:text="${tour.city}"></span>
+                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                                  th:text="${tour.country}"></span>
+                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                                  th:text="${tour.city}"></span>
                         </div>
                         <span th:if="${user.userType == T(com.example.marketour.model.entities.UserType).tourist}">
                         <button class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4"
@@ -181,6 +189,8 @@
 <!--        </th:block>-->
 <!--    </table>-->
 <!--</div>-->
+
+
 <!--Profile-->
 <div class="profile">
     <div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
@@ -295,16 +305,18 @@
 
 <!--Toast-->
 <div id="toast" class="mt-5 mr-5 bg-blue-400 text-white p-4 hidden fixed top-0 right-0 rounded-lg shadow-2xl">
-    <button id="hideAllToasts" class="text-white absolute top-0 right-0 p-2 pr-4 pb-6 focus:outline-none" onclick="hideAllToasts()">
+    <button id="hideAllToasts" class="text-white absolute top-0 right-0 p-2 pr-4 pb-6 focus:outline-none"
+            onclick="hideAllToasts()">
         <span class="sr-only">Close menu</span>
-        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+             aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
         </svg>
     </button>
     <ul id="toastList" class="pt-2"></ul>
 </div>
 
-
+<!--Modal-->
 <div class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
      id="buyPrompt"
      tabindex="-1">
@@ -322,20 +334,20 @@
                 <span class="sr-only">Close modal</span>
             </button>
             <div class="p-6 text-center">
-                <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none"
+                <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14" fill="none"
                      stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                           stroke-linejoin="round"
                           stroke-width="2"></path>
                 </svg>
                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400" id="promptText">..</h3>
-                <button class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                <button class="text-white bg-blue-400 rounded-full baseline hover:bg-blue-300 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 focus:z-10"
                         data-modal-hide="popup-modal"
                         onclick="approveBuy()"
                         type="button">Yes
                 </button>
 
-                <button class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                <button class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
                         data-modal-hide="popup-modal"
                         onclick="cancelBuy()"
                         type="button">No
@@ -345,7 +357,7 @@
     </div>
 </div>
 <!-- Footer -->
-<footer class="bg-veryDarkBlue">
+<footer class="bg-veryDarkBlue mt-auto">
     <!-- Flex Container -->
     <div
             class="container flex flex-col-reverse justify-between px-6 py-10 mx-auto space-y-8 md:flex-row md:space-y-0"
