@@ -43,12 +43,12 @@
             <div class="mb-4">
                 <label class="block text-gray-700 font-medium mb-2" for="latitude">Latitude</label>
                 <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                       id="latitude" readonly th:value="${latitude}" type="text">
+                       id="latitude" readonly th:value="${tourPage.location.latitude}" type="text">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-medium mb-2" for="longitude">Longitude</label>
                 <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                       id="longitude" readonly th:value="${longitude}" type="text">
+                       id="longitude" readonly th:value="${tourPage.location.longitude}" type="text">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-medium mb-2" for="city">City</label>
@@ -60,7 +60,7 @@
                 <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
                        id="country" readonly type="text">
             </div>
-            <div class="text-right mt-6">
+            <div class="text-right mt-6" th:href="@{/main}">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg">Create
                 </button>
             </div>
