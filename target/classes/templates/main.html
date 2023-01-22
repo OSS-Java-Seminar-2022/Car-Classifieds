@@ -83,70 +83,104 @@
 </nav>
 
 <!-- Body -->
-<div class="my_tours">
-      <span th:if="${user.userType == T(com.example.marketour.model.entities.UserType).guide}">
-            <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-               th:href="@{/newTour}">
-                            Add new
+
+<!--My Tours-->
+<div class="container mx-auto my-8">
+    <div class="my_tours">
+        <span th:if="${user.userType == T(com.example.marketour.model.entities.UserType).guide}" class="my-4">
+              <a class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4"
+                 th:href="@{/newTour}">
+                              Add new
                         </a>
-    </span>
-    <table>
-        <th:block th:each="myTour : ${userTours}">
-            <tr>
-                <td>
-                    <a class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-                       href="#">
-                        <img alt=""
-                             class="object-cover rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                             th:src="|data:image/png;base64,${imageMap.get(myTour.tourId)}|">
-                        <div class="flex flex-col  w-full justify-between p-10 leading-normal">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-                                th:text="${myTour.name}">..</h5>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"
-                               th:text="${myTour.country} + ' ' + ${myTour.city}">..</p>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"
-                               th:text="${myTour.description}">..</p>
+      </span>
+        <div class="my-8"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-center md:text-left">
+            <th:block th:each="myTour : ${userTours}">
+                <div class="max-w-sm rounded overflow-hidden shadow-lg">
+                    <img class="w-full h-64 object-cover" th:src="|data:image/png;base64,${imageMap.get(myTour.tourId)}|" alt="Tour image">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2" th:text="${myTour.name}">..</div>
+                        <p class="text-gray-700 text-base mb-4" th:text="${myTour.description}">..</p>
+                    </div>
+                    <div class="px-6 py-4 flex justify-between items-center">
+                        <div class="flex">
+                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2" th:text="${myTour.country}"></span>
+                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2" th:text="${myTour.city}"></span>
                         </div>
-                    </a>
-                </td>
-            </tr>
-        </th:block>
-    </table>
+                        <a class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4" href="#">Buy</a>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
 </div>
 
-<div class="marketplace">
-    <table>
-        <th:block th:each="tour : ${allTours}">
-            <tr>
-                <td>
-
-                    <a class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-                       href="#">
-                        <img alt=""
-                             class="object-cover rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                             th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">
-                        <div class="flex flex-col justify-between p-10 w-full leading-normal">
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-                                th:text="${tour.name}">..</h5>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"
-                               th:text="${tour.country} + ' ' + ${tour.city}">..</p>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" th:text="${tour.description}">
-                                ..</p>
+<!--Marketplace-->
+<div class="container mx-auto my-8">
+    <div class="marketplace">
+        <div class="my-8"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-center md:text-left">
+            <th:block th:each="tour : ${allTours}">
+                <div class="max-w-sm rounded overflow-hidden shadow-lg">
+                    <img class="w-full h-64 object-cover" th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|" alt="Tour image">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2" th:text="${tour.name}">..</div>
+                        <p class="text-gray-700 text-base mb-4" th:text="${tour.description}">..</p>
+                    </div>
+                    <div class="px-6 py-4 flex justify-between items-center">
+                        <div class="flex">
+                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2" th:text="${tour.country}"></span>
+                            <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2" th:text="${tour.city}"></span>
                         </div>
                         <span th:if="${user.userType == T(com.example.marketour.model.entities.UserType).tourist}">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                        <button class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4"
                                 th:onclick="buy([[${tour}]])">
                             Buy
                         </button>
                             </span>
-                    </a>
-
-                </td>
-            </tr>
-
-        </th:block>
-    </table>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
 </div>
+
+
+<!--Marketplace old-->
+
+<!--<div class="marketplace">-->
+<!--    <table>-->
+<!--        <th:block th:each="tour : ${allTours}">-->
+<!--            <tr>-->
+<!--                <td>-->
+
+<!--                    <a class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"-->
+<!--                       href="#">-->
+<!--                        <img alt=""-->
+<!--                             class="object-cover rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"-->
+<!--                             th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">-->
+<!--                        <div class="flex flex-col justify-between p-10 w-full leading-normal">-->
+<!--                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"-->
+<!--                                th:text="${tour.name}">..</h5>-->
+<!--                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"-->
+<!--                               th:text="${tour.country} + ' ' + ${tour.city}">..</p>-->
+<!--                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" th:text="${tour.description}">-->
+<!--                                ..</p>-->
+<!--                        </div>-->
+<!--                        <span th:if="${user.userType == T(com.example.marketour.model.entities.UserType).tourist}">-->
+<!--                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"-->
+<!--                                th:onclick="buy([[${tour}]])">-->
+<!--                            Buy-->
+<!--                        </button>-->
+<!--                            </span>-->
+<!--                    </a>-->
+
+<!--                </td>-->
+<!--            </tr>-->
+
+<!--        </th:block>-->
+<!--    </table>-->
+<!--</div>-->
 <!--Profile-->
 <div class="profile">
     <div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
