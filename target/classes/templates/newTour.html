@@ -40,7 +40,7 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="description">Description</label>
-        <textarea id="description" th:value="${description}" class="border p-2 rounded-lg w-full"></textarea>
+        <textarea class="border p-2 rounded-lg w-full" id="description" th:value="${description}"></textarea>
     </div>
     <label class="block text-gray-700 font-medium mb-2" for="price">Price</label>
     <input class="bg-white rounded-lg px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
@@ -88,9 +88,9 @@
 
     async function proceed() {
         let url = "http://localhost:8080/pageCreate?";
-        url = url + "&" + "name" + "=" +  document.getElementById("name").value;
-        url = url + "&" + "description" + "=" +  document.getElementById("description").value;
-        url = url + "&" + "price" + "=" +  document.getElementById("price").value;
+        url = url + "&" + "name" + "=" + document.getElementById("name").value;
+        url = url + "&" + "description" + "=" + document.getElementById("description").value;
+        url = url + "&" + "price" + "=" + document.getElementById("price").value;
         window.location.href = url;
     }
 
