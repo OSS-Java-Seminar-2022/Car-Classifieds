@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
     <title>Edit Tour</title>
 
     <!-- Import Tailwind CSS -->
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"/>
     <link crossorigin="" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
           integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
           rel="stylesheet"/>
@@ -23,10 +23,10 @@
             <div class="mb-4">
                 <label class="block text-gray-700 font-medium mb-2">Tour Name</label>
                 <input
-                        type="text"
                         class="border border-gray-400 p-2 rounded-lg w-full"
                         id="name"
                         th:value="${existingTour.name}"
+                        type="text"
                 />
             </div>
             <div class="mb-4">
@@ -51,7 +51,8 @@
                            id="longitudeStart" readonly type="text">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-medium mb-2" for="startLocationName">Start location name</label>
+                    <label class="block text-gray-700 font-medium mb-2" for="startLocationName">Start location
+                        name</label>
                     <input class="border p-2 rounded-lg w-full" id="startLocationName" type="text">
                 </div>
                 <div class="mb-4">
@@ -87,26 +88,26 @@
             <div class="mb-4">
                 <label class="block text-gray-700 font-medium mb-2">Price</label>
                 <input
-                        type="text"
                         class="border border  -gray-400 p-2 rounded-lg w-full"
                         id="price"
                         th:value="${existingTour.price}"
+                        type="text"
                 />
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 font-medium mb-2">Visible on Market</label>
                 <input
-                        type="checkbox"
                         id="visibleOnMarket"
                         th:checked="${existingTour.visibleOnMarket}"
+                        type="checkbox"
                 />
             </div>
-            <div class="grid grid-cols-3 gap-4">
-                <div th:each="tourPage : ${tourPages}" class="bg-white rounded-lg overflow-hidden">
+            <div class="grid grid-cols-3 gap-4 sortable">
+                <div class="bg-white rounded-lg overflow-hidden tPage" th:each="tourPage : ${tourPages}" th:with="temp = ${tourPage.tourPageId}" th:id="${temp}">
                     <img
+                            alt="Image"
                             class="w-full"
                             th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|"
-                            alt="Image"
                     />
                     <div class="p-4">
                         <h3 class="text-gray-800 font-medium mb-2" th:text="${tourPage.title}"></h3>
@@ -183,7 +184,6 @@
     map.on('click', onMapClick);
 
 
-
     let map2 = L.map('mapEnd').setView([0, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -207,8 +207,22 @@
         document.getElementById("latitudeEnd").value = e.latlng.lat;
         document.getElementById("longitudeEnd").value = e.latlng.lng;
     }
-    
+
 
     map2.on('click', onMapClickEnd);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
+<script>
+    let sortable = Sortable.create(document.querySelector('.sortable'), {
+        items: '.bg-white',
+        onEnd: function (event) {
+            let tourPageIds = [];
+            let tourPages = document.querySelectorAll('.tPage');
+            tourPages.forEach(function (tourPage) {
+                tourPageIds.push(tourPage.id);
+            });
+            console.log(tourPageIds.toString());
+        }
+    });
 </script>
 </html>
