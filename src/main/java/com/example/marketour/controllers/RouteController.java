@@ -4,10 +4,7 @@ import com.example.marketour.model.entities.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -78,6 +75,24 @@ public class RouteController {
         model.addAttribute("tourPage", page);
 
         return "pageCreate";
+    }
+
+    @GetMapping(value = "/editTour/{tourId}")
+    String editTour(Model model, HttpServletRequest request, @PathVariable String tourId) {
+        final var user = (User) request.getSession().getAttribute("user");
+        model.addAttribute("user", user);
+        final var tour = tourController.getTour(request, tourId);
+        model.addAttribute("tour", tour);
+        return "editTour";
+    }
+
+    @GetMapping(value = "/startTour/{tourId}")
+    String startTour(Model model, HttpServletRequest request, @PathVariable String tourId) {
+        final var user = (User) request.getSession().getAttribute("user");
+        model.addAttribute("user", user);
+        final var tour = tourController.getTour(request, tourId);
+        model.addAttribute("tour", tour);
+        return "startTour";
     }
 
     @GetMapping(value = "/newTour")

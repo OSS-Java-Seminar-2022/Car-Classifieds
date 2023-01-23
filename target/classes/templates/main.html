@@ -28,31 +28,40 @@
                 id="myTab" role="tablist">
                 <li class="mr-2" role="presentation">
                     <button aria-controls="my_tours"
-                            aria-selected="false" class="inline-block p-4 border-b-2 rounded-t-lg focus:outline-none focus:border-blue-400 focus:text-blue-400 active:bg-gray-200 active:rounded-full" data-tabs-target="#my_tours" id="profile-tab"
+                            aria-selected="false"
+                            class="inline-block p-4 border-b-2 rounded-t-lg focus:outline-none focus:border-blue-400 focus:text-blue-400 active:bg-gray-200 active:rounded-full"
+                            data-tabs-target="#my_tours" id="profile-tab"
                             onclick="tabClick('my_tours')" role="tab" type="button">My tours
                     </button>
                 </li>
                 <li class="mr-2" role="presentation">
                     <button aria-controls="marketplace"
-                            aria-selected="false" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg focus:outline-none focus:border-blue-400 focus:text-blue-400 active:bg-gray-200 active:rounded-full" data-tabs-target="#marketplace" id="dashboard-tab"
+                            aria-selected="false"
+                            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg focus:outline-none focus:border-blue-400 focus:text-blue-400 active:bg-gray-200 active:rounded-full"
+                            data-tabs-target="#marketplace" id="dashboard-tab"
                             onclick="tabClick('marketplace')" role="tab" type="button">
                         Marketplace
                     </button>
                 </li>
                 <li class="mr-2" role="presentation">
                     <button aria-controls="profile"
-                            aria-selected="false" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg focus:outline-none focus:border-blue-400 focus:text-blue-400 active:bg-gray-200 active:rounded-full" data-tabs-target="#profile" id="profile" onclick="tabClick('profile')"
+                            aria-selected="false"
+                            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg focus:outline-none focus:border-blue-400 focus:text-blue-400 active:bg-gray-200 active:rounded-full"
+                            data-tabs-target="#profile" id="profile" onclick="tabClick('profile')"
                             role="tab" type="button">Profile
                     </button>
                 </li>
                 <li class="mr-2" role="presentation">
                     <a aria-controls="tokens" aria-selected="false"
-                       class="inline-block p-4 border-b-2 border-transparent rounded-t-lg" data-tabs-target="#tokens" href="#" id="tokens" role="tab" type="button">Unknown
+                       class="inline-block p-4 border-b-2 border-transparent rounded-t-lg" data-tabs-target="#tokens"
+                       href="#" id="tokens" role="tab" type="button">Unknown
                         amount</a>
                 </li>
                 <li role="presentation">
                     <button aria-controls="logout"
-                            aria-selected="false" class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-darkGrayishBlue text-blue-600" data-tabs-target="#contacts" id="logout-tab" onclick="tabClick('logout')"
+                            aria-selected="false"
+                            class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-darkGrayishBlue text-blue-600"
+                            data-tabs-target="#contacts" id="logout-tab" onclick="tabClick('logout')"
                             role="tab" type="button">Logout
                     </button>
                 </li>
@@ -98,7 +107,8 @@
             <th:block th:each="myTour : ${userTours}">
                 <div class="max-w-sm rounded overflow-hidden shadow-lg">
                     <img alt="Tour image"
-                         class="w-full h-64 object-cover" th:src="|data:image/png;base64,${imageMap.get(myTour.tourId)}|">
+                         class="w-full h-64 object-cover"
+                         th:src="|data:image/png;base64,${imageMap.get(myTour.tourId)}|">
                     <div class="px-6 py-4">
                         <div class="font-bold text-xl mb-2" th:text="${myTour.name}">..</div>
                         <p class="text-gray-700 text-base mb-4" th:text="${myTour.description}">..</p>
@@ -113,11 +123,11 @@
                         <!--                        Ovaj botun treba postavit na view ako je korisnik user, na edit ako je korisnik guide-->
                         <span th:if="${user.userType != T(com.example.marketour.model.entities.UserType).guide}">
                              <a class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4"
-                                href="#" >Start</a>
+                                th:href="@{'/startTour/' + ${myTour.tourId}}">Start</a>
                         </span>
                         <span th:if="${user.userType == T(com.example.marketour.model.entities.UserType).guide}">
                              <a class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4"
-                                href="#" >Edit</a>
+                                th:href="@{'/editTour/' + ${myTour.tourId}}">Edit</a>
                         </span>
 
                     </div>

@@ -7,6 +7,7 @@ import com.example.marketour.repositories.TouristTourRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.example.marketour.model.entities.Tour.filter;
@@ -35,6 +36,10 @@ public class TourService {
 
     public List<Tour> getAllGuideTours(User user, Filter filter) {
         return guideTourRepository.findAll().stream().filter(tour -> tour.getGuide().sameUser(user) && user.getUserType() == UserType.guide && filter(tour.getTour(), filter)).map(GuideTour::getTour).collect(Collectors.toList());
+    }
+
+    public Tour getTour(Long tourId) {
+        return tourRepository.findAll().stream().filter(tour -> Objects.equals(tour.getTourId(), tourId)).findFirst().orElse(null);
     }
 
     public List<Tour> getAllToursOnMarketplace(Filter filter) {
