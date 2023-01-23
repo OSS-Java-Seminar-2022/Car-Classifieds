@@ -53,4 +53,13 @@ public class TourService {
         touristTourRepository.save(touristTour);
     }
 
+    public void addGuideTour(User user, Tour tour) {
+        final var guideTour = new GuideTour();
+        guideTour.setGuide(user);
+        guideTour.setTour(tour);
+        guideTour.setCreateTime(System.currentTimeMillis());
+        tourRepository.save(tour);
+        guideTourRepository.save(guideTour);
+    }
+
 }

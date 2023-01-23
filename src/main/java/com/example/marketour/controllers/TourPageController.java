@@ -50,15 +50,25 @@ public class TourPageController {
         } else if (((User) request.getSession().getAttribute("user")).getUserType() != UserType.guide) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not logged in as a guide!");
         }
+        final var tour = (Tour) request.getSession().getAttribute("tour");
         Image image = null;
         Audio audio = null;
-        Tour tour = tourService.findById(tourPageRequestBody.getTourId());
+        final User user = (User) request.getSession().getAttribute("user");
+
         final Location location;
         Location tempLocation = locationService.getExisting(tourPageRequestBody.getLongitude(), tourPageRequestBody.getLatitude(), tourPageRequestBody.getLocationName());
         if (tempLocation == null) {
             location = locationService.addLocation(tourPageRequestBody.getLongitude(), tourPageRequestBody.getLatitude(), tourPageRequestBody.getLocationName());
         } else {
             location = tempLocation;
+        }
+        if (tourPageRequestBody.getPage() == 0) {
+            tour.setCountry(tourPageRequestBody.getCountry());
+            tour.setCity(tourPageRequestBody.getCity());
+            tour.setStartLocation(location);
+            tour.setEndLocation(location);
+            tourService.addGuideTour(user, tour);
+            request.removeAttribute("tour");
         }
         try {
             if (imagePart != null) {

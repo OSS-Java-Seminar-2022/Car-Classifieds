@@ -110,6 +110,7 @@
                             <span class="inline-block bg-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 mr-2 mb-2"
                                   th:text="${myTour.city}"></span>
                         </div>
+<!--                        Ovaj botun treba postavit na view ako je korisnik user, na edit ako je korisnik guide-->
                         <a class="bg-blue-400 rounded-full baseline hover:bg-blue-300 text-white font-bold py-2 px-4 ml-4"
                            href="#">Buy</a>
                     </div>
@@ -151,43 +152,6 @@
         </div>
     </div>
 </div>
-
-
-<!--Marketplace old-->
-
-<!--<div class="marketplace">-->
-<!--    <table>-->
-<!--        <th:block th:each="tour : ${allTours}">-->
-<!--            <tr>-->
-<!--                <td>-->
-
-<!--                    <a class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"-->
-<!--                       href="#">-->
-<!--                        <img alt=""-->
-<!--                             class="object-cover rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"-->
-<!--                             th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">-->
-<!--                        <div class="flex flex-col justify-between p-10 w-full leading-normal">-->
-<!--                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"-->
-<!--                                th:text="${tour.name}">..</h5>-->
-<!--                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"-->
-<!--                               th:text="${tour.country} + ' ' + ${tour.city}">..</p>-->
-<!--                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400" th:text="${tour.description}">-->
-<!--                                ..</p>-->
-<!--                        </div>-->
-<!--                        <span th:if="${user.userType == T(com.example.marketour.model.entities.UserType).tourist}">-->
-<!--                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"-->
-<!--                                th:onclick="buy([[${tour}]])">-->
-<!--                            Buy-->
-<!--                        </button>-->
-<!--                            </span>-->
-<!--                    </a>-->
-
-<!--                </td>-->
-<!--            </tr>-->
-
-<!--        </th:block>-->
-<!--    </table>-->
-<!--</div>-->
 
 
 <!--Profile-->

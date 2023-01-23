@@ -1,17 +1,19 @@
 package com.example.marketour.model.entities;
 
+import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "tour")
 @Getter
 @Setter
 @ToString
-public class Tour {
+public class Tour implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tour_id")
@@ -47,5 +49,9 @@ public class Tour {
         return filter == null || ((filter.city == null || tour.city.equals(filter.city)) &&
                 (filter.country == null || tour.country.equals(filter.country)) &&
                 (filter.priceRange == null || filter.priceRange.contains(tour.price)));
+    }
+
+    public String toJson() {
+        return new Gson().toJson(this);
     }
 }

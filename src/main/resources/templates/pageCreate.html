@@ -15,60 +15,98 @@
 <body>
 <div class="mx-auto p-6 bg-white rounded-lg shadow-xl" style="width: 600px">
     <h1 class="text-2xl font-medium mb-2">Create page</h1>
-    <form th:action="@{/create}" th:object="${tourPage}" method="post">
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2" for="page">Page</label>
-            <input id="page" th:field="*{page}" type="number" class="border p-2 rounded-lg w-full">
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2" for="title">Title</label>
-            <input id="title" th:field="*{title}" type="text" class="border p-2 rounded-lg w-full">
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2" for="body">Body</label>
-            <textarea id="body" th:field="*{body}" class="border p-2 rounded-lg w-full"></textarea>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2" for="image">Image</label>
-            <input type="file" class="border p-2 rounded-lg w-full" id="image" name="image">
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2" for="audio">Audio</label>
-            <input type="file" class="border p-2 rounded-lg w-full" id="audio" name="audio" accept="audio/*">
-        </div>
+    <label class="block text-gray-700 font-medium mb-2" for="body" th:text="'Tour name: ' + ${tour.name}">...</label>
 
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" th:text="'Page no: ' + ${page + 1}">Page</label>
+
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" for="title">Title</label>
+        <input class="border p-2 rounded-lg w-full" id="title" type="text">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" for="body">Body</label>
+        <textarea class="border p-2 rounded-lg w-full" id="body"></textarea>
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" for="image">Image</label>
+        <input accept="image/*" class="border p-2 rounded-lg w-full" id="image" name="image" type="file">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" for="imageDescription">Image description</label>
+        <input class="border p-2 rounded-lg w-full" id="imageDescription" type="text">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" for="audio">Audio</label>
+        <input accept="audio/*" class="border p-2 rounded-lg w-full" id="audio" name="audio" type="file">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" for="audioDescription">Audio description</label>
+        <input class="border p-2 rounded-lg w-full" id="audioDescription" type="text">
+    </div>
+    <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2" for="map">Location</label>
+        <div class="w-full h-64" id="map"></div>
         <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2" for="map">Location</label>
-            <div id="map" class="w-full h-64"></div>
-            <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2" for="latitude">Latitude</label>
-                <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                       id="latitude" readonly th:value="${tourPage.location.latitude}" type="text">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2" for="longitude">Longitude</label>
-                <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                       id="longitude" readonly th:value="${tourPage.location.longitude}" type="text">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2" for="city">City</label>
-                <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                       id="city" readonly type="text">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2" for="country">Country</label>
-                <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                       id="country" readonly type="text">
-            </div>
-            <div class="text-right mt-6" th:href="@{/main}">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg">Create
-                </button>
-            </div>
+            <label class="block text-gray-700 font-medium mb-2" for="latitude">Latitude</label>
+            <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                   id="latitude" readonly type="text">
         </div>
-    </form>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2" for="longitude">Longitude</label>
+            <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                   id="longitude" readonly type="text">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2" for="locationName">Location name</label>
+            <input class="border p-2 rounded-lg w-full" id="locationName" type="text">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2" for="city">City</label>
+            <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                   id="city" readonly type="text">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2" for="country">Country</label>
+            <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                   id="country" readonly type="text">
+        </div>
+        <div class="text-right mt-6">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg"
+                    th:onclick="addPage([[${page}]])">Create
+            </button>
+        </div>
+    </div>
 
 </div>
 </body>
+<script>
+    async function addPage(page, tour) {
+        let url = "http://localhost:8080/tourPages/add";
+        const formData = new FormData();
+        formData.append("tourPage", JSON.stringify({
+            "title": document.getElementById("title").value,
+            "page": page,
+            "body": document.getElementById("body").value,
+            "latitude": document.getElementById("latitude").value,
+            "longitude": document.getElementById("longitude").value,
+            "city": document.getElementById("city").value,
+            "country": document.getElementById("country").value,
+            "imageDescription": document.getElementById("imageDescription").value,
+            "audioDescription": document.getElementById("audioDescription").value,
+            "locationName": document.getElementById("locationName").value
+        }));
+        let imageFile = document.getElementById("image").files[0];
+        let audioFile = document.getElementById("audio").files[0];
+        formData.append("image", new Blob([imageFile], {type: imageFile.type}));
+        formData.append("audio", new Blob([audioFile], {type: audioFile.type}));
+        let result = await fetch(url, {
+            method: "post",
+            body: formData
+        });
+    }
+</script>
 <script>
     let map = L.map('map').setView([0, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
