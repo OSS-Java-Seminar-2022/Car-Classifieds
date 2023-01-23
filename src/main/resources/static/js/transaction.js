@@ -60,6 +60,7 @@ async function moneyCheck() {
     });
     let tokens = await response.text();
     document.getElementById("tokens").innerText = tokens.toString() + " tokens";
+    document.getElementById("tokens2").innerText = tokens.toString() + " tokens";
 }
 
 function moneyCheckTimer() {

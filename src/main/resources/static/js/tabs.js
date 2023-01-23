@@ -1,41 +1,43 @@
-myToursVisible();
+const tabs = document.querySelectorAll('[data-tab]')
+const tabContents = document.querySelectorAll('[id^="tab"]')
 
-function elementVisibility(name, visible) {
-    Array.prototype.forEach.call(document.getElementsByClassName(name), function (e) {
-        if (visible)
-            e.style.display = "block";
-        else
-            e.style.display = "none";
-    });
-}
+tabs.forEach(tab => {
+    tab.addEventListener('click', e => {
+        e.preventDefault()
+        const tabId = tab.getAttribute('data-tab')
+        tabs.forEach(tab => tab.classList.remove('bg-white', 'text-gray-800'))
+        tabContents.forEach(tabContent => tabContent.classList.add('hidden'))
+        tab.classList.add('bg-white', 'text-gray-800')
+        document.getElementById(tabId).classList.remove('hidden')
+    })
+})
+document.getElementById("tab1").classList.remove("hidden");
+document.querySelector("[data-tab='tab1']").classList.add('bg-white', 'text-gray-800');
 
-function myToursVisible() {
-    elementVisibility("my_tours", true);
-    elementVisibility("marketplace", false);
-    elementVisibility("profile", false);
-}
 
-function marketplaceVisible() {
-    elementVisibility("my_tours", false);
-    elementVisibility("marketplace", true);
-    elementVisibility("profile", false);
-}
+/* Modal */
+const tokensTab = document.querySelector("#tokens-tab");
+const tokensTab2 = document.querySelector("#tokens-tab2");
+const modal = document.querySelector("#modal");
+const closeModal = document.querySelector("#close-modal");
 
-function profileVisible() {
-    elementVisibility("my_tours", false);
-    elementVisibility("marketplace", false);
-    elementVisibility("profile", true);
-}
+tokensTab.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+});
+tokensTab2.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+})
 
-function tabClick(page) {
-    if (page === "my_tours") {
-        myToursVisible();
-    } else if (page === "marketplace") {
-        marketplaceVisible();
-    } else if (page === "profile") {
-        profileVisible();
-    } else if (page === "logout") {
-        //promptLogout();
-        window.location.href = "http://localhost:8080/logout"
+closeModal.addEventListener("click", () => {
+    modal.classList.add("hidden");
+});
+
+modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+        modal.classList.add("hidden");
     }
+});
+
+function logout(){
+    window.location.href = "http://localhost:8080/logout";
 }

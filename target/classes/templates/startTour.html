@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
     <title>Tour Pages</title>
 
     <!-- Import Tailwind CSS -->
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"/>
 
     <!-- Import Swiper.js -->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"/>
 </head>
 <body class="bg-gray-200">
 <div class="mx-auto max-w-screen-xl">
-<div class="swiper-container mx-auto">
-    <div class="swiper-wrapper">
-        <div th:each="tourPage : ${tourPages}" class="swiper-slide bg-white rounded-lg p-6 mx-auto">
-            <p class="text-2xl font-medium text-gray-800 mx-auto" th:text="${tourPage.location.name}"></p>
-            <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" th:text="${tourPage.title}"></h1>
-            <p class="text-gray-700 mx-auto" th:text="${tourPage.body}"></p>
-            <div class="my-6">
-                <img class="h-auto w-auto mx-auto object-cover rounded-lg" th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|" alt="Image" />
-            </div>
-            <div class="my-6 mx-auto">
-                <audio controls class="h-20 w-full" th:src="|data:audio/mp3;base64,${audioBase64.get(tourPage.tourPageId)}|" alt="Audio" />
+    <div class="swiper-container mx-auto">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide bg-white rounded-lg p-6 mx-auto" th:each="tourPage : ${tourPages}">
+                <p class="text-2xl font-medium text-gray-800 mx-auto" th:text="${tourPage.location.name}"></p>
+                <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" th:text="${tourPage.title}"></h1>
+                <p class="text-gray-700 mx-auto" th:text="${tourPage.body}"></p>
+                <div class="my-6">
+                    <img alt="Image"
+                         class="h-auto w-auto mx-auto object-cover rounded-lg" th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|"/>
+                </div>
+                <div class="my-6 mx-auto">
+                    <audio alt="Audio" class="h-20 w-full"
+                           controls th:src="|data:audio/mp3;base64,${audioBase64.get(tourPage.tourPageId)}|"/>
+                </div>
             </div>
         </div>
+        <div class="swiper-pagination"></div>
     </div>
-    <div class="swiper-pagination"></div>
-</div>
 </div>
 
 <!-- Initialize Swiper.js -->

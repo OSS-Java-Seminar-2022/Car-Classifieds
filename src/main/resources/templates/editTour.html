@@ -102,8 +102,8 @@
                         type="checkbox"
                 />
             </div>
-            <div class="grid grid-cols-3 gap-4">
-                <div class="bg-white rounded-lg overflow-hidden" th:each="tourPage : ${tourPages}">
+            <div class="grid grid-cols-3 gap-4 sortable">
+                <div class="bg-white rounded-lg overflow-hidden tPage" th:each="tourPage : ${tourPages}" th:with="temp = ${tourPage.tourPageId}" th:id="${temp}">
                     <img
                             alt="Image"
                             class="w-full"
@@ -210,5 +210,19 @@
 
 
     map2.on('click', onMapClickEnd);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
+<script>
+    let sortable = Sortable.create(document.querySelector('.sortable'), {
+        items: '.bg-white',
+        onEnd: function (event) {
+            let tourPageIds = [];
+            let tourPages = document.querySelectorAll('.tPage');
+            tourPages.forEach(function (tourPage) {
+                tourPageIds.push(tourPage.id);
+            });
+            console.log(tourPageIds.toString());
+        }
+    });
 </script>
 </html>
