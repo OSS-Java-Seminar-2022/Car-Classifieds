@@ -1,10 +1,214 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>EditTour</title>
-</head>
-<body>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <title>Edit Tour</title>
 
+    <!-- Import Tailwind CSS -->
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"/>
+    <link crossorigin="" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          rel="stylesheet"/>
+    <script crossorigin=""
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body class="bg-gray-200">
+<div class="flex justify-center">
+    <div class="w-full max-w-screen-md p-4 rounded-lg bg-white">
+        <h1 class="text-2xl font-medium text-center text-gray-800 mb-4">Edit Tour</h1>
+        <form>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Tour Name</label>
+                <input
+                        class="border border-gray-400 p-2 rounded-lg w-full"
+                        id="name"
+                        th:value="${existingTour.name}"
+                        type="text"
+                />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Tour Description</label>
+                <textarea
+                        class="border border-gray-400 p-2 rounded-lg w-full"
+                        id="description"
+                        th:text="${existingTour.description}"
+                ></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Start Location</label>
+                <div class="w-full h-64" id="mapStart"></div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2" for="latitudeStart">Latitude start</label>
+                    <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                           id="latitudeStart" readonly type="text">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2" for="longitudeStart">Longitude start</label>
+                    <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                           id="longitudeStart" readonly type="text">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2" for="startLocationName">Start location
+                        name</label>
+                    <input class="border p-2 rounded-lg w-full" id="startLocationName" type="text">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2" for="city">City</label>
+                    <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                           id="city" readonly type="text">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2" for="country">Country</label>
+                    <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                           id="country" readonly type="text">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">End Location</label>
+                <div class="w-full h-64" id="mapEnd"></div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2" for="latitudeEnd">Latitude End</label>
+                    <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                           id="latitudeEnd" readonly type="text">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2" for="longitudeEnd">Longitude End</label>
+                    <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
+                           id="longitudeEnd" readonly type="text">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2" for="endLocationName">End location name</label>
+                    <input class="border p-2 rounded-lg w-full" id="endLocationName" type="text">
+                </div>
+
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Price</label>
+                <input
+                        class="border border  -gray-400 p-2 rounded-lg w-full"
+                        id="price"
+                        th:value="${existingTour.price}"
+                        type="text"
+                />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Visible on Market</label>
+                <input
+                        id="visibleOnMarket"
+                        th:checked="${existingTour.visibleOnMarket}"
+                        type="checkbox"
+                />
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg overflow-hidden" th:each="tourPage : ${tourPages}">
+                    <img
+                            alt="Image"
+                            class="w-full"
+                            th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|"
+                    />
+                    <div class="p-4">
+                        <h3 class="text-gray-800 font-medium mb-2" th:text="${tourPage.title}"></h3>
+                        <button
+                                class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                                onclick="location.href='/editPage?pageId={{tourPage.tourPageId}}'"
+                        >
+                            Edit Page
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button
+                        class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                >
+                    Save Changes
+                </button>
+                <button
+                        class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                >
+                    Delete Tour
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
+<script>
+    let map = L.map('mapStart').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    let marker = L.marker([0, 0]).addTo(map);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            let pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            marker.setLatLng(pos);
+            document.getElementById("latitudeStart").value = pos.lat;
+            document.getElementById("longitudeStart").value = pos.lng;
+            map.setView(pos, 13);
+            getCityCountry(pos.lat, pos.lng);
+        });
+    }
+
+    function onMapClick(e) {
+        marker.setLatLng(e.latlng);
+        document.getElementById("latitudeStart").value = e.latlng.lat;
+        document.getElementById("longitudeStart").value = e.latlng.lng;
+        getCityCountry(e.latlng.lat, e.latlng.lng);
+    }
+
+    function getCityCountry(lat, lng) {
+        let key = '6d297337290847d097df17106efaecc4';
+        let url = 'https://api.opencagedata.com/geocode/v1/json?q=' + lat + '+' + lng + '&key=' + key;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                let city = data.results[0].components.city;
+                let country = data.results[0].components.country;
+                if (city === undefined) {
+                    city = null;
+                }
+                document.getElementById("city").value = city;
+                document.getElementById("country").value = country;
+            })
+            .catch(error => console.log(error));
+    }
+
+    map.on('click', onMapClick);
+
+
+    let map2 = L.map('mapEnd').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map2);
+    let marker2 = L.marker([0, 0]).addTo(map2);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            let pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            marker2.setLatLng(pos);
+            document.getElementById("latitudeEnd").value = pos.lat;
+            document.getElementById("longitudeEnd").value = pos.lng;
+            map2.setView(pos, 13);
+        });
+    }
+
+    function onMapClickEnd(e) {
+        marker2.setLatLng(e.latlng);
+        document.getElementById("latitudeEnd").value = e.latlng.lat;
+        document.getElementById("longitudeEnd").value = e.latlng.lng;
+    }
+
+
+    map2.on('click', onMapClickEnd);
+</script>
 </html>

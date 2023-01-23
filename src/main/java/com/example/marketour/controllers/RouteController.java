@@ -81,8 +81,15 @@ public class RouteController {
     String editTour(Model model, HttpServletRequest request, @PathVariable String tourId) {
         final var user = (User) request.getSession().getAttribute("user");
         model.addAttribute("user", user);
-        final var tour = tourController.getTour(request, tourId);
-        model.addAttribute("tour", tour);
+        final var tour = (Tour) tourController.getTour(request, tourId).getBody();
+        final var tourPagesResult = tourPageController.getAllTourPages(Long.valueOf(tourId));
+        model.addAttribute("existingTour", tour);
+        final var imagesBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getImage().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        final var audioBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getAudio().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        model.addAttribute("imagesBase64", imagesBase64);
+        model.addAttribute("audioBase64", audioBase64);
+        model.addAttribute("tourPages", tourPagesResult.getBody());
+
         return "editTour";
     }
 
@@ -90,8 +97,12 @@ public class RouteController {
     String startTour(Model model, HttpServletRequest request, @PathVariable String tourId) {
         final var user = (User) request.getSession().getAttribute("user");
         model.addAttribute("user", user);
-        final var tour = tourController.getTour(request, tourId);
-        model.addAttribute("tour", tour);
+        final var tourPagesResult = tourPageController.getAllTourPages(Long.valueOf(tourId));
+        model.addAttribute("tourPages", tourPagesResult.getBody());
+        final var audioBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getAudio().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        final var imagesBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getImage().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        model.addAttribute("imagesBase64", imagesBase64);
+        model.addAttribute("audioBase64", audioBase64);
         return "startTour";
     }
 
