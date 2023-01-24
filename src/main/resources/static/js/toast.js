@@ -31,6 +31,7 @@ function showToast(textToDisplay) {
     toast.appendChild(li);
     document.getElementById("toast").classList.remove("hidden");
 }
+// Hide all toasts on X
 function hideAllToasts() {
     let toastNotifications = document.getElementsByClassName("toast-notification");
     for(let i = 0; i < toastNotifications.length; i++){

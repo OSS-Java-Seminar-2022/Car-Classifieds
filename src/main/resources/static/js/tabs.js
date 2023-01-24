@@ -15,7 +15,7 @@ document.getElementById("tab1").classList.remove("hidden");
 document.querySelector("[data-tab='tab1']").classList.add('bg-white', 'text-gray-800');
 
 
-/* Modal */
+/* Modal for tokens */
 const tokensTab = document.querySelector("#tokens-tab");
 const tokensTab2 = document.querySelector("#tokens-tab2");
 const modal = document.querySelector("#modal");

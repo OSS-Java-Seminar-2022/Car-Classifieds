@@ -54,6 +54,7 @@ async function addTokens() {
 moneyCheck();
 moneyCheckTimer();
 
+// Display tokens in tokens tab and in profile
 async function moneyCheck() {
     let response = await fetch("http://localhost:8080/bank/getTokens", {
         method: "get",
