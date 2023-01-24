@@ -23,8 +23,8 @@
             <div class="mb-4">
                 <label class="block text-gray-700 font-medium mb-2">Tour Name</label>
                 <input
-                        class="border border-gray-400 p-2 rounded-lg w-full"
-                        id="name"
+                        class="border border-gray-400 p-2 rounded-lg w-full myTour"
+                        th:id="${existingTour.tourId}"
                         th:value="${existingTour.name}"
                         type="text"
                 />
@@ -103,7 +103,8 @@
                 />
             </div>
             <div class="grid grid-cols-3 gap-4 sortable">
-                <div class="bg-white rounded-lg overflow-hidden tPage" th:each="tourPage : ${tourPages}" th:with="temp = ${tourPage.tourPageId}" th:id="${temp}">
+                <div class="bg-white rounded-lg overflow-hidden tPage" th:each="tourPage : ${tourPages}"
+                     th:with="temp = ${tourPage.tourPageId}" th:id="${temp}">
                     <img
                             alt="Image"
                             class="w-full"
@@ -113,29 +114,46 @@
                         <h3 class="text-gray-800 font-medium mb-2" th:text="${tourPage.title}"></h3>
                         <button
                                 class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-                                onclick="location.href='/editPage?pageId={{tourPage.tourPageId}}'"
+                                th:href="@{'/editPage?pageId={{tourPage.tourPageId}}'}"
                         >
                             Edit Page
                         </button>
                     </div>
                 </div>
+
             </div>
-            <div class="text-center mt-4">
+            <div>
                 <button
                         class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                        th:onclick="addNewPage([[${existingTour.tourId}]])" type="reset"
                 >
-                    Save Changes
-                </button>
-                <button
-                        class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
-                >
-                    Delete Tour
+                    Add new page
                 </button>
             </div>
+
+
+            <button
+                    class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+            >
+                Save Changes
+            </button>
+            <button
+                    class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+            >
+                Delete Tour
+            </button>
+
         </form>
     </div>
 </div>
 </body>
+<script>
+    function addNewPage(tourId) {
+        let url = "http://localhost:8080/pageCreate?&tourId=" + tourId;
+        console.log(url);
+        window.location.href = url;
+    }
+</script>
 <script>
     let map = L.map('mapStart').setView([0, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -214,12 +232,21 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
 <script>
     let sortable = Sortable.create(document.querySelector('.sortable'), {
-        items: '.bg-white',
-        onEnd: function (event) {
+        items: '.tPage',
+        onEnd: async function (event) {
             let tourPageIds = [];
             let tourPages = document.querySelectorAll('.tPage');
             tourPages.forEach(function (tourPage) {
                 tourPageIds.push(tourPage.id);
+            });
+            let tourId = document.getElementsByClassName("myTour").item(0).id;
+            await fetch("http://localhost:8080/tourPages/reorder/" + tourId, {
+                method: "post",
+                body: JSON.stringify(
+                    {
+                        "ids": tourPageIds
+                    }
+                )
             });
             console.log(tourPageIds.toString());
         }

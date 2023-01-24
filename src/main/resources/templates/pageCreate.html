@@ -82,29 +82,38 @@
 </div>
 </body>
 <script>
-    async function addPage(page, tour) {
-        let url = "http://localhost:8080/tourPages/add";
-        const formData = new FormData();
-        formData.append("tourPage", JSON.stringify({
-            "title": document.getElementById("title").value,
-            "page": page,
-            "body": document.getElementById("body").value,
-            "latitude": document.getElementById("latitude").value,
-            "longitude": document.getElementById("longitude").value,
-            "city": document.getElementById("city").value,
-            "country": document.getElementById("country").value,
-            "imageDescription": document.getElementById("imageDescription").value,
-            "audioDescription": document.getElementById("audioDescription").value,
-            "locationName": document.getElementById("locationName").value
-        }));
-        let imageFile = document.getElementById("image").files[0];
-        let audioFile = document.getElementById("audio").files[0];
-        formData.append("image", new Blob([imageFile], {type: imageFile.type}));
-        formData.append("audio", new Blob([audioFile], {type: audioFile.type}));
-        let result = await fetch(url, {
-            method: "post",
-            body: formData
-        });
+    async function addPage(page) {
+        try {
+            let url = "http://localhost:8080/tourPages/add";
+            const formData = new FormData();
+            formData.append("tourPage", JSON.stringify({
+                "title": document.getElementById("title").value,
+                "page": page,
+                "body": document.getElementById("body").value,
+                "latitude": document.getElementById("latitude").value,
+                "longitude": document.getElementById("longitude").value,
+                "city": document.getElementById("city").value,
+                "country": document.getElementById("country").value,
+                "imageDescription": document.getElementById("imageDescription").value,
+                "audioDescription": document.getElementById("audioDescription").value,
+                "locationName": document.getElementById("locationName").value
+            }));
+            let imageFile = document.getElementById("image").files[0];
+            let audioFile = document.getElementById("audio").files[0];
+            formData.append("image", new Blob([imageFile], {type: imageFile.type}));
+            formData.append("audio", new Blob([audioFile], {type: audioFile.type}));
+            let result = await fetch(url, {
+                method: "post",
+                body: formData
+            });
+            if (result.ok) {
+                window.location.href = "http://localhost:8080/main";
+            } else {
+                alert("All fields are required!");
+            }
+        } catch (e) {
+            alert("All fields are required!");
+        }
     }
 </script>
 <script>

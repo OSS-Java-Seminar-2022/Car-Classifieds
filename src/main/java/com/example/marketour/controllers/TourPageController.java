@@ -1,5 +1,6 @@
 package com.example.marketour.controllers;
 
+import com.example.marketour.model.dtos.ReorderBody;
 import com.example.marketour.model.dtos.TourPageRequestBody;
 import com.example.marketour.model.entities.*;
 import com.example.marketour.services.*;
@@ -37,6 +38,20 @@ public class TourPageController {
     @GetMapping("/getAll")
     public ResponseEntity<List<TourPage>> getAllTourPages(@PathVariable Long tourId) {
         return ResponseEntity.ok(tourPagesService.getAllTourPages(tourId));
+    }
+
+    @PostMapping("/reorder/{tourId}")
+    public ResponseEntity<Object> reorder(@PathVariable String tourId, HttpServletRequest request, @RequestBody String json) {
+        final ReorderBody reorderBody = new Gson().fromJson(json, ReorderBody.class);
+        if (request.getSession() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not logged in!");
+        }
+        try {
+            tourPagesService.reorder(reorderBody.getIds(), Long.valueOf(tourId));
+            return ResponseEntity.ok("Successfully reordered!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("/add")

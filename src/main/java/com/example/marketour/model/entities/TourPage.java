@@ -1,8 +1,6 @@
 package com.example.marketour.model.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +9,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class TourPage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

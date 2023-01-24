@@ -12,10 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -43,11 +40,12 @@ public class RouteController {
         return "login";
     }
 
+
     @GetMapping(value = "/pageCreate")
     String pageCreate(Model model, HttpServletRequest httpServletRequest, @RequestParam Map<String, String> params) {
         final var page = new TourPage();
         final var location = new Location();
-        final var tour = new Tour();
+        var tour = new Tour();
         //Adding page to the existing tour
         if (params.containsKey("tourId")) {
             tour.setTourId(Long.valueOf(params.get("tourId")));
@@ -56,6 +54,10 @@ public class RouteController {
                 model.addAttribute("page", pages.size());
             } else {
                 model.addAttribute("page", 0);
+            }
+            final var tourResult = tourController.getTour(httpServletRequest, params.get("tourId"));
+            if (tourResult.getBody() != null) {
+                tour = (Tour) tourResult.getBody();
             }
         }
         //Adding page for the new tour
@@ -88,7 +90,7 @@ public class RouteController {
         final var audioBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getAudio().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         model.addAttribute("imagesBase64", imagesBase64);
         model.addAttribute("audioBase64", audioBase64);
-        model.addAttribute("tourPages", tourPagesResult.getBody());
+        model.addAttribute("tourPages", tourPagesResult.getBody().stream().sorted(Comparator.comparing(TourPage::getPage)).collect(Collectors.toList()));
 
         return "editTour";
     }
