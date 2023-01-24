@@ -53,7 +53,7 @@
                 <div class="mb-4">
                     <label class="block text-gray-700 font-medium mb-2" for="startLocationName">Start location
                         name</label>
-                    <input class="border p-2 rounded-lg w-full" id="startLocationName" type="text">
+                    <input class="border p-2 rounded-lg w-full" id="startLocationName" type="text" th:value="${existingTour.startLocation.name}">
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 font-medium mb-2" for="city">City</label>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 font-medium mb-2" for="endLocationName">End location name</label>
-                    <input class="border p-2 rounded-lg w-full" id="endLocationName" type="text">
+                    <input class="border p-2 rounded-lg w-full" id="endLocationName" type="text" th:value="${existingTour.endLocation.name}">
                 </div>
 
             </div>
@@ -104,7 +104,7 @@
             </div>
             <div class="grid grid-cols-3 gap-4 sortable">
                 <div class="bg-white rounded-lg overflow-hidden tPage" th:each="tourPage : ${tourPages}"
-                     th:with="temp = ${tourPage.tourPageId}" th:id="${temp}">
+                     th:id="${temp}" th:with="temp = ${tourPage.tourPageId}">
                     <img
                             alt="Image"
                             class="w-full"
