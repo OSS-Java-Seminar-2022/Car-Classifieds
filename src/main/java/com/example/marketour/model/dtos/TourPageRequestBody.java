@@ -1,7 +1,5 @@
 package com.example.marketour.model.dtos;
 
-import com.example.marketour.model.entities.City;
-import com.example.marketour.model.entities.Country;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -21,8 +19,8 @@ public class TourPageRequestBody {
 
     private String locationName;
 
-    private Country country;
-    private City city;
+    private String country;
+    private String city;
     private String imageDescription;
     private String audioDescription;
 }

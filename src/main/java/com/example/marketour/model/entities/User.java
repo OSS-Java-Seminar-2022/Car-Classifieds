@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -42,9 +43,12 @@ public class User {
     @Column(name = "tokens", nullable = false)
     @JsonIgnore
     private Double tokens;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     private Image image;
+    @OneToMany(mappedBy = "guide", cascade = CascadeType.ALL)
+    private List<Transaction> transactions;
+
 
     public boolean sameUser(User other) {
         return Objects.equals(other.getUserId(), userId);

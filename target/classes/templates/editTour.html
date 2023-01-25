@@ -129,7 +129,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="p-4">
+                                <div class="p-4" th:if="${tourPages.size() > 1}">
                                     <button
                                             class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
                                             th:onclick="deletePage([[${tourPage.tourPageId}]])"
@@ -163,8 +163,8 @@
             </button>
             <button
                     class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
-                    type="button"
                     onclick="deleteTour()"
+                    type="button"
             >
                 Delete Tour
             </button>
@@ -195,53 +195,45 @@
     async function deletePage(pageId) {
         let result = await fetch("/tourPages/delete/" + pageId);
         if (result.ok) {
+            await sort(null);
             alert(await result.text());
-        } else {
-            location.reload();
         }
+        location.reload();
     }
 </script>
 <script>
     async function saveTour() {
-        let tourId = document.getElementsByClassName("myTour").item(0).id;
-        let name = document.getElementsByClassName("myTour").item(0).value;
-        let description = document.getElementById("description").value;
-        let latitudeStart = document.getElementById("latitudeStart").value;
-        let longitudeStart = document.getElementById("longitudeStart").value;
-        let startLocationName = document.getElementById("startLocationName").value;
-        let latitudeEnd = document.getElementById("latitudeEnd").value;
-        let longitudeEnd = document.getElementById("longitudeEnd").value;
-        let endLocationName = document.getElementById("endLocationName").value;
-        let country = document.getElementById("country").value;
-        let city = document.getElementById("city").value;
-        let price = document.getElementById("price").value;
-        let visibleOnMarket = document.getElementById("visibleOnMarket").checked;
-        console.log(visibleOnMarket);
-        let result = await fetch("/tours/saveTour", {
-            method: "post",
-            body: JSON.stringify({
-                tourId,
-                name,
-                description,
-                latitudeEnd,
-                latitudeStart,
-                longitudeEnd,
-                longitudeStart,
-                startLocationName,
-                endLocationName,
-                city,
-                country,
-                price,
-                visibleOnMarket
-            })
-        });
-        if (result.ok) {
-            alert(await result.text());
-            location.reload();
-        } else {
+        let body = {
+            "tourId": document.getElementsByClassName("myTour").item(0).id,
+            "name": document.getElementsByClassName("myTour").item(0).value,
+            "description": document.getElementById("description").value,
+            "latitudeEnd": document.getElementById("latitudeEnd").value,
+            "latitudeStart": document.getElementById("latitudeStart").value,
+            "longitudeEnd": document.getElementById("longitudeEnd").value,
+            "longitudeStart": document.getElementById("longitudeStart").value,
+            "startLocationName": document.getElementById("startLocationName").value,
+            "endLocationName": document.getElementById("endLocationName").value,
+            "city": document.getElementById("city").value,
+            "country": document.getElementById("country").value,
+            "price": document.getElementById("price").value,
+            "visibleOnMarket": document.getElementById("visibleOnMarket").checked
+        };
+        if (Object.values(body).includes(null) || Object.values(body).includes("") || Object.values(body).includes(undefined)) {
             alert("All fields required!");
+        } else {
+            let result = await fetch("/tours/saveTour", {
+                method: "post",
+                body: JSON.stringify(
+                    body
+                )
+            });
+            if (result.ok) {
+                alert(await result.text());
+                location.reload();
+            } else {
+                alert("All fields required!");
+            }
         }
-
     }
 </script>
 <script>
@@ -328,25 +320,25 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
 <script>
+    async function sort (event) {
+        let tourPageIds = [];
+        let tourPages = document.querySelectorAll('.tPage');
+        tourPages.forEach(function (tourPage) {
+            tourPageIds.push(tourPage.id);
+        });
+        let tourId = document.getElementsByClassName("myTour").item(0).id;
+        await fetch("http://localhost:8080/tourPages/reorder/" + tourId, {
+            method: "post",
+            body: JSON.stringify(
+                {
+                    "ids": tourPageIds
+                }
+            )
+        });
+    }
     let sortable = Sortable.create(document.querySelector('.sortable'), {
         items: '.tPage',
-        onEnd: async function (event) {
-            let tourPageIds = [];
-            let tourPages = document.querySelectorAll('.tPage');
-            tourPages.forEach(function (tourPage) {
-                tourPageIds.push(tourPage.id);
-            });
-            let tourId = document.getElementsByClassName("myTour").item(0).id;
-            await fetch("http://localhost:8080/tourPages/reorder/" + tourId, {
-                method: "post",
-                body: JSON.stringify(
-                    {
-                        "ids": tourPageIds
-                    }
-                )
-            });
-            console.log(tourPageIds.toString());
-        }
+        onEnd: sort
     });
 </script>
 </html>

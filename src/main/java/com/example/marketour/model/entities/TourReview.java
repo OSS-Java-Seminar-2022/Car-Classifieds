@@ -15,7 +15,7 @@ public class TourReview {
     @Column(name = "tour_review_id")
     private Long tourReviewId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "tour_id", nullable = false)
     private Tour tour;
 

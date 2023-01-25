@@ -32,7 +32,8 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="image">Image</label>
-        <input accept="image/*" class="border p-2 rounded-lg w-full" id="image" name="image" src="/oldValue" th:attr="data-file=${imageFile}"
+        <input accept="image/*" class="border p-2 rounded-lg w-full" id="image" name="image" src="/oldValue"
+               th:attr="data-file=${imageFile}"
                type="file">
     </div>
     <div class="mb-4">
@@ -42,7 +43,8 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="audio">Audio</label>
-        <input accept="audio/*" class="border p-2 rounded-lg w-full" id="audio" name="audio" th:attr="data-file=${imageFile}"
+        <input accept="audio/*" class="border p-2 rounded-lg w-full" id="audio" name="audio"
+               th:attr="data-file=${imageFile}"
                type="file">
     </div>
     <div class="mb-4">
@@ -112,20 +114,22 @@
 </script>
 <script>
     async function savePage() {
-        try {
-            console.log("bravo");
-            let url = "http://localhost:8080/tourPages/addOrEdit";
-            const formData = new FormData();
-            formData.append("tourPage", JSON.stringify({
-                "pageId": document.getElementsByClassName("pageId").item(0).id,
-                "title": document.getElementById("title").value,
-                "body": document.getElementById("body").value,
-                "latitude": document.getElementById("latitude").value,
-                "longitude": document.getElementById("longitude").value,
-                "imageDescription": document.getElementById("imageDescription").value,
-                "audioDescription": document.getElementById("audioDescription").value,
-                "locationName": document.getElementById("locationName").value
-            }));
+        let url = "http://localhost:8080/tourPages/addOrEdit";
+        const formData = new FormData();
+        let body = {
+            "pageId": document.getElementsByClassName("pageId").item(0).id,
+            "title": document.getElementById("title").value,
+            "body": document.getElementById("body").value,
+            "latitude": document.getElementById("latitude").value,
+            "longitude": document.getElementById("longitude").value,
+            "imageDescription": document.getElementById("imageDescription").value,
+            "audioDescription": document.getElementById("audioDescription").value,
+            "locationName": document.getElementById("locationName").value
+        };
+        if (Object.values(body).includes(null) || Object.values(body).includes("") || Object.values(body).includes(undefined)) {
+            alert("All fields required!");
+        } else {
+            formData.append("tourPage", JSON.stringify(body));
             let imageFile = document.getElementById("image").files[0];
             let audioFile = document.getElementById("audio").files[0];
             formData.append("image", new Blob([imageFile], {type: imageFile.type}));
@@ -139,9 +143,6 @@
             } else {
                 alert("All fields are required!");
             }
-        } catch (e) {
-            console.log(e);
-            alert("All fields are required!");
         }
     }
 </script>

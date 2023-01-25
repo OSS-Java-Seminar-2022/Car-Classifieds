@@ -1,7 +1,10 @@
 package com.example.marketour.controllers;
 
 import com.example.marketour.model.dtos.SaveTourBody;
-import com.example.marketour.model.entities.*;
+import com.example.marketour.model.entities.Filter;
+import com.example.marketour.model.entities.Tour;
+import com.example.marketour.model.entities.User;
+import com.example.marketour.model.entities.UserType;
 import com.example.marketour.services.LocationService;
 import com.example.marketour.services.TourService;
 import com.google.gson.Gson;
@@ -47,8 +50,8 @@ public class TourController {
                 .tourId(Long.valueOf(body.getTourId()))
                 .name(body.getName())
                 .description(body.getDescription())
-                .city(City.valueOf(body.getCity()))
-                .country(Country.valueOf(body.getCountry()))
+                .city(body.getCity())
+                .country(body.getCountry())
                 .price(Double.valueOf(body.getPrice()))
                 .visibleOnMarket(body.isVisibleOnMarket())
                 .startLocation(startLocation)

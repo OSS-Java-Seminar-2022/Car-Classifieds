@@ -15,15 +15,15 @@ public class Transaction {
     @Column(name = "transaction_id")
     private Long transactionId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "guide_id", referencedColumnName = "user_id")
     private User guide;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "tourist_user_id", referencedColumnName = "user_id")
     private User tourist;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;
 

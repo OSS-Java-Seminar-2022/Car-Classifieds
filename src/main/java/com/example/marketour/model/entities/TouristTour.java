@@ -19,15 +19,9 @@ public class TouristTour {
     @JoinColumn(name = "tourist_id", referencedColumnName = "user_id", nullable = false)
     private User tourist;
 
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "tour_id", nullable = false)
+    @OneToOne(mappedBy = "touristTour")
     private Tour tour;
 
-    @OneToOne
-    @JoinColumn(name = "last_tour_page_id", referencedColumnName = "tour_page_id")
-    private TourPage progress;
-
-    //in milliseconds since Epoch
     @Column(name = "last_used")
     private Long lastUsed;
 
