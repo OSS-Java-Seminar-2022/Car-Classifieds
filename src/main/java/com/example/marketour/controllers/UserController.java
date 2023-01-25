@@ -27,6 +27,7 @@ public class UserController {
 
     @PostMapping("/login")
     Object login(@ModelAttribute("user") User requestUser, HttpServletRequest request) {
+        var session = request.getSession(true);
         if (requestUser.getUsername() == null || requestUser.getPassword() == null) {
             ObjectError error = new ObjectError("globalError", "Username/password needed!");
             //bindingResult.addError(error);
@@ -34,15 +35,17 @@ public class UserController {
         }
         final var user = userService.checkCredentialsExist(requestUser.getUsername(), requestUser.getPassword());
         if (user != null) {
-            final var session = request.getSession(true);
             if (session.getAttribute("user") == null) {
                 session.setAttribute("user", user);
                 return "redirect:/main";
             } else {
-                return ResponseEntity.ok("Already logged in!");
+//                User already logged in case
+                return "redirect:/main";
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found!");
+            // add attribute to the request to show the error message in the login html template
+            session.setAttribute("errorMessage", "Username or password is invalid.");
+            return "redirect:/login";
         }
     }
 

@@ -31,7 +31,14 @@ public class RouteController {
     }
 
     @GetMapping("/")
-    public String indexPage() {
+    public String indexPage(HttpServletRequest request) {
+        var session = request.getSession(true);
+        if((session.getAttribute("errorMessage") != null)){
+            session.removeAttribute("errorMessage");
+        }
+        if((session.getAttribute("registerErrorMessage") != null)){
+            session.removeAttribute("registerErrorMessage");
+        }
         return "home";
     }
 

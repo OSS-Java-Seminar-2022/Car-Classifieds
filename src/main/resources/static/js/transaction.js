@@ -62,7 +62,6 @@ async function moneyCheck() {
     let tokens = await response.text();
     document.getElementById("tokens").innerText = tokens.toString();
     document.getElementById("tokens2").innerText = tokens.toString();
-    document.getElementById("tokens3").innerText = tokens.toString();
 }
 
 function moneyCheckTimer() {

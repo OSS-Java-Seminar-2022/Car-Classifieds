@@ -24,31 +24,42 @@
             </a>
 
         </div>
-        <div class="hidden space-x-6 md:flex bg-gray-200 rounded-2xl">
-            <ul class="list-none flex p-4 transition-duration-500">
-                <li class="mr-4">
-                    <a class="text-gray-800 py-2 px-4 active:text-gray-800 active:bg-white bg-white rounded-2xl"
+        <div class="hidden space-x-6 p-2 md:flex bg-veryDarkBlue rounded-2xl">
+            <ul class="list-none flex p-4 transition-duration-500 md:flex-wrap">
+                <li class="mr-2">
+                    <a class="text-white py-2 px-4 active:text-gray-800 active:bg-white bg-white rounded-2xl"
                        href="#tab1" data-tab="tab1">My Tours</a>
                 </li>
-                <li class="mr-4">
-                    <a class="text-gray-800 py-2 px-4 active:text-white rounded-2xl" href="#tab2"
+                <li class="mr-2">
+                    <a class="text-white py-2 px-4 active:text-gray-800 rounded-2xl" href="#tab2"
                        data-tab="tab2">Marketplace</a>
                 </li>
                 <li>
-                    <a class="text-gray-800 py-2 px-4 active:text-white rounded-2xl" href="#tab3"
+                    <a class="text-white py-2 px-4 active:text-gray-800 rounded-2xl" href="#tab3"
                        data-tab="tab3">Profile</a>
                 </li>
                 <!-- Tokens tab -->
-                <li class="mr-4">
-                    <a class="text-gray-800 py-2 px-4 active:text-white rounded-2xl" id="tokens-tab"
+                <li class="mr-2">
+                    <a class="text-white py-2 px-4 active:text-gray-800 rounded-2xl" id="tokens-tab"
                        href="#tab4">Tokens</a>
+                </li>
+                <li>
+                    <a class="text-white py-2 px-4 active:text-gray-800 rounded-2xl cursor-pointer"
+                       data-tab="tab5"  onclick="logout()">Logout</a>
                 </li>
             </ul>
         </div>
 
-        <!-- Button -->
-        <a class="hidden p-3 px-6 pt-2 text-white bg-blue-400 rounded-full baseline hover:bg-blue-300 md:block cursor-pointer"
-           onclick="logout()">Logout</a>
+<!--            <div class="hidden p-3 px-6 pt-2 baseline md:block cursor-pointer flex" id="tokensStatus">-->
+<!--                <svg class="w-6 h-6 mr-2 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor"-->
+<!--                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">-->
+<!--                    </path><line x1="7" y1="7" x2="7" y2="7"></line>-->
+<!--                </svg>-->
+<!--                <span id="tokens3" class="text-lg inline-block">50 Tokens</span>-->
+<!--            </div>-->
+
+
 
         <div id="hamburgerDiv">
             <!-- Hamburger Icon -->
@@ -61,7 +72,7 @@
 
         <!-- Mobile Menu -->
         <div class="md:hidden">
-            <div class="absolute flex-col items-center hidden self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md z-10"
+            <div class="absolute flex-col items-center hidden self-end py-8 mt-10 space-y-6 font-bold bg-veryDarkBlue text-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md z-10"
                  id="menu">
                 <a href="#tab1" data-tab="tab1">My Tours</a>
                 <a href="#tab2" data-tab="tab2">Marketplace</a>
@@ -80,6 +91,8 @@
             </a>
         </span>
     <section class="mx-auto mt-[100px] aut xl:w-8/12 md:w-9/12 lg:w-10/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5 justify-items-center min-w-fit rounded-2xl">
+        <img th:if="${userTours.isEmpty()}" th:src="@{img/camera.png}" alt="No tours available"  src="" class="mb-32"/>
+        <h1 th:if="${userTours.isEmpty()}" class="text-3xl font-semibold ml-6">Looks like you have no tours.</h1>
         <th:block th:each="myTour : ${userTours}">
             <article class="relative flex flex-col items-center rounded-xl border border bg-gradient-to-t from-white p-5 drop-shadow-2xl">
                 <img class="w-full h-64 mx-auto object-fill" th:src="|data:image/png;base64,${imageMap.get(myTour.tourId)}|" alt="Tour image" src="">
@@ -115,6 +128,8 @@
 <!--Marketplace Content-->
 <div id="tab2" class="hidden tab-content transition-duration-500">
     <section class="mx-auto mt-[50px] aut xl:w-8/12 md:w-9/12 lg:w-10/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5 justify-items-center min-w-fit rounded-2xl">
+        <img th:if="${allTours.isEmpty()}" th:src="@{img/camera.png}" alt="No tours available"  src="" class="mb-32"/>
+        <h1 th:if="${allTours.isEmpty()}" class="text-3xl font-semibold ml-6">Looks like there are no tours for you to buy.</h1>
         <th:block th:each="tour : ${allTours}">
             <article class="relative flex flex-col items-center rounded-xl border border bg-gradient-to-t from-white p-5 drop-shadow-2xl">
                 <img class="w-full h-64 mx-auto object-fill" th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|" alt="Tour image" src="">
@@ -152,23 +167,21 @@
             <!--Main Col-->
             <div class="w-full lg:w-3/5 shadow-2xl bg-white opacity-75 mx-6 lg:mx-0" id="profilePage">
 
-                <div class="p-4 md:p-12 text-center lg:text-left">
-                            <span class="inline-block">
-                                <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path
-                                            d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
-                                    </path>
-                                    <line x1="7" y1="7" x2="7" y2="7"></line>
-                                </svg>
-                                <span id="tokens2" data-tabs-target="#tokens" class="text-lg">50 Tokens</span>
-                            </span>
+                <div class="p-4 md:p-12 lg:text-left ml-2 mt-2">
                     <!-- Image for mobile view-->
                     <img class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
                          th:src="|data:image/png;base64,${userAvatar}|" />
+                    <div class="flex mt-4">
+                        <span class="inline-block">
+                                <svg class="w-6 h-6 mr-2 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+                                </svg>
+                                <span id="tokens2" data-tabs-target="#tokens" class="text-lg inline-block">50 Tokens</span>
+                        </span>
+                    </div>
 
 
-                    <h1 class="text-3xl font-bold pt-8 lg:pt-0" th:text="${user.username}"></h1>
+                    <h1 class="text-3xl font-bold md:pt-8 lg:pt-0" th:text="${user.username}"></h1>
                     <div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-gray-400 opacity-25"></div>
                     <p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"
                        th:text="${user.userType}">
