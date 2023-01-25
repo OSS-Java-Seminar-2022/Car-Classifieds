@@ -1,5 +1,6 @@
 package com.example.marketour.controllers;
 
+import com.example.marketour.model.dtos.ReorderBody;
 import com.example.marketour.model.dtos.TourPageRequestBody;
 import com.example.marketour.model.entities.*;
 import com.example.marketour.services.*;
@@ -39,6 +40,20 @@ public class TourPageController {
         return ResponseEntity.ok(tourPagesService.getAllTourPages(tourId));
     }
 
+    @PostMapping("/reorder/{tourId}")
+    public ResponseEntity<Object> reorder(@PathVariable String tourId, HttpServletRequest request, @RequestBody String json) {
+        final ReorderBody reorderBody = new Gson().fromJson(json, ReorderBody.class);
+        if (request.getSession() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not logged in!");
+        }
+        try {
+            tourPagesService.reorder(reorderBody.getIds(), Long.valueOf(tourId));
+            return ResponseEntity.ok("Successfully reordered!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Object> addTourPage(@RequestParam("tourPage") String tourPageRequestBodyJson,
                                               @RequestParam(name = "image", required = false) MultipartFile imagePart,
@@ -50,15 +65,25 @@ public class TourPageController {
         } else if (((User) request.getSession().getAttribute("user")).getUserType() != UserType.guide) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not logged in as a guide!");
         }
+        final var tour = (Tour) request.getSession().getAttribute("tour");
         Image image = null;
         Audio audio = null;
-        Tour tour = tourService.findById(tourPageRequestBody.getTourId());
+        final User user = (User) request.getSession().getAttribute("user");
+
         final Location location;
         Location tempLocation = locationService.getExisting(tourPageRequestBody.getLongitude(), tourPageRequestBody.getLatitude(), tourPageRequestBody.getLocationName());
         if (tempLocation == null) {
             location = locationService.addLocation(tourPageRequestBody.getLongitude(), tourPageRequestBody.getLatitude(), tourPageRequestBody.getLocationName());
         } else {
             location = tempLocation;
+        }
+        if (tourPageRequestBody.getPage() == 0) {
+            tour.setCountry(tourPageRequestBody.getCountry());
+            tour.setCity(tourPageRequestBody.getCity());
+            tour.setStartLocation(location);
+            tour.setEndLocation(location);
+            tourService.addGuideTour(user, tour);
+            request.removeAttribute("tour");
         }
         try {
             if (imagePart != null) {

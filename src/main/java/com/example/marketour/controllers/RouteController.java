@@ -4,9 +4,7 @@ import com.example.marketour.model.entities.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -25,13 +20,14 @@ import java.util.stream.Collectors;
 public class RouteController {
     private final TourController tourController;
     private final ImageController imageController;
-
     private final UserController userController;
+    private final TourPageController tourPageController;
 
-    public RouteController(TourController tourController, ImageController imageController, UserController userController) {
+    public RouteController(TourController tourController, ImageController imageController, UserController userController, TourPageController tourPageController) {
         this.tourController = tourController;
         this.imageController = imageController;
         this.userController = userController;
+        this.tourPageController = tourPageController;
     }
 
     @GetMapping("/")
@@ -44,15 +40,72 @@ public class RouteController {
         return "login";
     }
 
+
     @GetMapping(value = "/pageCreate")
-    String pageCreate(Model model, HttpServletRequest httpServletRequest) {
-        model.addAttribute("tourPage", new TourPage());
-        final var tours = tourController.getAllToursOfThisUser(httpServletRequest, model);
-        if (tours.getBody() != null) {
-            model.addAttribute("tours", tours.getBody());
+    String pageCreate(Model model, HttpServletRequest httpServletRequest, @RequestParam Map<String, String> params) {
+        final var page = new TourPage();
+        final var location = new Location();
+        var tour = new Tour();
+        //Adding page to the existing tour
+        if (params.containsKey("tourId")) {
+            tour.setTourId(Long.valueOf(params.get("tourId")));
+            final var pages = tourPageController.getAllTourPages(Long.valueOf(params.get("tourId"))).getBody();
+            if (pages != null && !pages.isEmpty()) {
+                model.addAttribute("page", pages.size());
+            } else {
+                model.addAttribute("page", 0);
+            }
+            final var tourResult = tourController.getTour(httpServletRequest, params.get("tourId"));
+            if (tourResult.getBody() != null) {
+                tour = (Tour) tourResult.getBody();
+            }
         }
+        //Adding page for the new tour
+        else {
+            tour.setDescription(params.get("description"));
+            tour.setPrice(Double.valueOf(params.get("price")));
+            tour.setName(params.get("name"));
+            tour.setVisibleOnMarket(false);
+            model.addAttribute("page", 0);
+        }
+        page.setLocation(location);
+        page.setImage(new Image());
+        page.setAudio(new Audio());
+        final var session = httpServletRequest.getSession(true);
+        session.setAttribute("tour", tour);
+        model.addAttribute("tour", tour);
+        model.addAttribute("tourPage", page);
 
         return "pageCreate";
+    }
+
+    @GetMapping(value = "/editTour/{tourId}")
+    String editTour(Model model, HttpServletRequest request, @PathVariable String tourId) {
+        final var user = (User) request.getSession().getAttribute("user");
+        model.addAttribute("user", user);
+        final var tour = (Tour) tourController.getTour(request, tourId).getBody();
+        final var tourPagesResult = tourPageController.getAllTourPages(Long.valueOf(tourId));
+        model.addAttribute("existingTour", tour);
+        final var imagesBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getImage().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        final var audioBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getAudio().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        model.addAttribute("imagesBase64", imagesBase64);
+        model.addAttribute("audioBase64", audioBase64);
+        model.addAttribute("tourPages", tourPagesResult.getBody().stream().sorted(Comparator.comparing(TourPage::getPage)).collect(Collectors.toList()));
+
+        return "editTour";
+    }
+
+    @GetMapping(value = "/startTour/{tourId}")
+    String startTour(Model model, HttpServletRequest request, @PathVariable String tourId) {
+        final var user = (User) request.getSession().getAttribute("user");
+        model.addAttribute("user", user);
+        final var tourPagesResult = tourPageController.getAllTourPages(Long.valueOf(tourId));
+        model.addAttribute("tourPages", tourPagesResult.getBody());
+        final var audioBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getAudio().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        final var imagesBase64 = Objects.requireNonNull(tourPagesResult.getBody()).stream().map(tourPage -> Map.entry(tourPage.getTourPageId(), Base64.getEncoder().encodeToString(tourPage.getImage().getData()))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        model.addAttribute("imagesBase64", imagesBase64);
+        model.addAttribute("audioBase64", audioBase64);
+        return "startTour";
     }
 
     @GetMapping(value = "/newTour")
@@ -73,11 +126,12 @@ public class RouteController {
     @GetMapping(value = "/main")
     String main(HttpServletRequest httpServletRequest, Model model) throws IOException {
         final var userSpecificTours = tourController.getAllToursOfThisUser(httpServletRequest, model);
-        final var allTours = tourController.getAllToursOnMarket(httpServletRequest, model);
+        final var allToursOnMarket = tourController.getAllToursOnMarket(httpServletRequest, model);
+        final var allTours = tourController.getAllTours(httpServletRequest);
         final var imageMap = ((ArrayList<Tour>) allTours.getBody()).stream().map(tour -> Map.entry(tour.getTourId(), Objects.requireNonNull(Base64.getEncoder().encodeToString(Objects.requireNonNull(imageController.getFirstPageImage(tour.getTourId()).getBody()).getData())))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         final var user = (User) httpServletRequest.getSession().getAttribute("user");
         model.addAttribute("userTours", userSpecificTours.getBody());
-        model.addAttribute("allTours", ((ArrayList<Tour>) allTours.getBody()).stream().filter(tour -> !((ArrayList<Tour>) userSpecificTours.getBody()).stream().map(tour1 -> tour1.getTourId()).collect(Collectors.toList()).contains(tour.getTourId())).collect(Collectors.toList()));
+        model.addAttribute("allTours", ((ArrayList<Tour>) allToursOnMarket.getBody()).stream().filter(tour -> !((ArrayList<Tour>) userSpecificTours.getBody()).stream().map(tour1 -> tour1.getTourId()).collect(Collectors.toList()).contains(tour.getTourId())).collect(Collectors.toList()));
         model.addAttribute("imageMap", imageMap);
         if (user.getImage() != null) {
             model.addAttribute("userAvatar", Base64.getEncoder().encodeToString(user.getImage().getData()));

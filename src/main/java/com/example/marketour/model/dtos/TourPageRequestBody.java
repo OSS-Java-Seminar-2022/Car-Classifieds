@@ -1,13 +1,13 @@
 package com.example.marketour.model.dtos;
 
+import com.example.marketour.model.entities.City;
+import com.example.marketour.model.entities.Country;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class TourPageRequestBody {
-    private Long tourId;
-
     private Integer page;
 
     private String title;
@@ -20,6 +20,8 @@ public class TourPageRequestBody {
 
     private String locationName;
 
+    private Country country;
+    private City city;
     private String imageDescription;
     private String audioDescription;
 }
