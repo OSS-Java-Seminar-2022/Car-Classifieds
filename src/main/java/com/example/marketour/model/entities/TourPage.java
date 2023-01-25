@@ -18,7 +18,7 @@ public class TourPage {
     @Column(name = "tour_page_id")
     private Long tourPageId;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "tour_id", nullable = false)
     private Tour tour;
 
@@ -31,15 +31,15 @@ public class TourPage {
     @Column(name = "body")
     private String body;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.DETACH})
     @JoinColumn(name = "audio_id")
     private Audio audio;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "location_id")
     private Location location;
 

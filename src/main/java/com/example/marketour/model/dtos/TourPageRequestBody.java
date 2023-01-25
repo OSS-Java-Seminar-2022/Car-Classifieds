@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class TourPageRequestBody {
+    private Long pageId;
     private Integer page;
 
     private String title;

@@ -1,9 +1,7 @@
 package com.example.marketour.model.entities;
 
 import com.google.gson.Gson;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,13 +11,16 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 public class Tour implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tour_id")
     private Long tourId;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "start_location_id", nullable = false, referencedColumnName = "location_id")
     private Location startLocation;
 
@@ -27,7 +28,7 @@ public class Tour implements Serializable {
     private String name;
     @Column(name = "description", nullable = false)
     private String description;
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "end_location_id", nullable = false, referencedColumnName = "location_id")
     private Location endLocation;
 

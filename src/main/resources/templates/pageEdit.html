@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create page</title>
+    <title>Edit page</title>
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link crossorigin="" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -13,9 +13,10 @@
             src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 <body>
+<div class="pageId" th:id="${tourPage.tourPageId}"></div>
 <div class="mx-auto p-6 bg-white rounded-lg shadow-xl" style="width: 600px">
     <h1 class="text-2xl font-medium mb-2">Create page</h1>
-    <label class="block text-gray-700 font-medium mb-2" for="body" th:text="'Tour name: ' + ${tour.name}">...</label>
+    <label class="block text-gray-700 font-medium mb-2" for="body" th:text="'Tour name: ' + ${tourName}">...</label>
 
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" th:text="'Page no: ' + ${page + 1}">Page</label>
@@ -23,27 +24,31 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="title">Title</label>
-        <input class="border p-2 rounded-lg w-full" id="title" type="text">
+        <input class="border p-2 rounded-lg w-full" id="title" th:value="${tourPage.title}" type="text">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="body">Body</label>
-        <textarea class="border p-2 rounded-lg w-full" id="body"></textarea>
+        <textarea class="border p-2 rounded-lg w-full" id="body" th:text="${tourPage.body}"></textarea>
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="image">Image</label>
-        <input accept="image/*" class="border p-2 rounded-lg w-full" id="image" name="image" type="file">
+        <input accept="image/*" class="border p-2 rounded-lg w-full" id="image" name="image" src="/oldValue" th:attr="data-file=${imageFile}"
+               type="file">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="imageDescription">Image description</label>
-        <input class="border p-2 rounded-lg w-full" id="imageDescription" type="text">
+        <input class="border p-2 rounded-lg w-full" id="imageDescription" th:value="${tourPage.image.description}"
+               type="text">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="audio">Audio</label>
-        <input accept="audio/*" class="border p-2 rounded-lg w-full" id="audio" name="audio" type="file">
+        <input accept="audio/*" class="border p-2 rounded-lg w-full" id="audio" name="audio" th:attr="data-file=${imageFile}"
+               type="file">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="audioDescription">Audio description</label>
-        <input class="border p-2 rounded-lg w-full" id="audioDescription" type="text">
+        <input class="border p-2 rounded-lg w-full" id="audioDescription" th:value="${tourPage.audio.description}"
+               type="text">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="map">Location</label>
@@ -51,30 +56,21 @@
         <div class="mb-4">
             <label class="block text-gray-700 font-medium mb-2" for="latitude">Latitude</label>
             <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                   id="latitude" readonly type="text">
+                   id="latitude" readonly th:value="${tourPage.location.latitude}" type="text">
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 font-medium mb-2" for="longitude">Longitude</label>
             <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                   id="longitude" readonly type="text">
+                   id="longitude" readonly th:value="${tourPage.location.longitude}" type="text">
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 font-medium mb-2" for="locationName">Location name</label>
-            <input class="border p-2 rounded-lg w-full" id="locationName" type="text">
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2" for="city">City</label>
-            <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                   id="city" readonly type="text">
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700 font-medium mb-2" for="country">Country</label>
-            <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                   id="country" readonly type="text">
+            <input class="border p-2 rounded-lg w-full" id="locationName" th:value="${tourPage.location.name}"
+                   type="text">
         </div>
         <div class="text-right mt-6">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg"
-                    th:onclick="addPage([[${page}]])">Create
+                    onclick="savePage()">Save
             </button>
         </div>
     </div>
@@ -82,18 +78,50 @@
 </div>
 </body>
 <script>
-    async function addPage(page) {
+    let base64EncodedFile = document.getElementById("image").getAttribute("data-file");
+    let byteCharacters = atob(base64EncodedFile);
+    let byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    let byteArray = new Uint8Array(byteNumbers);
+    let file = new File([byteArray], "oldImage" + '.png', {type: 'image/png'});
+
+    let list = new DataTransfer();
+    list.items.add(file);
+
+    let myFileList = list.files;
+
+    document.getElementById('image').files = myFileList;
+
+    let base64EncodedFileAudio = document.getElementById("image").getAttribute("data-file");
+    let byteCharactersAudio = atob(base64EncodedFileAudio);
+    let byteNumbersAudio = new Array(byteCharactersAudio.length);
+    for (let i = 0; i < byteCharactersAudio.length; i++) {
+        byteNumbersAudio[i] = byteCharactersAudio.charCodeAt(i);
+    }
+    let byteArrayAudio = new Uint8Array(byteNumbersAudio);
+    let fileAudio = new File([byteArrayAudio], "oldAudio" + '.mp3', {type: 'audio/mp3'});
+
+    let listAudio = new DataTransfer();
+    listAudio.items.add(fileAudio);
+
+    let myFileListAudio = listAudio.files;
+
+    document.getElementById('audio').files = myFileListAudio;
+</script>
+<script>
+    async function savePage() {
         try {
+            console.log("bravo");
             let url = "http://localhost:8080/tourPages/addOrEdit";
             const formData = new FormData();
             formData.append("tourPage", JSON.stringify({
+                "pageId": document.getElementsByClassName("pageId").item(0).id,
                 "title": document.getElementById("title").value,
-                "page": page,
                 "body": document.getElementById("body").value,
                 "latitude": document.getElementById("latitude").value,
                 "longitude": document.getElementById("longitude").value,
-                "city": document.getElementById("city").value,
-                "country": document.getElementById("country").value,
                 "imageDescription": document.getElementById("imageDescription").value,
                 "audioDescription": document.getElementById("audioDescription").value,
                 "locationName": document.getElementById("locationName").value
@@ -112,6 +140,7 @@
                 alert("All fields are required!");
             }
         } catch (e) {
+            console.log(e);
             alert("All fields are required!");
         }
     }
@@ -122,44 +151,20 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     let marker = L.marker([0, 0]).addTo(map);
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            marker.setLatLng(pos);
-            document.getElementById("latitude").value = pos.lat;
-            document.getElementById("longitude").value = pos.lng;
-            map.setView(pos, 13);
-            getCityCountry(pos.lat, pos.lng);
-        });
-    }
+
+
+    let lat = document.getElementById("latitude").value;
+    let long = document.getElementById("longitude").value;
+    let pos = {lat: lat, lng: long};
+    map.setView(pos, 13);
+    marker.setLatLng(L.latLng(pos.lat, pos.lng));
 
     function onMapClick(e) {
         marker.setLatLng(e.latlng);
         document.getElementById("latitude").value = e.latlng.lat;
         document.getElementById("longitude").value = e.latlng.lng;
-        getCityCountry(e.latlng.lat, e.latlng.lng);
     }
 
-    function getCityCountry(lat, lng) {
-        let key = '6d297337290847d097df17106efaecc4';
-        let url = 'https://api.opencagedata.com/geocode/v1/json?q=' + lat + '+' + lng + '&key=' + key;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                let city = data.results[0].components.city;
-                let country = data.results[0].components.country;
-                if (city === undefined) {
-                    city = null;
-                }
-                document.getElementById("city").value = city;
-                document.getElementById("country").value = country;
-            })
-            .catch(error => console.log(error));
-    }
 
     map.on('click', onMapClick);
 </script>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -53,7 +53,8 @@
                 <div class="mb-4">
                     <label class="block text-gray-700 font-medium mb-2" for="startLocationName">Start location
                         name</label>
-                    <input class="border p-2 rounded-lg w-full" id="startLocationName" th:value="${existingTour.startLocation.name}"
+                    <input class="border p-2 rounded-lg w-full" id="startLocationName"
+                           th:value="${existingTour.startLocation.name}"
                            type="text">
                 </div>
                 <div class="mb-4">
@@ -82,7 +83,8 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 font-medium mb-2" for="endLocationName">End location name</label>
-                    <input class="border p-2 rounded-lg w-full" id="endLocationName" th:value="${existingTour.endLocation.name}"
+                    <input class="border p-2 rounded-lg w-full" id="endLocationName"
+                           th:value="${existingTour.endLocation.name}"
                            type="text">
                 </div>
 
@@ -93,7 +95,7 @@
                         class="border border  -gray-400 p-2 rounded-lg w-full"
                         id="price"
                         th:value="${existingTour.price}"
-                        type="text"
+                        type="number"
                 />
             </div>
             <div class="mb-4">
@@ -112,15 +114,33 @@
                             class="w-full"
                             th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|"
                     />
-                    <div class="p-4">
-                        <h3 class="text-gray-800 font-medium mb-2" th:text="${tourPage.title}"></h3>
-                        <button
-                                class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-                                th:href="@{'/editPage?pageId={{tourPage.tourPageId}}'}"
-                        >
-                            Edit Page
-                        </button>
-                    </div>
+                    <h3 class="text-gray-800 font-medium mb-2" th:text="${tourPage.title}"></h3>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="p-4">
+                                    <button
+                                            class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                                            th:onclick="editPage([[${tourPage.tourPageId}]])"
+                                            type="reset"
+                                    >
+                                        Edit Page
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="p-4">
+                                    <button
+                                            class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                                            th:onclick="deletePage([[${tourPage.tourPageId}]])"
+                                            type="button"
+                                    >
+                                        Delete page
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
 
             </div>
@@ -135,7 +155,9 @@
 
 
             <button
-                    class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                    class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 mt-4"
+                    onclick="saveTour()"
+                    type="button"
             >
                 Save Changes
             </button>
@@ -149,6 +171,65 @@
     </div>
 </div>
 </body>
+<script>
+    function editPage(pageId) {
+        let url = "http://localhost:8080/pageEdit?&pageId=" + pageId;
+        console.log(url);
+        window.location.href = url;
+    }
+
+    async function deletePage(pageId) {
+        let result = await fetch("/tourPages/delete/" + pageId);
+        if (result.ok) {
+            alert(await result.text());
+        } else {
+            location.reload();
+        }
+    }
+</script>
+<script>
+    async function saveTour() {
+        let tourId = document.getElementsByClassName("myTour").item(0).id;
+        let name = document.getElementsByClassName("myTour").item(0).value;
+        let description = document.getElementById("description").value;
+        let latitudeStart = document.getElementById("latitudeStart").value;
+        let longitudeStart = document.getElementById("longitudeStart").value;
+        let startLocationName = document.getElementById("startLocationName").value;
+        let latitudeEnd = document.getElementById("latitudeEnd").value;
+        let longitudeEnd = document.getElementById("longitudeEnd").value;
+        let endLocationName = document.getElementById("endLocationName").value;
+        let country = document.getElementById("country").value;
+        let city = document.getElementById("city").value;
+        let price = document.getElementById("price").value;
+        let visibleOnMarket = document.getElementById("visibleOnMarket").checked;
+        console.log(visibleOnMarket);
+        let result = await fetch("/tours/saveTour", {
+            method: "post",
+            body: JSON.stringify({
+                tourId,
+                name,
+                description,
+                latitudeEnd,
+                latitudeStart,
+                longitudeEnd,
+                longitudeStart,
+                startLocationName,
+                endLocationName,
+                city,
+                country,
+                price,
+                visibleOnMarket
+            })
+        });
+        if (result.ok) {
+            alert(await result.text());
+            location.reload();
+        } else {
+            alert("All fields required!");
+        }
+
+    }
+</script>
 <script>
     function addNewPage(tourId) {
         let url = "http://localhost:8080/pageCreate?&tourId=" + tourId;

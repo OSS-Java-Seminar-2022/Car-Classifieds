@@ -118,6 +118,10 @@
                         >
                             Login
                         </button>
+                        <div th:if="${session.errorMessage}" class="text-red-500">
+                            <p th:text="${session.errorMessage}"></p>
+                        </div>
+
                         <p class="text-sm font-semibold mt-2 pt-1 mb-0">
                             Don't have an account?
                             <a

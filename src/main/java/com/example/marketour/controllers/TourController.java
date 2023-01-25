@@ -1,17 +1,14 @@
 package com.example.marketour.controllers;
 
-import com.example.marketour.model.entities.Filter;
-import com.example.marketour.model.entities.Tour;
-import com.example.marketour.model.entities.User;
-import com.example.marketour.model.entities.UserType;
+import com.example.marketour.model.dtos.SaveTourBody;
+import com.example.marketour.model.entities.*;
+import com.example.marketour.services.LocationService;
 import com.example.marketour.services.TourService;
+import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -20,9 +17,45 @@ import java.util.List;
 @RequestMapping("/tours")
 public class TourController {
     private final TourService tourService;
+    private final LocationService locationService;
 
-    public TourController(TourService tourService) {
+    public TourController(TourService tourService, LocationService locationService) {
         this.tourService = tourService;
+        this.locationService = locationService;
+    }
+
+
+    @PostMapping("/saveTour")
+    public ResponseEntity<Object> saveTour(HttpServletRequest request, @RequestBody String json) {
+        if (request.getSession().getAttribute("user") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
+        }
+        final var body = new Gson().fromJson(json, SaveTourBody.class);
+        final Tour old = tourService.getTour(Long.valueOf(body.getTourId()));
+
+        final var startLocation = old.getStartLocation();
+        startLocation.setLatitude(Double.valueOf(body.getLatitudeStart()));
+        startLocation.setLongitude(Double.valueOf(body.getLongitudeStart()));
+        startLocation.setName(body.getStartLocationName());
+
+        final var endLocation = old.getEndLocation();
+        endLocation.setLatitude(Double.valueOf(body.getLatitudeEnd()));
+        endLocation.setLongitude(Double.valueOf(body.getLongitudeEnd()));
+        endLocation.setName(body.getEndLocationName());
+
+        final var newTour = Tour.builder()
+                .tourId(Long.valueOf(body.getTourId()))
+                .name(body.getName())
+                .description(body.getDescription())
+                .city(City.valueOf(body.getCity()))
+                .country(Country.valueOf(body.getCountry()))
+                .price(Double.valueOf(body.getPrice()))
+                .visibleOnMarket(body.isVisibleOnMarket())
+                .startLocation(startLocation)
+                .endLocation(endLocation).build();
+
+        tourService.updateTour(newTour);
+        return ResponseEntity.ok("Successfully updated tour!");
     }
 
     @GetMapping("/ofThisUser")

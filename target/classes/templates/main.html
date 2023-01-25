@@ -385,7 +385,17 @@
         </div>
     </div>
 </footer>
-
+<script>
+    window.addEventListener( "pageshow", function ( event ) {
+        let historyTraversal = event.persisted ||
+            ( typeof window.performance != "undefined" &&
+                window.performance.navigation.type === 2 );
+        if ( historyTraversal ) {
+            // Handle page restore.
+            window.location.reload();
+        }
+    });
+</script>
 <script th:src="@{js/hamburgerMenu.js}" type="text/javascript"></script>
 <script th:src="@{js/toast.js}" type="text/javascript"></script>
 <script th:src="@{js/transaction.js}" type="text/javascript"></script>

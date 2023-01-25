@@ -16,12 +16,22 @@ public class LocationService {
         this.locationRepository = locationRepository;
     }
 
+    public void updateLocation(Location location) {
+        locationRepository.save(location);
+    }
+
     public Location addLocation(Double longitude, Double latitude, String name) {
         final var newLocation = new Location();
         newLocation.setLatitude(latitude);
         newLocation.setLongitude(longitude);
         newLocation.setName(name);
         return locationRepository.save(newLocation);
+
+
+    }
+
+    public Location getLocationById(Long locationId) {
+        return locationRepository.findAll().stream().filter(location -> Objects.equals(location.getLocationId(), locationId)).findFirst().orElse(null);
     }
 
     public Location getExisting(Double longitude, Double latitude, String name) {

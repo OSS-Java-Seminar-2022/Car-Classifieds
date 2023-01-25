@@ -33,10 +33,10 @@ public class RouteController {
     @GetMapping("/")
     public String indexPage(HttpServletRequest request) {
         var session = request.getSession(true);
-        if((session.getAttribute("errorMessage") != null)){
+        if ((session.getAttribute("errorMessage") != null)) {
             session.removeAttribute("errorMessage");
         }
-        if((session.getAttribute("registerErrorMessage") != null)){
+        if ((session.getAttribute("registerErrorMessage") != null)) {
             session.removeAttribute("registerErrorMessage");
         }
         return "home";
@@ -48,10 +48,22 @@ public class RouteController {
     }
 
 
+    @GetMapping(value = "/pageEdit")
+    String pageEdit(Model model, HttpServletRequest httpServletRequest, @RequestParam Map<String, String> params) {
+        final var pageId = params.get("pageId");
+        final var existingPage = tourPageController.getById(pageId, httpServletRequest).getBody();
+        if (existingPage instanceof TourPage) {
+            model.addAttribute("page", ((TourPage) existingPage).getPage());
+            model.addAttribute("audioFile", Base64.getEncoder().encodeToString(((TourPage) existingPage).getAudio().getData()));
+            model.addAttribute("imageFile", Base64.getEncoder().encodeToString(((TourPage) existingPage).getImage().getData()));
+            model.addAttribute("tourName", ((TourPage) existingPage).getTour().getName());
+            model.addAttribute("tourPage", existingPage);
+        }
+        return "pageEdit";
+    }
+
     @GetMapping(value = "/pageCreate")
     String pageCreate(Model model, HttpServletRequest httpServletRequest, @RequestParam Map<String, String> params) {
-        final var page = new TourPage();
-        final var location = new Location();
         var tour = new Tour();
         //Adding page to the existing tour
         if (params.containsKey("tourId")) {
@@ -75,13 +87,9 @@ public class RouteController {
             tour.setVisibleOnMarket(false);
             model.addAttribute("page", 0);
         }
-        page.setLocation(location);
-        page.setImage(new Image());
-        page.setAudio(new Audio());
         final var session = httpServletRequest.getSession(true);
         session.setAttribute("tour", tour);
         model.addAttribute("tour", tour);
-        model.addAttribute("tourPage", page);
 
         return "pageCreate";
     }

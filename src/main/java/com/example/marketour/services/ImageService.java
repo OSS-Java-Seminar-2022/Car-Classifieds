@@ -20,7 +20,12 @@ public class ImageService {
         return imageRepository.save(image);
     }
 
+
     public Image getImageByTourId(Long tourId) {
         return imageRepository.findAll().stream().filter(image -> image.getImageId().equals(tourId)).findFirst().orElse(null);
+    }
+
+    public void updateImage(Image image) {
+        imageRepository.save(image);
     }
 }

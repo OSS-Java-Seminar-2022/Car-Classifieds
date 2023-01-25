@@ -19,11 +19,14 @@ public class TourService {
     private final GuideTourRepository guideTourRepository;
     private final TourRepository tourRepository;
 
+    private final LocationService locationService;
+
     public TourService(TouristTourRepository touristTourRepository, GuideTourRepository guideTourRepository,
-                       TourRepository tourRepository) {
+                       TourRepository tourRepository, LocationService locationService) {
         this.touristTourRepository = touristTourRepository;
         this.guideTourRepository = guideTourRepository;
         this.tourRepository = tourRepository;
+        this.locationService = locationService;
     }
 
     public List<Tour> getAllTouristsTours(User user, Filter filter) {
@@ -48,6 +51,24 @@ public class TourService {
 
     public Tour findById(Long tourId) {
         return tourRepository.findAll().stream().filter(tour -> tour.getTourId().equals(tourId)).findFirst().orElse(null);
+    }
+
+    public void updateTour(Tour tour) {
+        final var existing = tourRepository.findAll().stream().filter(tour1 -> Objects.equals(tour1.getTourId(), tour.getTourId())).findFirst().orElse(null);
+        if (existing != null) {
+            tourRepository.save(
+                    existing.toBuilder()
+                            .name(tour.getName())
+                            .price(tour.getPrice())
+                            .city(tour.getCity())
+                            .country(tour.getCountry())
+                            .description(tour.getDescription())
+                            .visibleOnMarket(tour.isVisibleOnMarket()).build());
+        }
+        final var startLocation = tour.getStartLocation();
+        final var endLocation = tour.getEndLocation();
+        locationService.updateLocation(startLocation);
+        locationService.updateLocation(endLocation);
     }
 
     public void addTouristTour(User user, Tour tour) {

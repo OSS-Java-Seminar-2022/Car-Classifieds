@@ -19,4 +19,8 @@ public class AudioService {
         audio.setDescription(audioDescription);
         return audioRepository.save(audio);
     }
+
+    public void updateAudio(Audio audio) {
+        audioRepository.save(audio);
+    }
 }

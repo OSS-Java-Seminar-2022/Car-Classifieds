@@ -24,6 +24,10 @@ public class TourPagesService {
         return tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTour().getTourId(), tourId)).collect(Collectors.toList());
     }
 
+    public TourPage getById(Long pageId) {
+        return tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTourPageId(), pageId)).findFirst().orElse(null);
+    }
+
     public void reorder(List<Long> newIds, Long tourId) {
         final var old = tourPageRepository.findAll().stream()
                 .filter(tourPage -> Objects.equals(tourPage.getTour().getTourId(), tourId))
@@ -46,6 +50,19 @@ public class TourPagesService {
         return tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTour().getTourId(), tourId) && tourPage.getPage() == 0).findFirst().orElse(null);
     }
 
+    public void updateTourPage(Long pageId, String title, String body, Image image, Audio audio, Location location) {
+        final var existing = tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTourPageId(), pageId)).findFirst().orElse(null);
+        if (existing != null) {
+            existing.setTitle(title);
+            existing.setBody(body);
+            existing.setImage(image);
+            existing.setAudio(audio);
+            existing.setLocation(location);
+            tourPageRepository.save(existing);
+        }
+
+    }
+
     public void insertNewTourPage(Tour tour, Integer page, String title, String body, Image image, Audio audio, Location location) {
         final var newTourPage = new TourPage();
         newTourPage.setPage(page);
@@ -58,7 +75,7 @@ public class TourPagesService {
         tourPageRepository.save(newTourPage);
     }
 
-    public void removeTourPage(TourPage tourPage) {
-        tourPageRepository.delete(tourPage);
+    public void removeTourPageById(Long tourPageId) {
+        tourPageRepository.deleteById(tourPageId);
     }
 }
