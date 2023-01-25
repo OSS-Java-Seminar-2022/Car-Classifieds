@@ -13,7 +13,7 @@
             src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
 <body>
-<div th:id="${tourPage.tourPageId}" class="pageId"></div>
+<div class="pageId" th:id="${tourPage.tourPageId}"></div>
 <div class="mx-auto p-6 bg-white rounded-lg shadow-xl" style="width: 600px">
     <h1 class="text-2xl font-medium mb-2">Create page</h1>
     <label class="block text-gray-700 font-medium mb-2" for="body" th:text="'Tour name: ' + ${tourName}">...</label>
@@ -24,7 +24,7 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="title">Title</label>
-        <input class="border p-2 rounded-lg w-full" id="title" type="text" th:value="${tourPage.title}">
+        <input class="border p-2 rounded-lg w-full" id="title" th:value="${tourPage.title}" type="text">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="body">Body</label>
@@ -32,23 +32,23 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="image">Image</label>
-        <input accept="image/*" src="/oldValue" class="border p-2 rounded-lg w-full" id="image" name="image" type="file"
-               th:attr="data-file=${imageFile}">
+        <input accept="image/*" class="border p-2 rounded-lg w-full" id="image" name="image" src="/oldValue" th:attr="data-file=${imageFile}"
+               type="file">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="imageDescription">Image description</label>
-        <input class="border p-2 rounded-lg w-full" id="imageDescription" type="text"
-               th:value="${tourPage.image.description}">
+        <input class="border p-2 rounded-lg w-full" id="imageDescription" th:value="${tourPage.image.description}"
+               type="text">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="audio">Audio</label>
-        <input class="border p-2 rounded-lg w-full" id="audio" accept="audio/*" name="audio" type="file"
-               th:attr="data-file=${imageFile}">
+        <input accept="audio/*" class="border p-2 rounded-lg w-full" id="audio" name="audio" th:attr="data-file=${imageFile}"
+               type="file">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="audioDescription">Audio description</label>
-        <input class="border p-2 rounded-lg w-full" id="audioDescription" type="text"
-               th:value="${tourPage.audio.description}">
+        <input class="border p-2 rounded-lg w-full" id="audioDescription" th:value="${tourPage.audio.description}"
+               type="text">
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-medium mb-2" for="map">Location</label>
@@ -56,17 +56,17 @@
         <div class="mb-4">
             <label class="block text-gray-700 font-medium mb-2" for="latitude">Latitude</label>
             <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                   id="latitude" readonly type="text" th:value="${tourPage.location.latitude}">
+                   id="latitude" readonly th:value="${tourPage.location.latitude}" type="text">
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 font-medium mb-2" for="longitude">Longitude</label>
             <input class="bg-white rounded-lg py-2 px-4 block w-full leading-5 text-gray-700 focus:outline-none focus:shadow-outline-blue-500"
-                   id="longitude" readonly type="text" th:value="${tourPage.location.longitude}">
+                   id="longitude" readonly th:value="${tourPage.location.longitude}" type="text">
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 font-medium mb-2" for="locationName">Location name</label>
-            <input class="border p-2 rounded-lg w-full" id="locationName" type="text"
-                   th:value="${tourPage.location.name}">
+            <input class="border p-2 rounded-lg w-full" id="locationName" th:value="${tourPage.location.name}"
+                   type="text">
         </div>
         <div class="text-right mt-6">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg"
@@ -164,7 +164,7 @@
         document.getElementById("latitude").value = e.latlng.lat;
         document.getElementById("longitude").value = e.latlng.lng;
     }
-    
+
 
     map.on('click', onMapClick);
 </script>

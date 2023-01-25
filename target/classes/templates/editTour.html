@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="">
+<html lang="en" xmlns="" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -53,7 +53,8 @@
                 <div class="mb-4">
                     <label class="block text-gray-700 font-medium mb-2" for="startLocationName">Start location
                         name</label>
-                    <input class="border p-2 rounded-lg w-full" id="startLocationName" th:value="${existingTour.startLocation.name}"
+                    <input class="border p-2 rounded-lg w-full" id="startLocationName"
+                           th:value="${existingTour.startLocation.name}"
                            type="text">
                 </div>
                 <div class="mb-4">
@@ -82,7 +83,8 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 font-medium mb-2" for="endLocationName">End location name</label>
-                    <input class="border p-2 rounded-lg w-full" id="endLocationName" th:value="${existingTour.endLocation.name}"
+                    <input class="border p-2 rounded-lg w-full" id="endLocationName"
+                           th:value="${existingTour.endLocation.name}"
                            type="text">
                 </div>
 
@@ -118,22 +120,22 @@
                             <td>
                                 <div class="p-4">
                                     <button
-                                            type="reset"
                                             class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
                                             th:onclick="editPage([[${tourPage.tourPageId}]])"
+                                            type="reset"
                                     >
-                                        Edit Page
+                                        Edit
                                     </button>
                                 </div>
                             </td>
                             <td>
                                 <div class="p-4">
                                     <button
-                                            type="button"
                                             class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
                                             th:onclick="deletePage([[${tourPage.tourPageId}]])"
+                                            type="button"
                                     >
-                                        Delete page
+                                        Delete
                                     </button>
                                 </div>
                             </td>
@@ -161,6 +163,8 @@
             </button>
             <button
                     class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                    type="button"
+                    onclick="deleteTour()"
             >
                 Delete Tour
             </button>
@@ -170,16 +174,29 @@
 </div>
 </body>
 <script>
+    async function deleteTour() {
+        let tourId = document.getElementsByClassName("myTour").item(0).id;
+        let url = "http://localhost:8080/tours/delete/" + tourId;
+        let result = await fetch(url);
+        if (result.ok) {
+            window.location.href = "http://localhost:8080/main";
+        } else {
+            alert(await result.text());
+        }
+    }
+</script>
+<script>
     function editPage(pageId) {
         let url = "http://localhost:8080/pageEdit?&pageId=" + pageId;
         console.log(url);
         window.location.href = url;
     }
+
     async function deletePage(pageId) {
         let result = await fetch("/tourPages/delete/" + pageId);
-        if(result.ok) {
+        if (result.ok) {
             alert(await result.text());
-        }else {
+        } else {
             location.reload();
         }
     }
@@ -218,7 +235,7 @@
                 visibleOnMarket
             })
         });
-        if(result.ok) {
+        if (result.ok) {
             alert(await result.text());
             location.reload();
         } else {

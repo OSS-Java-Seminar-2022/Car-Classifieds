@@ -19,7 +19,7 @@ public class TouristTour {
     @JoinColumn(name = "tourist_id", referencedColumnName = "user_id", nullable = false)
     private User tourist;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "tour_id", nullable = false)
     private Tour tour;
 

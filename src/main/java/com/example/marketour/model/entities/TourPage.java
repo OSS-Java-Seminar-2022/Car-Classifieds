@@ -18,7 +18,7 @@ public class TourPage {
     @Column(name = "tour_page_id")
     private Long tourPageId;
 
-    @OneToOne(cascade = CascadeType.DETACH)
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "tour_id", nullable = false)
     private Tour tour;
 

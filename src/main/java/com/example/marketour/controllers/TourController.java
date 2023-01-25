@@ -130,4 +130,13 @@ public class TourController {
         }
 
     }
+
+    @GetMapping("/delete/{tourId}")
+    public ResponseEntity<Object> removeTour(HttpServletRequest request, @PathVariable String tourId) {
+        if (request.getSession().getAttribute("user") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
+        }
+        tourService.deleteTour(Long.valueOf(tourId));
+        return ResponseEntity.ok("Successfully removed tour!");
+    }
 }

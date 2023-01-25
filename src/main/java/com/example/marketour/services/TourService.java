@@ -45,6 +45,10 @@ public class TourService {
         return tourRepository.findAll().stream().filter(tour -> Objects.equals(tour.getTourId(), tourId)).findFirst().orElse(null);
     }
 
+    public void deleteTour(Long tourId) {
+        tourRepository.deleteById(tourId);
+    }
+
     public List<Tour> getAllToursOnMarketplace(Filter filter) {
         return guideTourRepository.findAll().stream().map(GuideTour::getTour).filter(e -> e.isVisibleOnMarket() && filter(e, filter)).collect(Collectors.toList());
     }

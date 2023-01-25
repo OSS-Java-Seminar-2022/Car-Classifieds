@@ -19,7 +19,7 @@ public class GuideTour {
     @JoinColumn(name = "guide_id", referencedColumnName = "user_id", nullable = false)
     private User guide;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "tour_id", nullable = false, unique = true)
     private Tour tour;
 
