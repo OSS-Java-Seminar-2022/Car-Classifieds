@@ -1,13 +1,14 @@
 package com.example.marketour.controllers;
 
-import com.example.marketour.model.entities.TourReview;
 import com.example.marketour.repositories.TourReviewRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,8 +22,11 @@ public class TourReviewController {
     }
 
     @GetMapping
-    public List<TourReview> getAllReviewsForTour(Model model) {
+    public ResponseEntity<Object> getAllReviewsForTour(Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
+        }
         final var tourId = (Long) model.getAttribute("tourId");
-        return tourReviewRepository.findAll().stream().filter(e -> e.getTour().getTourId().equals(tourId)).collect(Collectors.toList());
+        return ResponseEntity.ok(tourReviewRepository.findAll().stream().filter(e -> e.getTour().getTourId().equals(tourId)).collect(Collectors.toList()));
     }
 }

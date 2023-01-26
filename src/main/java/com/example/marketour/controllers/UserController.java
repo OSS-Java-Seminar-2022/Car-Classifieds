@@ -29,19 +29,14 @@ public class UserController {
     Object login(@ModelAttribute("user") User requestUser, HttpServletRequest request) {
         var session = request.getSession(true);
         if (requestUser.getUsername() == null || requestUser.getPassword() == null) {
-            ObjectError error = new ObjectError("globalError", "Username/password needed!");
-            //bindingResult.addError(error);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password needed!");
         }
         final var user = userService.checkCredentialsExist(requestUser.getUsername(), requestUser.getPassword());
         if (user != null) {
             if (session.getAttribute("user") == null) {
                 session.setAttribute("user", user);
-                return "redirect:/main";
-            } else {
-//                User already logged in case
-                return "redirect:/main";
             }
+            return "redirect:/main";
         } else {
             // add attribute to the request to show the error message in the login html template
             session.setAttribute("errorMessage", "Username or password is invalid.");
@@ -62,13 +57,11 @@ public class UserController {
         if (tempUser.getUsername() == null || tempUser.getUserType() == null || tempUser.getPassword() == null || tempUser.getUsername().isEmpty() || tempUser.getPassword().isEmpty()) {
             session.setAttribute("registerErrorMessage", "Username and password are required.");
             return "redirect:/register";
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password/user type needed!");
         }
         final var user = userService.checkUsernameExists(tempUser.getUsername());
         if (user != null) {
             session.setAttribute("registerErrorMessage", "Username already taken.");
             return "redirect:/register";
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists!");
         } else {
             final var addedUser = userService.createUser(tempUser.getUsername(), tempUser.getPassword(), tempUser.getUserType(), 0.0, tempUser.getCity(), tempUser.getCountry());
             session.setAttribute("user", addedUser);

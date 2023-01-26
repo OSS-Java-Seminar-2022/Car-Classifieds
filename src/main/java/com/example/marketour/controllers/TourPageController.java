@@ -69,6 +69,9 @@ public class TourPageController {
                                               @RequestParam(name = "image", required = false) MultipartFile imagePart,
                                               @RequestParam(name = "audio", required = false) MultipartFile audioPart,
                                               HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
+        }
         TourPageRequestBody tourPageRequestBody = new Gson().fromJson(tourPageRequestBodyJson, TourPageRequestBody.class);
         if (request.getSession() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not logged in!");

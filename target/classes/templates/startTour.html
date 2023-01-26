@@ -1,71 +1,56 @@
+
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Tour Pages View </title>
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <title>Tour Pages</title>
+
+    <!-- Import Tailwind CSS -->
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css'>
-    <link rel="stylesheet" th:href="@{/css/viewTour.css}"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link rel="shortcut icon" href="#">
+
+    <!-- Import Swiper.js -->
+    <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"/>
 </head>
 <body class="bg-gray-200">
-<!-- partial:index.partial.html -->
-<div class="blog-slider max-h-screen flex">
-    <div class="blog-slider__wrp swiper-wrapper">
-        <div class="blog-slider__item swiper-slide" th:each="tourPage : ${tourPages}">
-            <div class="blog-slider__pagination"></div>
-            <div class="blog-slider__img">
-                <img th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|" alt="image">
-            </div>
-            <div class="blog-slider__content">
-                <span class="blog-slider__code" th:text="${tourPage.location.name}">Location</span>
-                <div class="blog-slider__title" th:text="${tourPage.title}">Title</div>
-                <div class="blog-slider__text" th:text="${tourPage.body}">Description </div>
-                <button class="audio-button blog-slider__button" th:id="'button ' + ${tourPage.tourPageId}">
-                    <audio class="hidden audio" th:id="${tourPage.tourPageId}" controls th:src="|data:audio/mp3;base64,${audioBase64.get(tourPage.tourPageId)}|" th:onclick="play([[${tourPage.tourPageId}]])"></audio>
-                    Play Audio
-                </button>
+<div class="mx-auto w-full h-full">
+    <div class="swiper-container mx-auto h-full">
+        <div class="swiper-wrapper h-full">
+            <div class="swiper-slide bg-white rounded-lg p-6 mx-auto h-full" th:each="tourPage : ${tourPages}">
+                <p class="text-2xl font-medium text-gray-800 mx-auto" th:text="${tourPage.location.name}"></p>
+                <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" th:text="${tourPage.title}"></h1>
+                <div class="my-6">
+                    <img alt="Image"
+                         class="h-auto w-auto mx-auto object-cover rounded-lg" th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|"/>
+                </div>
+                <p class="w-full text-center text-darkGrayishBlue md:text-left h-60 break-words overflow-y-auto" th:text="${tourPage.body}">
+                    Marketour provides all the functionality your team needs, without the
+                    complexity. Our software is tailor-made for modern digital product
+                    teams.
+                </p>
+                <div class="my-6 mx-auto w-full">
+                    <audio alt="Audio" class="h-20 w-full"
+                           controls th:src="|data:audio/mp3;base64,${audioBase64.get(tourPage.tourPageId)}|"/>
+                </div>
             </div>
         </div>
+        <div class="swiper-pagination"></div>
     </div>
 </div>
-<!-- partial -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js'></script>
-<script>
-    const audioButtons = Array.from(document.getElementsByClassName('audio-button'));
-    const audios = Array.from(document.getElementsByClassName('audio'));
-    audioButtons.forEach(item => {
-        let index = audioButtons.indexOf(item);
-        item.addEventListener('click', function() {
-            if (audios[index].paused) {
-                audios[index].play();
-                audioButtons[index].innerHTML = 'Pause Audio';
-            } else {
-                audios[index].pause();
-                audioButtons[index].innerHTML = 'Play Audio';
-            }
-        });
-    });
 
-</script>
+<!-- Initialize Swiper.js -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
-    let swiper = new Swiper('.blog-slider', {
-        spaceBetween: 30,
-        effect: 'fade',
-        loop: true,
-        mousewheel: {
-            invert: false,
-        },
-        // autoHeight: true,
+    var swiper = new Swiper('.swiper-container', {
         pagination: {
-            el: '.blog-slider__pagination',
-            clickable: true,
-        }
+            el: '.swiper-pagination',
+            type: 'bullets',
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
     });
 </script>
 </body>

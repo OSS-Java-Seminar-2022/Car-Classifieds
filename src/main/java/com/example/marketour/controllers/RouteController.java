@@ -53,6 +53,9 @@ public class RouteController {
 
     @GetMapping(value = "/pageEdit")
     String pageEdit(Model model, HttpServletRequest httpServletRequest, @RequestParam Map<String, String> params) {
+        if (httpServletRequest.getSession().getAttribute("user") == null) {
+            return "redirect:/";
+        }
         final var pageId = params.get("pageId");
         final var existingPage = tourPageController.getById(pageId, httpServletRequest).getBody();
         if (existingPage instanceof TourPage) {
@@ -67,6 +70,9 @@ public class RouteController {
 
     @GetMapping(value = "/pageCreate")
     String pageCreate(Model model, HttpServletRequest httpServletRequest, @RequestParam Map<String, String> params) {
+        if (httpServletRequest.getSession().getAttribute("user") == null) {
+            return "redirect:/";
+        }
         var tour = new Tour();
         //Adding page to the existing tour
         if (params.containsKey("tourId")) {
@@ -99,6 +105,9 @@ public class RouteController {
 
     @GetMapping(value = "/editTour/{tourId}")
     String editTour(Model model, HttpServletRequest request, @PathVariable String tourId) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "redirect:/";
+        }
         final var user = (User) request.getSession().getAttribute("user");
         model.addAttribute("user", user);
         final var tour = (Tour) tourController.getTour(request, tourId).getBody();
@@ -120,6 +129,9 @@ public class RouteController {
 
     @GetMapping(value = "/startTour/{tourId}")
     String startTour(Model model, HttpServletRequest request, @PathVariable String tourId) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "redirect:/";
+        }
         final var user = (User) request.getSession().getAttribute("user");
         model.addAttribute("user", user);
         final var tourPagesResult = tourPageController.getAllTourPages(Long.valueOf(tourId));
@@ -133,13 +145,19 @@ public class RouteController {
 
     @GetMapping(value = "/newTour")
     String newTour(Model model, HttpServletRequest httpServletRequest) {
+        if (httpServletRequest.getSession().getAttribute("user") == null) {
+            return "redirect:/";
+        }
         final var user = (User) httpServletRequest.getSession().getAttribute("user");
         model.addAttribute("user", user);
         return "newTour";
     }
 
     @GetMapping(value = "/register")
-    String register(@ModelAttribute("user") User user, Model model) {
+    String register(@ModelAttribute("user") User user, Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null) {
+            return "redirect:/";
+        }
         model.addAttribute("cities", City.values());
         model.addAttribute("countries", Country.values());
         model.addAttribute("userTypes", UserType.values());
@@ -151,7 +169,7 @@ public class RouteController {
         final var userSpecificTours = tourController.getAllToursOfThisUser(httpServletRequest, model);
         final var allToursOnMarket = tourController.getAllToursOnMarket(httpServletRequest, model);
         final var allTours = tourController.getAllTours(httpServletRequest);
-        final var imageMap = ((ArrayList<Tour>) allTours.getBody()).stream().map(tour -> Map.entry(tour.getTourId(), Objects.requireNonNull(Base64.getEncoder().encodeToString(Objects.requireNonNull(imageController.getFirstPageImage(tour.getTourId()).getBody()).getData())))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        final var imageMap = ((ArrayList<Tour>) allTours.getBody()).stream().map(tour -> Map.entry(tour.getTourId(), Objects.requireNonNull(Base64.getEncoder().encodeToString(Objects.requireNonNull((Image) imageController.getFirstPageImage(tour.getTourId(), httpServletRequest).getBody()).getData())))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         final var user = (User) httpServletRequest.getSession().getAttribute("user");
         model.addAttribute("userTours", userSpecificTours.getBody());
         model.addAttribute("allTours", ((ArrayList<Tour>) allToursOnMarket.getBody()).stream().filter(tour -> !((ArrayList<Tour>) userSpecificTours.getBody()).stream().map(tour1 -> tour1.getTourId()).collect(Collectors.toList()).contains(tour.getTourId())).collect(Collectors.toList()));
@@ -178,12 +196,7 @@ public class RouteController {
     @GetMapping(value = "/logout")
     String logout(HttpServletRequest request) {
         final var response = userController.logout(request);
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return "redirect:/";
-        } else {
-            //TODO error handling
-            return "redirect:/";
-        }
+        return "redirect:/";
     }
 
 }
