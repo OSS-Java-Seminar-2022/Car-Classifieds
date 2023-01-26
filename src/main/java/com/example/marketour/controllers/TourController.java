@@ -5,7 +5,6 @@ import com.example.marketour.model.entities.Filter;
 import com.example.marketour.model.entities.Tour;
 import com.example.marketour.model.entities.User;
 import com.example.marketour.model.entities.UserType;
-import com.example.marketour.services.LocationService;
 import com.example.marketour.services.TourService;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
@@ -20,11 +19,10 @@ import java.util.List;
 @RequestMapping("/tours")
 public class TourController {
     private final TourService tourService;
-    private final LocationService locationService;
 
-    public TourController(TourService tourService, LocationService locationService) {
+    public TourController(TourService tourService) {
         this.tourService = tourService;
-        this.locationService = locationService;
+
     }
 
 
@@ -34,17 +32,7 @@ public class TourController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
         }
         final var body = new Gson().fromJson(json, SaveTourBody.class);
-        final Tour old = tourService.getTour(Long.valueOf(body.getTourId()));
 
-        final var startLocation = old.getStartLocation();
-        startLocation.setLatitude(Double.valueOf(body.getLatitudeStart()));
-        startLocation.setLongitude(Double.valueOf(body.getLongitudeStart()));
-        startLocation.setName(body.getStartLocationName());
-
-        final var endLocation = old.getEndLocation();
-        endLocation.setLatitude(Double.valueOf(body.getLatitudeEnd()));
-        endLocation.setLongitude(Double.valueOf(body.getLongitudeEnd()));
-        endLocation.setName(body.getEndLocationName());
 
         final var newTour = Tour.builder()
                 .tourId(Long.valueOf(body.getTourId()))
@@ -53,9 +41,7 @@ public class TourController {
                 .city(body.getCity())
                 .country(body.getCountry())
                 .price(Double.valueOf(body.getPrice()))
-                .visibleOnMarket(body.isVisibleOnMarket())
-                .startLocation(startLocation)
-                .endLocation(endLocation).build();
+                .visibleOnMarket(body.isVisibleOnMarket()).build();
 
         tourService.updateTour(newTour);
         return ResponseEntity.ok("Successfully updated tour!");

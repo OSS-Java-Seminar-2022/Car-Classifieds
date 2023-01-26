@@ -39,7 +39,7 @@ public class TourPage {
     @JoinColumn(name = "audio_id")
     private Audio audio;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "location_id")
     private Location location;
 

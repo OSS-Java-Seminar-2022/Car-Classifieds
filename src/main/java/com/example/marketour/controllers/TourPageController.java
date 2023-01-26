@@ -82,7 +82,7 @@ public class TourPageController {
         final User user = (User) request.getSession().getAttribute("user");
 
         final Location location;
-        Location tempLocation = locationService.getExisting(tourPageRequestBody.getLongitude(), tourPageRequestBody.getLatitude(), tourPageRequestBody.getLocationName());
+        Location tempLocation = locationService.getExisting(tourPageRequestBody.getLongitude(), tourPageRequestBody.getLatitude());
         if (tempLocation == null) {
             location = locationService.addLocation(tourPageRequestBody.getLongitude(), tourPageRequestBody.getLatitude(), tourPageRequestBody.getLocationName());
         } else {
@@ -92,8 +92,6 @@ public class TourPageController {
         if (tourPageRequestBody.getPage() != null && tourPageRequestBody.getPage() == 0) {
             tour.setCountry(tourPageRequestBody.getCountry());
             tour.setCity(tourPageRequestBody.getCity());
-            tour.setStartLocation(location);
-            tour.setEndLocation(location);
             tourService.addGuideTour(user, tour);
             request.removeAttribute("tour");
         }

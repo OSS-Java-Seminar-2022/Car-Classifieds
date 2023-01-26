@@ -34,10 +34,9 @@ public class LocationService {
         return locationRepository.findAll().stream().filter(location -> Objects.equals(location.getLocationId(), locationId)).findFirst().orElse(null);
     }
 
-    public Location getExisting(Double longitude, Double latitude, String name) {
+    public Location getExisting(Double longitude, Double latitude) {
         return locationRepository.findAll().stream().filter(location ->
-                Objects.equals(location.getName(), name) ||
-                        (abs(location.getLatitude() - latitude) <= 0.001 &&
-                                abs(location.getLongitude() - longitude) <= 0.001)).findFirst().orElse(null);
+                (abs(location.getLatitude() - latitude) <= 0.001 &&
+                        abs(location.getLongitude() - longitude) <= 0.001)).findFirst().orElse(null);
     }
 }

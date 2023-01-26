@@ -1,6 +1,7 @@
 package com.example.marketour.services;
 
 import com.example.marketour.model.entities.*;
+import com.example.marketour.repositories.LocationRepository;
 import com.example.marketour.repositories.TourPageRepository;
 import com.example.marketour.repositories.TourRepository;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,14 @@ import java.util.stream.Collectors;
 public class TourPagesService {
     private final TourPageRepository tourPageRepository;
     private final TourRepository tourRepository;
+    private final LocationRepository locationRepository;
 
     public TourPagesService(TourPageRepository tourPageRepository,
-                            TourRepository tourRepository) {
+                            TourRepository tourRepository,
+                            LocationRepository locationRepository) {
         this.tourPageRepository = tourPageRepository;
         this.tourRepository = tourRepository;
+        this.locationRepository = locationRepository;
     }
 
     public List<TourPage> getAllTourPages(Long tourId) {
@@ -55,6 +59,7 @@ public class TourPagesService {
             existing.setBody(body);
             existing.setImage(image);
             existing.setAudio(audio);
+            locationRepository.save(location);
             existing.setLocation(location);
             tourPageRepository.save(existing);
         }

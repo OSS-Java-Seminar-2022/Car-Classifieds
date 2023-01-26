@@ -20,18 +20,10 @@ public class Tour implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tour_id")
     private Long tourId;
-
-    @OneToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "start_location_id", referencedColumnName = "location_id")
-    private Location startLocation;
-
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "description", nullable = false, columnDefinition = "LONGTEXT")
     private String description;
-    @OneToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "end_location_id", referencedColumnName = "location_id")
-    private Location endLocation;
 
     @Column(name = "country", nullable = false)
     private String country;

@@ -109,6 +109,11 @@ public class RouteController {
         model.addAttribute("imagesBase64", imagesBase64);
         model.addAttribute("audioBase64", audioBase64);
         model.addAttribute("tourPages", tourPagesResult.getBody().stream().sorted(Comparator.comparing(TourPage::getPage)).collect(Collectors.toList()));
+        final var lng = Objects.requireNonNull(Objects.requireNonNull(tour).getTourPages().stream().filter(tourPage -> tourPage.getPage() == 0).findFirst().orElse(null)).getLocation().getLongitude();
+        final var lat = Objects.requireNonNull(Objects.requireNonNull(tour).getTourPages().stream().filter(tourPage -> tourPage.getPage() == 0).findFirst().orElse(null)).getLocation().getLatitude();
+
+        model.addAttribute("startLongitude", lng);
+        model.addAttribute("startLatitude", lat);
 
         return "editTour";
     }
@@ -163,8 +168,8 @@ public class RouteController {
 
         }
         final var transactionsResult = transactionController.getAllTransactionsOfUser(httpServletRequest);
-        if(transactionsResult.getStatusCode() == HttpStatus.OK) {
-            model.addAttribute("transactions",(List<Transaction>) transactionsResult.getBody());
+        if (transactionsResult.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("transactions", transactionsResult.getBody());
         }
         model.addAttribute("user", user);
         return "main";
