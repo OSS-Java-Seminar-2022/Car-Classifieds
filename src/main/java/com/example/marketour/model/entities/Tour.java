@@ -27,7 +27,7 @@ public class Tour implements Serializable {
 
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, columnDefinition = "LONGTEXT")
     private String description;
     @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "end_location_id", referencedColumnName = "location_id")

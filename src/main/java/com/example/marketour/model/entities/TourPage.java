@@ -28,7 +28,7 @@ public class TourPage {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "body")
+    @Column(name = "body", columnDefinition = "LONGTEXT")
     private String body;
 
     @OneToOne(cascade = CascadeType.DETACH)

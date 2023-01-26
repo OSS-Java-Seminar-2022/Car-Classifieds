@@ -58,15 +58,19 @@ public class UserController {
         tempUser.setCountry(Country.valueOf(registerUser.getCountry()));
         tempUser.setCity(City.valueOf(registerUser.getCity()));
         tempUser.setUserType(UserType.valueOf(registerUser.getUserType()));
-        if (tempUser.getUsername() == null || tempUser.getUserType() == null || tempUser.getPassword() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password/user type needed!");
+        final var session = request.getSession(true);
+        if (tempUser.getUsername() == null || tempUser.getUserType() == null || tempUser.getPassword() == null || tempUser.getUsername().isEmpty() || tempUser.getPassword().isEmpty()) {
+            session.setAttribute("registerErrorMessage", "Username and password are required.");
+            return "redirect:/register";
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password/user type needed!");
         }
         final var user = userService.checkUsernameExists(tempUser.getUsername());
         if (user != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists!");
+            session.setAttribute("registerErrorMessage", "Username already taken.");
+            return "redirect:/register";
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists!");
         } else {
             final var addedUser = userService.createUser(tempUser.getUsername(), tempUser.getPassword(), tempUser.getUserType(), 0.0, tempUser.getCity(), tempUser.getCountry());
-            final var session = request.getSession(true);
             session.setAttribute("user", addedUser);
             return "redirect:/main";
         }
