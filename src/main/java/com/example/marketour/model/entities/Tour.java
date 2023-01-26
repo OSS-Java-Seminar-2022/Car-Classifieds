@@ -55,22 +55,22 @@ public class Tour implements Serializable {
     @JsonIgnore
     private TouristTour touristTour;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<TourPage> tourPages;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<TourReview> tourReviews;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Transaction> transactions;
 
 
     public static boolean filter(Tour tour, Filter filter) {
-        return filter == null || ((filter.city == null || tour.city.equals(filter.city)) &&
-                (filter.country == null || tour.country.equals(filter.country)) &&
+        return filter == null || ((filter.city == null || tour.city.equals(filter.city.name())) &&
+                (filter.country == null || tour.country.equals(filter.country.name())) &&
                 (filter.priceRange == null || filter.priceRange.contains(tour.price)));
     }
 

@@ -28,18 +28,18 @@ public class TourPage {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "body", columnDefinition = "LONGTEXT")
+    @Column(name = "body")
     private String body;
 
-    @OneToOne(cascade = CascadeType.DETACH)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @OneToOne(cascade = {CascadeType.DETACH})
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "audio_id")
     private Audio audio;
 
-    @OneToOne(cascade = CascadeType.DETACH)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private Location location;
 

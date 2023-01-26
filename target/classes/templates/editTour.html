@@ -193,12 +193,22 @@
     }
 
     async function deletePage(pageId) {
+        let tourPageIds = [];
+        let tourPages = document.querySelectorAll('.tPage');
+        console.log(pageId);
+        tourPages.forEach(function (tourPage) {
+            console.log(tourPage.id);
+            if(tourPage.id.toString() !== pageId.toString()) {
+                tourPageIds.push(tourPage.id);
+            }
+        });
         let result = await fetch("/tourPages/delete/" + pageId);
         if (result.ok) {
-            await sort(null);
+            await sortAfterDeletion(tourPageIds);
             alert(await result.text());
         }
         location.reload();
+
     }
 </script>
 <script>
@@ -320,6 +330,19 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
 <script>
+
+    async function sortAfterDeletion(idsAfterDeletion) {
+        let tourId = document.getElementsByClassName("myTour").item(0).id;
+        console.log(idsAfterDeletion);
+        await fetch("http://localhost:8080/tourPages/reorder/" + tourId, {
+            method: "post",
+            body: JSON.stringify(
+                {
+                    "ids": idsAfterDeletion
+                }
+            )
+        });
+    }
     async function sort(event) {
         let tourPageIds = [];
         let tourPages = document.querySelectorAll('.tPage');
@@ -327,6 +350,12 @@
             tourPageIds.push(tourPage.id);
         });
         let tourId = document.getElementsByClassName("myTour").item(0).id;
+        console.log(tourId);
+        console.log(JSON.stringify(
+            {
+                "ids": tourPageIds
+            }
+        ));
         await fetch("http://localhost:8080/tourPages/reorder/" + tourId, {
             method: "post",
             body: JSON.stringify(
