@@ -26,8 +26,6 @@ public class LocationService {
         newLocation.setLongitude(longitude);
         newLocation.setName(name);
         return locationRepository.save(newLocation);
-
-
     }
 
     public Location getLocationById(Long locationId) {
