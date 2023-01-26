@@ -1,5 +1,6 @@
 package com.example.marketour.controllers;
 
+import com.example.marketour.model.dtos.LocationBody;
 import com.example.marketour.model.dtos.SaveTourBody;
 import com.example.marketour.model.entities.Filter;
 import com.example.marketour.model.entities.Tour;
@@ -23,6 +24,16 @@ public class TourController {
     public TourController(TourService tourService) {
         this.tourService = tourService;
 
+    }
+
+    @PostMapping("/nearby")
+    public ResponseEntity<Object> getNearby(HttpServletRequest request, @RequestBody String json) {
+        if (request.getSession().getAttribute("user") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
+        }
+        final var body = new Gson().fromJson(json, LocationBody.class);
+        final var nearbyTours = tourService.getNearbyIds(body.getLongitude(), body.getLatitude());
+        return ResponseEntity.ok(nearbyTours);
     }
 
 

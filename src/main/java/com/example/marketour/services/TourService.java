@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.example.marketour.model.entities.Tour.filter;
+import static java.lang.Math.*;
 
 
 @Service
@@ -25,6 +26,22 @@ public class TourService {
         this.touristTourRepository = touristTourRepository;
         this.guideTourRepository = guideTourRepository;
         this.tourRepository = tourRepository;
+    }
+
+    public static double distance(double lat1, double lon1,
+                                  double lat2, double lon2) {
+        final int R = 6371; // Earth's radius in kilometers
+        double dLat = toRadians(lat2 - lat1);
+        double dLon = toRadians(lon2 - lon1);
+        lat1 = toRadians(lat1);
+        lat2 = toRadians(lat2);
+
+        double a = sin(dLat / 2) * sin(dLat / 2) +
+                sin(dLon / 2) * sin(dLon / 2) *
+                        cos(lat1) * cos(lat2);
+        double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+        return R * c;
     }
 
     public List<Tour> getAllTouristsTours(User user, Filter filter) {
@@ -84,4 +101,12 @@ public class TourService {
         tourRepository.save(tour);
     }
 
+    public List<Long> getNearbyIds(Double longitude, Double latitude) {
+        return tourRepository.findAll().stream().filter(tour -> {
+            final var location = Objects.requireNonNull(tour.getTourPages().stream().findFirst().orElse(null)).getLocation();
+            final var tourLat = location.getLatitude();
+            final var tourLong = location.getLongitude();
+            return distance(tourLat, tourLong, latitude, longitude) <= 3;
+        }).map(Tour::getTourId).collect(Collectors.toList());
+    }
 }

@@ -189,6 +189,7 @@ public class RouteController {
         if (transactionsResult.getStatusCode() == HttpStatus.OK) {
             model.addAttribute("transactions", transactionsResult.getBody());
         }
+        model.addAttribute("isTourist", user.getUserType() == UserType.tourist);
         model.addAttribute("user", user);
         return "main";
     }

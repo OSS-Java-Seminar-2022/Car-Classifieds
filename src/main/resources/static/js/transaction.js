@@ -19,10 +19,10 @@ async function approveBuy() {
 
 function buy(tour) {
     tourInCart = tour;
-    console.log(tour);
     document.getElementById("promptText").innerText = "Are you sure you want to buy " + tour.name + " tour for " + tour.price + " tokens?";
     document.getElementById("buyPrompt").style.display = "block";
 }
+
 async function withdrawTokens() {
     let value = document.getElementById("tokensToWithdraw").value;
     if (value > 0) {
@@ -51,6 +51,7 @@ async function addTokens() {
         showToast("Error");
     }
 }
+
 moneyCheck();
 moneyCheckTimer();
 
