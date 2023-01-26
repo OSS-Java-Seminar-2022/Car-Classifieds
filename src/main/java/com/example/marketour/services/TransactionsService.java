@@ -7,7 +7,9 @@ import com.example.marketour.repositories.GuideTourRepository;
 import com.example.marketour.repositories.TransactionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionsService {
@@ -17,6 +19,12 @@ public class TransactionsService {
     public TransactionsService(TransactionRepository transactionRepository, GuideTourRepository guideTourRepository) {
         this.transactionRepository = transactionRepository;
         this.guideTourRepository = guideTourRepository;
+    }
+
+    public List<Transaction> getAllOfUser(User user){
+        return transactionRepository.findAll().stream()
+                .filter(transaction -> Objects.equals(transaction.getTourist().getUserId(), user.getUserId()) || Objects.equals(transaction.getGuide().getUserId(), user.getUserId()))
+                .collect(Collectors.toList());
     }
 
     public void newTransaction(User user, Tour tour) {

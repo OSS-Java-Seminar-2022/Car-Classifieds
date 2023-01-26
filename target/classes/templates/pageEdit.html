@@ -126,10 +126,9 @@
             "audioDescription": document.getElementById("audioDescription").value,
             "locationName": document.getElementById("locationName").value
         };
-        if(Object.values(body).includes(null) || Object.values(body).includes("") || Object.values(body).includes(undefined)) {
+        if (Object.values(body).includes(null) || Object.values(body).includes("") || Object.values(body).includes(undefined)) {
             alert("All fields required!");
-        }
-        else {
+        } else {
             formData.append("tourPage", JSON.stringify(body));
             let imageFile = document.getElementById("image").files[0];
             let audioFile = document.getElementById("audio").files[0];

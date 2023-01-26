@@ -23,11 +23,14 @@ public class RouteController {
     private final UserController userController;
     private final TourPageController tourPageController;
 
-    public RouteController(TourController tourController, ImageController imageController, UserController userController, TourPageController tourPageController) {
+    private final TransactionController transactionController;
+
+    public RouteController(TourController tourController, ImageController imageController, UserController userController, TourPageController tourPageController, TransactionController transactionController) {
         this.tourController = tourController;
         this.imageController = imageController;
         this.userController = userController;
         this.tourPageController = tourPageController;
+        this.transactionController = transactionController;
     }
 
     @GetMapping("/")
@@ -158,6 +161,10 @@ public class RouteController {
             byte[] imageInByte = oStream.toByteArray();
             model.addAttribute("userAvatar", Base64.getEncoder().encodeToString(imageInByte));
 
+        }
+        final var transactionsResult = transactionController.getAllTransactionsOfUser(httpServletRequest);
+        if(transactionsResult.getStatusCode() == HttpStatus.OK) {
+            model.addAttribute("transactions",(List<Transaction>) transactionsResult.getBody());
         }
         model.addAttribute("user", user);
         return "main";

@@ -320,7 +320,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
 <script>
-    async function sort (event) {
+    async function sort(event) {
         let tourPageIds = [];
         let tourPages = document.querySelectorAll('.tPage');
         tourPages.forEach(function (tourPage) {
@@ -336,6 +336,7 @@
             )
         });
     }
+
     let sortable = Sortable.create(document.querySelector('.sortable'), {
         items: '.tPage',
         onEnd: sort

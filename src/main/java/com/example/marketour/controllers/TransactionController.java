@@ -7,10 +7,7 @@ import com.example.marketour.services.TourService;
 import com.example.marketour.services.TransactionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,6 +24,15 @@ public class TransactionController {
         this.bankService = bankService;
     }
 
+    @GetMapping("/getAll")
+    public ResponseEntity<Object> getAllTransactionsOfUser(HttpServletRequest request) {
+        final var user = request.getSession().getAttribute("user");
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
+        }
+        final var transactions = transactionsService.getAllOfUser((User)user);
+        return ResponseEntity.ok(transactions);
+    }
     @PostMapping("/buy/{tourId}")
     public ResponseEntity<Object> buyTour(HttpServletRequest request, @PathVariable Long tourId) {
         final var session = request.getSession();
