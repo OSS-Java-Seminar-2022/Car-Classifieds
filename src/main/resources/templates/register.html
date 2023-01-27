@@ -10,7 +10,7 @@
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
 <!-- Navbar -->
 <nav class="relative container mx-auto p-6">
     <!-- Flex container -->
@@ -22,43 +22,11 @@
             </a>
 
         </div>
-        <!-- Menu Items -->
-        <div class="hidden space-x-6 md:flex">
-            <a class="hover:text-darkGrayishBlue" th:href="@{/}">Home</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Pricing</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Products</a>
-            <a class="hover:text-darkGrayishBlue" href="#">About Us</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Contact</a>
-        </div>
-        <!-- Button -->
-
-        <!-- Hamburger Icon -->
-        <button
-                class="block hamburger md:hidden focus:outline-none"
-                id="menu-btn"
-        >
-            <span class="hamburger-top"></span>
-            <span class="hamburger-middle"></span>
-            <span class="hamburger-bottom"></span>
-        </button>
     </div>
 
-    <!-- Mobile Menu -->
-    <div class="md:hidden">
-        <div
-                class="absolute flex-col items-center hidden self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"
-                id="menu"
-        >
-            <a th:href="@{/}">Home</a>
-            <a href="#">Pricing</a>
-            <a href="#">Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-        </div>
-    </div>
 </nav>
 
-<section class="h-screen">
+<section>
     <div class="px-6 h-full text-gray-800">
         <div
                 class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
@@ -99,8 +67,8 @@
                                         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
                     <svg class="w-5 h-5 text-blue-300 focus:text-blue-500" fill="none" stroke="currentColor"
                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2"/>
                       </svg>
                 </span>
                         <input
@@ -132,7 +100,8 @@
                             <option th:text="${city}" th:value="${city}">temp</option>
                         </th:block>
                     </select>
-                    <div th:if="${session.registerErrorMessage}" class="text-red-500" th:text="${session.registerErrorMessage}"></div>
+                    <div class="text-red-500" th:if="${session.registerErrorMessage}"
+                         th:text="${session.registerErrorMessage}"></div>
                     <div class="text-center lg:text-left">
                         <p class="text-sm font-semibold mt-2 pt-1 mb-0">
                             Already have an account?
@@ -157,7 +126,7 @@
 </section>
 
 <!-- Footer -->
-<footer class="bg-veryDarkBlue">
+<footer class="bg-veryDarkBlue mt-auto">
     <!-- Flex Container -->
     <div
             class="container flex flex-col-reverse justify-between px-6 py-10 mx-auto space-y-8 md:flex-row md:space-y-0"

@@ -22,44 +22,12 @@
             </a>
 
         </div>
-        <!-- Menu Items -->
-        <div class="hidden space-x-6 md:flex">
-            <a class="hover:text-darkGrayishBlue" th:href="@{/}">Home</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Pricing</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Products</a>
-            <a class="hover:text-darkGrayishBlue" href="#">About Us</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Contact</a>
-        </div>
-        <!-- Button -->
         <a
-                class="hidden p-3 px-6 pt-2 text-white bg-blue-400 rounded-full baseline hover:bg-blue-300 md:block"
+                class="p-3 px-6 pt-2 text-white bg-blue-400 rounded-full baseline hover:bg-blue-300 md:block"
                 th:href="@{/login}"
         >Get Started</a>
-
-        <!-- Hamburger Icon -->
-        <button
-                class="block hamburger md:hidden focus:outline-none"
-                id="menu-btn"
-        >
-            <span class="hamburger-top"></span>
-            <span class="hamburger-middle"></span>
-            <span class="hamburger-bottom"></span>
-        </button>
     </div>
 
-    <!-- Mobile Menu -->
-    <div class="md:hidden">
-        <div
-                class="absolute flex-col items-center hidden self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"
-                id="menu"
-        >
-            <a th:href="@{/}">Home</a>
-            <a href="#">Pricing</a>
-            <a href="#">Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-        </div>
-    </div>
 </nav>
 
 <!-- Hero Section -->

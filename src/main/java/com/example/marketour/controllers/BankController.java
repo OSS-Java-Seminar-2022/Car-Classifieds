@@ -58,7 +58,7 @@ public class BankController {
         if (session != null) {
             final var user = (User) session.getAttribute("user");
             if (user != null) {
-                return ResponseEntity.ok(bankService.getTokens(user));
+                return ResponseEntity.ok(user.getTokens());
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged out!");
             }

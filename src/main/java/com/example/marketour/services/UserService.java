@@ -1,9 +1,7 @@
 package com.example.marketour.services;
 
-import com.example.marketour.model.entities.City;
-import com.example.marketour.model.entities.Country;
-import com.example.marketour.model.entities.User;
-import com.example.marketour.model.entities.UserType;
+import com.example.marketour.model.entities.*;
+import com.example.marketour.repositories.ImageRepository;
 import com.example.marketour.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +11,12 @@ import java.util.Objects;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final ImageRepository imageRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+                       ImageRepository imageRepository) {
         this.userRepository = userRepository;
+        this.imageRepository = imageRepository;
     }
 
     public User checkCredentialsExist(String username, String password) {
@@ -35,5 +36,14 @@ public class UserService {
         newUser.setCountry(country);
         newUser.setCity(city);
         return userRepository.save(newUser);
+    }
+
+    public void setAvatar(byte[] avatar, User user) {
+        final var image = new Image();
+        image.setDescription(user.getUsername() + " avatar");
+        imageRepository.save(image);
+        image.setData(avatar);
+        user.setImage(image);
+        userRepository.save(user);
     }
 }

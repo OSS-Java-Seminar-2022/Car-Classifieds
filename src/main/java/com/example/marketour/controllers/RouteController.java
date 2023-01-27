@@ -154,10 +154,7 @@ public class RouteController {
     }
 
     @GetMapping(value = "/register")
-    String register(@ModelAttribute("user") User user, Model model, HttpServletRequest request) {
-        if (request.getSession().getAttribute("user") == null) {
-            return "redirect:/";
-        }
+    String register(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("cities", City.values());
         model.addAttribute("countries", Country.values());
         model.addAttribute("userTypes", UserType.values());

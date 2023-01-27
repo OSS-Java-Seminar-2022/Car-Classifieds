@@ -2,7 +2,6 @@ package com.example.marketour.controllers;
 
 import com.example.marketour.model.entities.User;
 import com.example.marketour.model.entities.UserType;
-import com.example.marketour.services.BankService;
 import com.example.marketour.services.TourService;
 import com.example.marketour.services.TransactionsService;
 import org.springframework.http.HttpStatus;
@@ -16,12 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 public class TransactionController {
     private final TransactionsService transactionsService;
     private final TourService tourService;
-    private final BankService bankService;
 
-    public TransactionController(TransactionsService transactionsService, TourService tourService, BankService bankService) {
+    public TransactionController(TransactionsService transactionsService, TourService tourService) {
         this.transactionsService = transactionsService;
         this.tourService = tourService;
-        this.bankService = bankService;
     }
 
     @GetMapping("/getAll")
@@ -30,9 +27,10 @@ public class TransactionController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
         }
-        final var transactions = transactionsService.getAllOfUser((User)user);
+        final var transactions = transactionsService.getAllOfUser((User) user);
         return ResponseEntity.ok(transactions);
     }
+
     @PostMapping("/buy/{tourId}")
     public ResponseEntity<Object> buyTour(HttpServletRequest request, @PathVariable Long tourId) {
         final var session = request.getSession();
@@ -43,11 +41,10 @@ public class TransactionController {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User is not a tourist, can't buy tours!");
                 }
                 final var tour = tourService.findById(tourId);
-                final var tokens = bankService.getTokens(user);
+                final var tokens = user.getTokens();
                 if (tokens < tour.getPrice()) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough tokens!");
                 }
-                bankService.removeTokens(user, tour.getPrice());
                 tourService.addTouristTour(user, tour);
                 transactionsService.newTransaction(user, tour);
                 return ResponseEntity.ok("Successfully bought " + tour.getName() + " tour for " + tour.getPrice() + " tokens!");

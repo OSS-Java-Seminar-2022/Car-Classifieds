@@ -19,7 +19,8 @@ public class TouristTour {
     @JoinColumn(name = "tourist_id", referencedColumnName = "user_id", nullable = false)
     private User tourist;
 
-    @OneToOne(mappedBy = "touristTour")
+    @ManyToOne
+    @JoinColumn(name = "tour_id")
     private Tour tour;
 
     @Column(name = "last_used")

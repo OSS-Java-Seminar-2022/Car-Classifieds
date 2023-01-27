@@ -89,8 +89,10 @@ public class TourService {
     public void addTouristTour(User user, Tour tour) {
         final var touristTour = new TouristTour();
         touristTour.setTourist(user);
+        touristTour.setTour(tour);
         touristTour.setLastUsed(System.currentTimeMillis());
-        tour.setTouristTour(touristTour);
+        touristTourRepository.save(touristTour);
+        tour.getTouristTours().add(touristTour);
     }
 
     public void addGuideTour(User user, Tour tour) {

@@ -42,20 +42,19 @@ public class Tour implements Serializable {
     @JsonIgnore
     private GuideTour guideTour;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tourist_tour_id")
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
     @JsonIgnore
-    private TouristTour touristTour;
+    private List<TouristTour> touristTours;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<TourPage> tourPages;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<TourReview> tourReviews;
 
-    @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Transaction> transactions;
 

@@ -1,7 +1,9 @@
 package com.example.marketour.repositories.money_repository;
 
-public interface MoneyRepository {
-    void removeMoney(Double amount);
+import com.example.marketour.model.entities.User;
 
-    void addMoney(Double amount);
+public interface MoneyRepository {
+    void removeMoney(Double amount, User user);
+
+    void addMoney(Double amount, User user);
 }

@@ -15,6 +15,7 @@ public class Transaction {
     @Column(name = "transaction_id")
     private Long transactionId;
 
+
     @ManyToOne
     @JoinColumn(name = "guide_id", referencedColumnName = "user_id")
     private User guide;

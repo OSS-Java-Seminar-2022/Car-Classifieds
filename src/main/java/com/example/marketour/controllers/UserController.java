@@ -9,12 +9,14 @@ import com.example.marketour.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/users")
@@ -25,20 +27,29 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/setAvatar")
+    public ResponseEntity<Object> setAvatar(HttpServletRequest request, @RequestParam(name = "avatar") MultipartFile avatar) throws IOException {
+        final var user = request.getSession().getAttribute("user");
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in!");
+        }
+        userService.setAvatar(avatar.getBytes(), (User) user);
+        return ResponseEntity.ok("Successfully changed avatar!");
+    }
+
+
     @PostMapping("/login")
-    Object login(@ModelAttribute("user") User requestUser, HttpServletRequest request) {
+    String login(@ModelAttribute("user") User requestUser, HttpServletRequest request) {
         var session = request.getSession(true);
         if (requestUser.getUsername() == null || requestUser.getPassword() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username/password needed!");
+            session.setAttribute("errorMessage", "Username or password is invalid.");
+            return "redirect:/login";
         }
         final var user = userService.checkCredentialsExist(requestUser.getUsername(), requestUser.getPassword());
         if (user != null) {
-            if (session.getAttribute("user") == null) {
-                session.setAttribute("user", user);
-            }
+            session.setAttribute("user", user);
             return "redirect:/main";
         } else {
-            // add attribute to the request to show the error message in the login html template
             session.setAttribute("errorMessage", "Username or password is invalid.");
             return "redirect:/login";
         }
