@@ -266,8 +266,10 @@
                                     d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z"/>
                         </svg>
                     </p>
-                    <input class="hidden" type="file" id="image-input" onchange="handleImageSelect(event)">
-                    <button class="w-fit bg-blue-400 rounded-full px-4 py-2 text-sm font-semibold text-white" type="button" onclick="document.getElementById('image-input').click()">Change avatar</button>
+                    <input class="hidden" id="image-input" onchange="handleImageSelect(event)" type="file">
+                    <button class="w-fit bg-blue-400 rounded-full px-4 py-2 text-sm font-semibold text-white"
+                            onclick="document.getElementById('image-input').click()" type="button">Change avatar
+                    </button>
                 </div>
             </div>
 
@@ -284,8 +286,9 @@
 
 <!--Transactions content-->
 <div class="tab-content hidden transition-duration-500 mt-10" id="tab4">
-    <section class="mx-auto mt-[50px] aut xl:w-8/12 md:w-9/12 lg:w-10/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5 justify-items-center min-w-fit rounded-2xl"
-             th:if="${userTours.isEmpty()}">
+    <section
+            class="mx-auto mt-[50px] aut xl:w-8/12 md:w-9/12 lg:w-10/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5 justify-items-center min-w-fit rounded-2xl"
+            th:if="${userTours.isEmpty()}">
         <img alt="No tours available" class="mb-32" th:src="@{img/camera.png}"/>
         <h1 class="text-3xl font-semibold ml-6" th:if="${userTours.isEmpty()}">Looks like you have no transactions.</h1>
     </section>
@@ -427,7 +430,7 @@
                 class="flex flex-col-reverse items-center justify-between space-y-12 md:flex-col md:space-y-0 md:items-start"
         >
             <div class="mx-auto my-6 text-center text-white md:hidden">
-                Copyright &copy; 2022, All Rights Reserved
+                Copyright &copy; 2023, All Rights Reserved
             </div>
             <!-- Logo -->
             <div class="pt-2">
@@ -477,22 +480,9 @@
 
         <!-- Input Container -->
         <div class="flex flex-col justify-between">
-            <form>
-                <div class="flex space-x-3">
-                    <input
-                            class="flex-1 px-4 rounded-full focus:outline-none"
-                            placeholder="Updated in your inbox"
-                            type="text"
-                    />
-                    <button
-                            class="px-6 py-2 text-white rounded-full bg-blue-400 hover:bg-blue-300 focus:outline-none"
-                    >
-                        Go
-                    </button>
-                </div>
-            </form>
+
             <div class="hidden text-white md:block">
-                Copyright &copy; 2022, All Rights Reserved
+                Copyright &copy; 2023, All Rights Reserved
             </div>
         </div>
     </div>
@@ -511,7 +501,7 @@
             method: "post",
             body: formData
         });
-        if(result.ok) {
+        if (result.ok) {
             window.location.reload();
         }
     }
