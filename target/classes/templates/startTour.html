@@ -21,7 +21,7 @@
                 <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" th:text="${tourPage.title}"></h1>
                 <div class="my-6">
                     <img alt="Image"
-                         class="h-auto w-auto mx-auto object-cover rounded-lg"
+                         class="max-h-screen max-w-screen mx-auto object-cover rounded-lg"
                          th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|"/>
                 </div>
                 <p class="w-full text-center text-darkGrayishBlue md:text-left h-60 break-words overflow-y-auto"

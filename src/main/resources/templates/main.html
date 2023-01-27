@@ -290,7 +290,7 @@
             class="mx-auto mt-[50px] aut xl:w-8/12 md:w-9/12 lg:w-10/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5 justify-items-center min-w-fit rounded-2xl"
             th:if="${userTours.isEmpty()}">
         <img alt="No tours available" class="mb-32" th:src="@{img/camera.png}"/>
-        <h1 class="text-3xl font-semibold ml-6" th:if="${userTours.isEmpty()}">Looks like you have no transactions.</h1>
+        <h1 class="text-3xl font-semibold ml-6" th:if="${transactions.isEmpty()}">Looks like you have no transactions.</h1>
     </section>
     <div class="container mx-auto p-4" th:if="${!transactions.isEmpty()}">
         <h1 class="text-2xl font-bold mb-4">Transactions</h1>

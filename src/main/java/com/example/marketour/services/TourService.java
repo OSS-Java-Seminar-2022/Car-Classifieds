@@ -65,7 +65,11 @@ public class TourService {
     }
 
     public List<Tour> getAllToursOnMarketplace(Filter filter) {
-        return guideTourRepository.findAll().stream().map(GuideTour::getTour).filter(e -> e.isVisibleOnMarket() && filter(e, filter)).collect(Collectors.toList());
+//        return guideTourRepository.findAll().stream().map(GuideTour::getTour).
+//                filter(e -> e.isVisibleOnMarket() && filter(e, filter)).collect(Collectors.toList());
+        return guideTourRepository.findAll().stream().map(GuideTour::getTour)
+                .filter(e -> e!=null && e.isVisibleOnMarket() && filter(e, filter))
+                .collect(Collectors.toList());
     }
 
     public Tour findById(Long tourId) {

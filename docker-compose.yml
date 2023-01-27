@@ -7,7 +7,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306 /marketour
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3307 /marketour
 
     depends_on:
       - db
