@@ -159,9 +159,7 @@
 </script>
 <script>
     function editPage(pageId) {
-        let url = "http://localhost:8080/pageEdit?&pageId=" + pageId;
-        console.log(url);
-        window.location.href = url;
+        window.location.href = "http://localhost:8080/pageEdit?&pageId=" + pageId;
     }
 
     async function deletePage(pageId) {
@@ -212,9 +210,7 @@
 </script>
 <script>
     function addNewPage(tourId) {
-        let url = "http://localhost:8080/pageCreate?&tourId=" + tourId;
-        console.log(url);
-        window.location.href = url;
+        window.location.href = "http://localhost:8080/pageCreate?&tourId=" + tourId;
     }
 </script>
 <script>

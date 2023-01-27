@@ -10,7 +10,7 @@
     <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
-<body>
+<body class="flex flex-col min-h-screen">
 <!-- Navbar -->
 <nav class="relative container mx-auto p-6">
     <!-- Flex container -->
@@ -22,43 +22,11 @@
             </a>
 
         </div>
-        <!-- Menu Items -->
-        <div class="hidden space-x-6 md:flex">
-            <a class="hover:text-darkGrayishBlue" th:href="@{/}">Home</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Pricing</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Products</a>
-            <a class="hover:text-darkGrayishBlue" href="#">About Us</a>
-            <a class="hover:text-darkGrayishBlue" href="#">Contact</a>
-        </div>
-        <!-- Button -->
-
-        <!-- Hamburger Icon -->
-        <button
-                class="block hamburger md:hidden focus:outline-none"
-                id="menu-btn"
-        >
-            <span class="hamburger-top"></span>
-            <span class="hamburger-middle"></span>
-            <span class="hamburger-bottom"></span>
-        </button>
     </div>
 
-    <!-- Mobile Menu -->
-    <div class="md:hidden">
-        <div
-                class="absolute flex-col items-center hidden self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"
-                id="menu"
-        >
-            <a th:href="@{/}">Home</a>
-            <a href="#">Pricing</a>
-            <a href="#">Products</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
-        </div>
-    </div>
 </nav>
 
-<section class="h-screen">
+<section>
     <div class="px-6 h-full text-gray-800">
         <div
                 class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
@@ -157,7 +125,7 @@
 </section>
 
 <!-- Footer -->
-<footer class="bg-veryDarkBlue">
+<footer class="bg-veryDarkBlue mt-auto">
     <!-- Flex Container -->
     <div
             class="container flex flex-col-reverse justify-between px-6 py-10 mx-auto space-y-8 md:flex-row md:space-y-0"
