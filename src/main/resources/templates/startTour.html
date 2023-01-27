@@ -19,9 +19,13 @@
             <div class="swiper-slide bg-white rounded-lg p-6 mx-auto h-full" th:each="tourPage : ${tourPages}">
                 <p class="text-2xl font-medium text-gray-800 mx-auto" th:text="${tourPage.location.name}"></p>
                 <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" th:text="${tourPage.title}"></h1>
+                <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" id="lat" th:text="${tourPage.location.latitude}"></h1>
+                <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" id="long" th:text="${tourPage.location.longitude}"></h1>
+                <button onclick="goToGoogleMaps()" >Google Maps</button>
+
                 <div class="my-6">
                     <img alt="Image"
-                         class="max-h-screen max-w-screen mx-auto object-cover rounded-lg"
+                         class="mx-auto object-cover rounded-lg w-full h-screen"
                          th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|"/>
                 </div>
                 <p class="w-full text-center text-darkGrayishBlue md:text-left h-60 break-words overflow-y-auto"
@@ -39,7 +43,18 @@
         <div class="swiper-pagination"></div>
     </div>
 </div>
+<script>
+    async function goToGoogleMaps() {
+        let lat = document.getElementById("lat").innerText;
+        let long = document.getElementById("long").innerText;
 
+        try {
+            window.open(`https://www.google.com/maps?q=${lat},${long}`, '_blank')
+             } catch (e) {
+                alert("Location not valid!");
+        }
+    }
+</script>
 <!-- Initialize Swiper.js -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
