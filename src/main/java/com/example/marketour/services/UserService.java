@@ -46,4 +46,8 @@ public class UserService {
         user.setImage(image);
         userRepository.save(user);
     }
+
+    public User getUser(Object userId) {
+        return userRepository.findAll().stream().filter(user -> Objects.equals(user.getUserId(), userId)).findFirst().orElse(null);
+    }
 }

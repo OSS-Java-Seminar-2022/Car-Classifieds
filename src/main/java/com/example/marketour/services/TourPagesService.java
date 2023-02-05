@@ -52,6 +52,12 @@ public class TourPagesService {
         return tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTour().getTourId(), tourId) && tourPage.getPage() == 0).findFirst().orElse(null);
     }
 
+    public TourPage getLastPage(Long tourId) {
+        List<TourPage> tourPages = tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTour().getTourId(), tourId)).collect(Collectors.toList());
+        int lastPage = tourPages.size() - 1;
+        return tourPages.stream().filter(tourPage -> tourPage.getPage() == lastPage).findFirst().orElse(null);
+    }
+
     public void updateTourPage(Long pageId, String title, String body, Image image, Audio audio, Location location) {
         final var existing = tourPageRepository.findAll().stream().filter(tourPage -> Objects.equals(tourPage.getTourPageId(), pageId)).findFirst().orElse(null);
         if (existing != null) {

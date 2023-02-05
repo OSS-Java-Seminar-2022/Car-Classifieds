@@ -6,11 +6,12 @@ import com.example.marketour.repositories.TourRepository;
 import com.example.marketour.repositories.TouristTourRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.example.marketour.model.entities.Tour.filter;
+import static com.example.marketour.model.entities.Tour.customFilter;
 import static java.lang.Math.*;
 
 
@@ -45,7 +46,7 @@ public class TourService {
     }
 
     public List<Tour> getAllTouristsTours(User user, Filter filter) {
-        return touristTourRepository.findAll().stream().filter(tour -> tour.getTourist().sameUser(user) && user.getUserType() == UserType.tourist && filter(tour.getTour(), filter)).map(TouristTour::getTour).collect(Collectors.toList());
+        return touristTourRepository.findAll().stream().filter(tour -> tour.getTourist().sameUser(user) && user.getUserType() == UserType.tourist && customFilter(tour.getTour(), filter)).map(TouristTour::getTour).collect(Collectors.toList());
     }
 
     public List<Tour> getAllTours() {
@@ -53,7 +54,11 @@ public class TourService {
     }
 
     public List<Tour> getAllGuideTours(User user, Filter filter) {
-        return guideTourRepository.findAll().stream().filter(tour -> tour.getGuide().sameUser(user) && user.getUserType() == UserType.guide && filter(tour.getTour(), filter)).map(GuideTour::getTour).collect(Collectors.toList());
+        var stream = guideTourRepository.findAll().stream().filter(tour -> tour.getGuide().sameUser(user) && user.getUserType() == UserType.guide && customFilter(tour.getTour(), filter));
+        if(filter != null && filter.isReviewSort()) {
+            stream = stream.sorted((a,b) -> b.getTour().getAverageRating().compareTo(a.getTour().getAverageRating()));
+        }
+        return stream.map(GuideTour::getTour).collect(Collectors.toList());
     }
 
     public Tour getTour(Long tourId) {
@@ -67,9 +72,12 @@ public class TourService {
     public List<Tour> getAllToursOnMarketplace(Filter filter) {
 //        return guideTourRepository.findAll().stream().map(GuideTour::getTour).
 //                filter(e -> e.isVisibleOnMarket() && filter(e, filter)).collect(Collectors.toList());
-        return guideTourRepository.findAll().stream().map(GuideTour::getTour)
-                .filter(e -> e!=null && e.isVisibleOnMarket() && filter(e, filter))
-                .collect(Collectors.toList());
+        var stream = guideTourRepository.findAll().stream().map(GuideTour::getTour)
+                .filter(e -> e!=null && e.isVisibleOnMarket() && customFilter(e, filter));
+        if(filter != null && filter.isReviewSort()) {
+            stream = stream.sorted((a,b) -> b.getAverageRating().compareTo(a.getAverageRating()));
+        }
+        return stream.collect(Collectors.toList());
     }
 
     public Tour findById(Long tourId) {

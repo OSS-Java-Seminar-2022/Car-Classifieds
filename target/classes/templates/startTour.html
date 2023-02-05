@@ -13,19 +13,22 @@
     <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"/>
 </head>
 <body class="bg-gray-200">
+<div class="myTour"
+     th:id="${existingTour.tourId}"
+     type="text"></div>
 <div class="mx-auto w-full h-full">
     <div class="swiper-container mx-auto h-full">
         <div class="swiper-wrapper h-full">
-            <div class="swiper-slide bg-white rounded-lg p-6 mx-auto h-full" th:each="tourPage : ${tourPages}">
+            <div class="swiper-slide bg-white rounded-lg p-6 mx-auto h-full" th:each="tourPage, iter : ${tourPages}">
                 <p class="text-2xl font-medium text-gray-800 mx-auto" th:text="${tourPage.location.name}"></p>
                 <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" th:text="${tourPage.title}"></h1>
                 <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" id="lat" th:text="${tourPage.location.latitude}"></h1>
                 <h1 class="text-4xl font-medium text-gray-800 my-4 mx-auto" id="long" th:text="${tourPage.location.longitude}"></h1>
-                <button onclick="goToGoogleMaps()" >Google Maps</button>
+                <button th:onclick="'javascript:goToGoogleMaps(\''+${tourPage.location.latitude}+ '\',\''+${tourPage.location.longitude}+'\');'" >Google Maps</button>
 
                 <div class="my-6">
                     <img alt="Image"
-                         class="mx-auto object-cover rounded-lg w-full h-screen"
+                         class="mx-auto object-cover rounded-lg h-80 w-70"
                          th:src="|data:image/png;base64,${imagesBase64.get(tourPage.tourPageId)}|"/>
                 </div>
                 <p class="w-full text-center text-darkGrayishBlue md:text-left h-60 break-words overflow-y-auto"
@@ -38,22 +41,77 @@
                     <audio alt="Audio" class="h-20 w-full"
                            controls th:src="|data:audio/mp3;base64,${audioBase64.get(tourPage.tourPageId)}|"/>
                 </div>
+                <div th:if="${iter.index} == ${tourSize - 1}">
+                        <!-- Star rating -->
+                        <div class="star-ratings-css">
+                            <div class="star-ratings-css-top">
+                                <span class="star cursor-pointer" data-value="1">★</span>
+                                <span class="star cursor-pointer" data-value="2">★</span>
+                                <span class="star cursor-pointer" data-value="3">★</span>
+                                <span class="star cursor-pointer" data-value="4">★</span>
+                                <span class="star cursor-pointer" data-value="5">★</span>
+                            </div>
+                        </div>
+                        <button onclick="saveRating()" class="bg-blue-400 text-white">Submit rating</button>
+                </div>
             </div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
 </div>
+
 <script>
-    async function goToGoogleMaps() {
-        let lat = document.getElementById("lat").innerText;
-        let long = document.getElementById("long").innerText;
+    /* Stars rating */
+    const stars = document.querySelectorAll('.star');
+    let starRating;
+    stars.forEach(function(star) {
+        star.addEventListener('click', function() {
+            const value = star.getAttribute('data-value');
+            stars.forEach(function(star) {
+                star.classList.remove("text-yellow-500");
+            });
+            for (let i = 0; i < value; i++) {
+                stars[i].classList.add("text-yellow-500");
+            }
+            console.log('Value of selected star:', value);
+            starRating = value;
+        });
+        console.log('Value of selected star:', starRating);
+
+    });
+
+    async function saveRating() {
+        console.log("mytourid" + document.getElementsByClassName("myTour").item(0).id);
+        console.log("star rating" + starRating);
+        let body = {
+            "tour": document.getElementsByClassName("myTour").item(0).id,
+            "rate": starRating
+        };
+
+        let result = await fetch("/reviews/saveRating", {
+            method: "post",
+            body: JSON.stringify(
+                body
+            )
+        })
+        console.log(result.text());
+
+    }
+</script>
+<script>
+    async function goToGoogleMaps(lat, long) {
+        //let lat = document.getElementById("lat").innerText;
+        //let long = document.getElementById("long").innerText;
 
         try {
-            window.open(`https://www.google.com/maps?q=${43.513057},${16.407385}`, '_blank')
+            window.open(`https://www.google.com/maps?q=${lat},${long}`, '_blank')
              } catch (e) {
                 alert("Location not valid!");
         }
     }
+</script>
+<script>
+
 </script>
 <!-- Initialize Swiper.js -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

@@ -58,8 +58,11 @@ public class Tour implements Serializable {
     @JsonIgnore
     private List<Transaction> transactions;
 
+    public Long getAverageRating() {
+        return tourReviews.stream().map(TourReview::getRate).reduce(Long::sum).orElse(0L);
+    }
 
-    public static boolean filter(Tour tour, Filter filter) {
+    public static boolean customFilter(Tour tour, Filter filter) {
         return filter == null || ((filter.city == null || tour.city.equals(filter.city.name())) &&
                 (filter.country == null || tour.country.equals(filter.country.name())) &&
                 (filter.priceRange == null || filter.priceRange.contains(tour.price)));
@@ -69,3 +72,4 @@ public class Tour implements Serializable {
         return new Gson().toJson(this);
     }
 }
+
