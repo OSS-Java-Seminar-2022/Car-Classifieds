@@ -3,6 +3,7 @@ package com.example.marketour.controllers;
 import com.example.marketour.model.entities.*;
 
 import com.example.marketour.services.TourPagesService;
+import com.example.marketour.services.TourReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,13 +28,16 @@ public class RouteController {
     private final TransactionController transactionController;
     private final TourPagesService tourPagesService;
 
-    public RouteController(TourController tourController, ImageController imageController, UserController userController, TourPageController tourPageController, TransactionController transactionController, TourPagesService tourPagesService) {
+    private final TourReviewService tourReviewService;
+
+    public RouteController(TourController tourController, ImageController imageController, UserController userController, TourPageController tourPageController, TransactionController transactionController, TourPagesService tourPagesService, TourReviewService tourReviewService) {
         this.tourController = tourController;
         this.imageController = imageController;
         this.userController = userController;
         this.tourPageController = tourPageController;
         this.transactionController = transactionController;
         this.tourPagesService = tourPagesService;
+        this.tourReviewService = tourReviewService;
     }
 
     @GetMapping("/")
@@ -172,6 +176,7 @@ public class RouteController {
         final var userSpecificTours = tourController.getAllToursOfThisUser(httpServletRequest, model);
 
         final var allTours = tourController.getAllTours(httpServletRequest);
+
         final var imageMap = ((ArrayList<Tour>) allTours.getBody()).stream().map(tour -> Map.entry(tour.getTourId(), Objects.requireNonNull(Base64.getEncoder().encodeToString(Objects.requireNonNull((Image) imageController.getFirstPageImage(tour.getTourId(), httpServletRequest).getBody()).getData())))).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         final var user = (User) httpServletRequest.getSession().getAttribute("user");
         model.addAttribute("filter", new Filter(null, null, null, true));
@@ -183,6 +188,7 @@ public class RouteController {
         final var allToursOnMarket = tourController.getAllToursOnMarket(httpServletRequest, model);
         model.addAttribute("allTours", ((ArrayList<Tour>) allToursOnMarket.getBody()).stream().filter(tour -> !((ArrayList<Tour>) userSpecificTours.getBody()).stream().map(tour1 -> tour1.getTourId()).collect(Collectors.toList()).contains(tour.getTourId())).collect(Collectors.toList()));
         model.addAttribute("imageMap", imageMap);
+
         if (user.getImage() != null) {
             model.addAttribute("userAvatar", Base64.getEncoder().encodeToString(user.getImage().getData()));
         } else {

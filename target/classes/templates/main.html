@@ -160,6 +160,12 @@
                         </div>
                         <h1 class="text-3xl font-semibold mt-5" th:text="${tour.name}">Tour Title</h1>
                         <p th:text="${tour.description}">Tour Description</p>
+                        <p th:if="${tour.calculateRateForTour() != null}">
+                            Tour's average rating: <span th:text="${tour.calculateRateForTour().isNaN() ? 'No Reviews Yet' : tour.calculateRateForTour()}"></span>
+                        </p>
+                        <p th:if="${tour.calculateRateForTour() == null}">
+                            Tour's average rating: No Reviews Yet
+                        </p>
                         <div class="flex justify-between" id="bottomRow2#">
                             <div class="flex bottom-0 left-0 mt-4" id="priceDiv2#">
                                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-linecap="round"
@@ -531,20 +537,6 @@
     </div>
     <button id="toggle-button" onclick="toggleSorted()">Show/Hide </button>
 </footer>
-<script>
-    window.addEventListener('load', function() {
-        const tourId = ;
-        fetch("/rating/{id}")
-            .then(response => response.json())
-            .then(averageRating => {
-                document.getElementById('average-rating').innerHTML = averageRating;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    });
-</script>
-
 <script>
     function toggleSorted(){
         let sorted = document.getElementById("sorted").getAttribute("data-value") === "true";

@@ -76,13 +76,19 @@ public class TourReviewController {
         }
     }*/
 
-    @GetMapping("/rating/{id}")
+    /*@GetMapping("/rating/{id}")
     public double rating(@PathVariable Long id) {
         List<TourReview> tourReviews = tourReviewRepository.findAllById(Collections.singleton(id));
         if (tourReviews.isEmpty()) {
             return 0;
         }
         return tourReviews.stream().mapToLong(TourReview::getRate).average().orElse(0);
+    }*/
+
+    @GetMapping("/tours/{tourId}/rating")
+    public double getAverageRating(@PathVariable Long tourId) {
+        Tour tour = tourRepository.findById(tourId).orElseThrow((null));
+        return tourReviewService.calculateTourRating(tour);
     }
 }
 

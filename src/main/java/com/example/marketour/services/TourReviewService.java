@@ -25,6 +25,10 @@ public class TourReviewService {
         return tourReviewRepository.findAll().stream().filter(e -> Objects.equals(e.getTour().getTourId(), tour.getTourId())).collect(Collectors.toList());
     }
 
+    public List<Long> getAllRates(){
+        return tourReviewRepository.findAll().stream().map(e -> e.getRate()).collect(Collectors.toList());
+    }
+
     public Double calculateRateForTour(Tour tour) {
         final var allReviews = getAllReviewsOfTour(tour);
         return allReviews.stream().map(TourReview::getRate).reduce(Long::sum).get().doubleValue() / allReviews.size();

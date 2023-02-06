@@ -62,6 +62,10 @@ public class Tour implements Serializable {
         return tourReviews.stream().map(TourReview::getRate).reduce(Long::sum).orElse(0L);
     }
 
+    public Double calculateRateForTour() {
+        return tourReviews.stream().map(TourReview::getRate).reduce(Long::sum).orElse(0L).doubleValue() / tourReviews.size();
+    }
+
     public static boolean customFilter(Tour tour, Filter filter) {
         return filter == null || ((filter.city == null || tour.city.equals(filter.city.name())) &&
                 (filter.country == null || tour.country.equals(filter.country.name())) &&
