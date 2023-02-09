@@ -66,12 +66,11 @@
                             <div class="my-6 mx-auto w-full">
                                 <audio alt="Audio" class="h-20 w-full" controls th:src="|data:audio/mp3;base64,${audioBase64.get(tourPage.tourPageId)}|"/>
                             </div>
-                            <div class="flex flex-row">
-                                <button th:onclick="'javascript:getUserLocation(\''+${tourPage.location.latitude}+ '\',\''+${tourPage.location.longitude}+'\');'"
-                                        class="ml-6 text-center w-56 text-white bg-blue-700 font-semibold px-12 py-4 uppercase hover:bg-blue-600">How Far?</button>
+                            <button th:onclick="'javascript:getUserLocation(\''+${tourPage.location.latitude}+ '\',\''+${tourPage.location.longitude}+'\', ' + ${iter.index} + ');'"
+                                    class="ml-6 text-center w-56 text-white bg-blue-700 font-semibold px-12 py-4 uppercase hover:bg-blue-600">How far?</button>
+                            <p th:id="'distance_' + ${iter.index}">DummyText</p>
                                 <button th:onclick="'javascript:goToGoogleMaps(\''+${tourPage.location.latitude}+ '\',\''+${tourPage.location.longitude}+'\');'"
                                         class="ml-6 text-center w-56 text-white bg-blue-700 font-semibold px-12 py-4 uppercase hover:bg-blue-600">Find On Map</button>
-                            </div>
                             <div class="flex items-center justify-center">
                                 <div th:if="${iter.index} == ${tourSize - 1}">
                                     <!-- Star rating -->
@@ -95,7 +94,6 @@
             <div class="swiper-pagination"></div>
         </div>
     </div>
-    <p id="distance" class="font-semibold text-2xl"></p>
 </div>
 <script type="text/javascript">
     function calcDistance(lat1, lon1, lat2, lon2) {
@@ -108,15 +106,16 @@
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return Math.round((R*c) * 100) / 100;
     }
-    function getUserLocation(pageLat, pageLong) {
-        lat = parseFloat(pageLat);
-         long = parseFloat(pageLong);
+    function getUserLocation(pageLat, pageLong, index) {
+        //const pageLat = parseFloat(document.getElementById("lat").innerHTML);
+        //const pageLong = parseFloat(document.getElementById("long").innerHTML);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
-                const distance = calcDistance(latitude, longitude, lat, long);
-                document.getElementById("distance").innerText = `You are ${distance} km away from this location`;
+                const distance = calcDistance(latitude, longitude, pageLat, pageLong);
+                console.log("Geolocation is not supported by this browser.");
+                document.getElementById(`distance_${index}`).innerText = `You are ${distance} km away from this location`;
             });
         } else {
             console.error("Geolocation is not supported by this browser.");

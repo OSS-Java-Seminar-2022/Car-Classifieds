@@ -22,8 +22,7 @@ public class TransactionsService {
 
     private final MoneyRepository moneyRepository = new MoneyRepositoryImpl();
 
-    public TransactionsService(TransactionRepository transactionRepository, GuideTourRepository guideTourRepository,
-                               UserRepository userRepository) {
+    public TransactionsService(TransactionRepository transactionRepository, GuideTourRepository guideTourRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
         this.guideTourRepository = guideTourRepository;
         this.userRepository = userRepository;
