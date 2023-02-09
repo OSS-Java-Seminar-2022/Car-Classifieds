@@ -39,9 +39,7 @@ public class TourReviewService {
         final var newTourReview = new TourReview();
         newTourReview.setTour(tour);
         newTourReview.setUser(user);
-        //newTourReview.setTime(time);
         newTourReview.setRate(rate);
-        //newTourReview.setText(text);
         tourReviewRepository.save(newTourReview);
     }
 
@@ -69,13 +67,5 @@ public class TourReviewService {
             review.setUser(user);
             tourReviewRepository.save(review);
         }
-    }
-
-    public double calculateTourRating(Tour tour) {
-        List<TourReview> tourReviews = tourReviewRepository.findAllByTour(tour);
-        if (tourReviews.isEmpty()) {
-            return 0;
-        }
-        return tourReviews.stream().mapToLong(TourReview::getRate).average().orElse(0);
     }
 }

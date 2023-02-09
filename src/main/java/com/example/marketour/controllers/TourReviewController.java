@@ -61,35 +61,6 @@ public class TourReviewController {
             return ResponseEntity.ok("Successfully updated rating!");
         }
 
-    /*@GetMapping("/getRating/{tour}")
-    public ResponseEntity<Object> getRating(HttpServletRequest request, Tour tour) {
-        final var session = request.getSession();
-        if (session != null) {
-            final var user = (User) session.getAttribute("user");
-            if (user != null) {
-                return ResponseEntity.ok(calculateTourRating(tour));
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged out!");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged out!");
-        }
-    }*/
-
-    /*@GetMapping("/rating/{id}")
-    public double rating(@PathVariable Long id) {
-        List<TourReview> tourReviews = tourReviewRepository.findAllById(Collections.singleton(id));
-        if (tourReviews.isEmpty()) {
-            return 0;
-        }
-        return tourReviews.stream().mapToLong(TourReview::getRate).average().orElse(0);
-    }*/
-
-    @GetMapping("/tours/{tourId}/rating")
-    public double getAverageRating(@PathVariable Long tourId) {
-        Tour tour = tourRepository.findById(tourId).orElseThrow((null));
-        return tourReviewService.calculateTourRating(tour);
-    }
 }
 
 

@@ -137,35 +137,35 @@
 <!--Marketplace Content-->
 <div class="hidden tab-content transition-duration-500" id="tab2">
     <div class="isTourist" th:id="${isTourist}"></div>
-
-    <section
-            class="mx-auto mt-[50px] aut xl:w-8/12 md:w-9/12 lg:w-10/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5 justify-items-center min-w-fit rounded-2xl">
+    <button class="p-3 px-6 pt-2 text-white bg-blue-400 rounded-full baseline hover:bg-blue-300 mt-8 mb-6 ml-6 cursor-pointer"
+            id="toggle-button" onclick="toggleSorted()">Sort
+    </button>
+    <section class="mx-auto mt-[50px] aut xl:w-8/12 md:w-9/12 lg:w-10/12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-5 justify-items-center min-w-fit rounded-2xl">
         <img alt="No tours available" class="mb-32" src="" th:if="${allTours.isEmpty()}" th:src="@{img/camera.png}"/>
-        <h1 class="text-3xl font-semibold ml-6" th:if="${allTours.isEmpty()}">Looks like there are no tours for you to
-            buy.</h1>
+        <h1 class="text-3xl font-semibold ml-6" th:if="${allTours.isEmpty()}">Looks like there are no tours for you to buy.</h1>
         <div id="nearby">
             <th:block th:each="tour : ${allTours}">
-                <article
-                        class="relative flex flex-col items-center rounded-xl border border bg-gradient-to-t from-white p-5 drop-shadow-2xl hidden"
-                        th:id="${tour.tourId}">
-                    <img alt="Tour image"
-                         class="w-full h-64 mx-auto object-fill" src=""
-                         th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">
+                <article class="relative flex flex-col items-center rounded-xl border border bg-gradient-to-t from-white p-5 drop-shadow-2xl"
+                         th:id="${tour.tourId}">
+                    <img alt="Tour image" class="w-full h-64 mx-auto object-fill" src="" th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">
                     <div class="mt-4">
-                        <div>
                         <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
                               th:text="${tour.country}"></span>
-                            <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
-                                  th:text="${tour.city}"></span>
-                        </div>
+                        <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
+                              th:text="${tour.city}"></span>
                         <h1 class="text-3xl font-semibold mt-5" th:text="${tour.name}">Tour Title</h1>
                         <p th:text="${tour.description}">Tour Description</p>
-                        <p th:if="${tour.calculateRateForTour() != null}">
-                            Tour's average rating: <span th:text="${tour.calculateRateForTour().isNaN() ? 'No Reviews Yet' : tour.calculateRateForTour()}"></span>
-                        </p>
-                        <p th:if="${tour.calculateRateForTour() == null}">
-                            Tour's average rating: No Reviews Yet
-                        </p>
+                        <div class="text-white absolute top-0 right-0 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-lg font-semibold text-black">
+                            <div class="w-full h-full bg-blue-400 rounded-full flex items-center justify-center text-xl font-bold">
+                                <p th:if="${tour.calculateRateForTour() != null}">
+                                    <span th:text="${tour.calculateRateForTour().isNaN() ? '✘' : tour.calculateRateForTour()}"></span>
+                                </p>
+                                <p th:if="${tour.calculateRateForTour() == null}">
+                                    ✘
+                                </p>
+                            </div>
+                            <span class="w-6 h-6 absolute top-0 right-0 text-white">★</span>
+                        </div>
                         <div class="flex justify-between" id="bottomRow2#">
                             <div class="flex bottom-0 left-0 mt-4" id="priceDiv2#">
                                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-linecap="round"
@@ -184,30 +184,33 @@
                             </div>
                         </div>
                     </div>
-                    <p>
-                    <p>
-                        NEARBY
-                    </p>
+                    <p>NEARBY</p>
                 </article>
             </th:block>
         </div>
         <div id="sorted" data-value="false"></div>
-        <div id="unsortedList" >
+        <div id="unsortedList">
             <th:block th:each="tour : ${allTours}">
-                <article
-                        class="relative flex flex-col items-center rounded-xl border border bg-gradient-to-t from-white p-5 drop-shadow-2xl">
-                    <img alt="Tour image"
-                         class="w-full h-64 mx-auto object-fill" src=""
-                         th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">
+                <article class="relative flex flex-col items-center rounded-xl border border bg-gradient-to-t from-white p-5 drop-shadow-2xl">
+                    <img alt="Tour image" class="w-full h-64 mx-auto object-fill" src="" th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">
                     <div class="mt-4">
-                        <div>
                         <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
                               th:text="${tour.country}"></span>
-                            <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
-                                  th:text="${tour.city}"></span>
-                        </div>
+                        <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
+                              th:text="${tour.city}"></span>
                         <h1 class="text-3xl font-semibold mt-5" th:text="${tour.name}">Tour Title</h1>
                         <p th:text="${tour.description}">Tour Description</p>
+                        <div class="text-white absolute top-0 right-0 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-lg font-semibold text-black">
+                            <div class="w-full h-full bg-blue-400 rounded-full flex items-center justify-center text-xl font-bold">
+                                <p th:if="${tour.calculateRateForTour() != null}">
+                                    <span th:text="${tour.calculateRateForTour().isNaN() ? '✘' : tour.calculateRateForTour()}"></span>
+                                </p>
+                                <p th:if="${tour.calculateRateForTour() == null}">
+                                    ✘
+                                </p>
+                            </div>
+                            <span class="w-6 h-6 absolute top-0 right-0 text-white">★</span>
+                        </div>
                         <div class="flex justify-between" id="bottomRow2">
                             <div class="flex bottom-0 left-0 mt-4" id="priceDiv2">
                                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-linecap="round"
@@ -231,20 +234,26 @@
         </div>
         <div id="sortedList" class="hidden">
             <th:block th:each="tour : ${allToursSorted}">
-                <article
-                        class="relative flex flex-col items-center rounded-xl border border bg-gradient-to-t from-white p-5 drop-shadow-2xl">
-                    <img alt="Tour image"
-                         class="w-full h-64 mx-auto object-fill" src=""
-                         th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">
+                <article class="relative flex flex-col items-center rounded-xl border border bg-gradient-to-t from-white p-5 drop-shadow-2xl">
+                    <img alt="Tour image" class="w-full h-64 mx-auto object-fill" src="" th:src="|data:image/png;base64,${imageMap.get(tour.tourId)}|">
                     <div class="mt-4">
-                        <div>
                         <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
                               th:text="${tour.country}"></span>
-                            <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
-                                  th:text="${tour.city}"></span>
-                        </div>
+                        <span class="inline-block bg-gray-900 rounded-full px-4 py-2 text-sm font-semibold text-white mr-2 mb-2"
+                              th:text="${tour.city}"></span>
                         <h1 class="text-3xl font-semibold mt-5" th:text="${tour.name}">Tour Title</h1>
                         <p th:text="${tour.description}">Tour Description</p>
+                        <div class="text-white absolute top-0 right-0 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-lg font-semibold text-black">
+                            <div class="w-full h-full bg-blue-400 rounded-full flex items-center justify-center text-xl font-bold">
+                                <p th:if="${tour.calculateRateForTour() != null}">
+                                    <span th:text="${tour.calculateRateForTour().isNaN() ? '✘' : tour.calculateRateForTour()}"></span>
+                                </p>
+                                <p th:if="${tour.calculateRateForTour() == null}">
+                                    ✘
+                                </p>
+                            </div>
+                            <span class="w-6 h-6 absolute top-0 right-0 text-white">★</span>
+                        </div>
                         <div class="flex justify-between" id="bottomRow3">
                             <div class="flex bottom-0 left-0 mt-4" id="priceDiv3">
                                 <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-linecap="round"
@@ -535,16 +544,14 @@
             </div>
         </div>
     </div>
-    <button id="toggle-button" onclick="toggleSorted()">Show/Hide </button>
 </footer>
 <script>
-    function toggleSorted(){
+    function toggleSorted() {
         let sorted = document.getElementById("sorted").getAttribute("data-value") === "true";
-        if(!sorted){
+        if (!sorted) {
             document.getElementById("unsortedList").classList.add("hidden");
             document.getElementById("sortedList").classList.remove("hidden");
-        }
-        else{
+        } else {
             document.getElementById("unsortedList").classList.remove("hidden");
             document.getElementById("sortedList").classList.add("hidden");
         }

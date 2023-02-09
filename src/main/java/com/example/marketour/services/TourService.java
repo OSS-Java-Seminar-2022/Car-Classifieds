@@ -120,7 +120,7 @@ public class TourService {
             final var location = Objects.requireNonNull(tour.getTourPages().stream().findFirst().orElse(null)).getLocation();
             final var tourLat = location.getLatitude();
             final var tourLong = location.getLongitude();
-            return distance(tourLat, tourLong, latitude, longitude) <= 3;
+            return distance(tourLat, tourLong, latitude, longitude) <= 3; // 3(KM) RADIUS - A MAGIC NUMBER
         }).map(Tour::getTourId).collect(Collectors.toList());
     }
 }
